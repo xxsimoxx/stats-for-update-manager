@@ -26,7 +26,7 @@ You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 
 Plugins that queried Update Manager at least once in the last week are considered active.
 
-== GDPR and disclaimer ==
+## GDPR and disclaimer
 
 This plugin is intended to be used by *developers*.
 

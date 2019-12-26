@@ -234,7 +234,7 @@ class StatsForUpdateManager{
 		});
 
 		// Display statistics.
-		echo '<h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>'.'<ul class="sfum-list">';
+		echo '<h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1><ul class="sfum-list">';
 		if (count($active) === 0){
 			echo esc_html__('No active installations.', 'stats-for-update-manager');
 		}

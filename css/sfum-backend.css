@@ -9,7 +9,7 @@
 	border: 1px solid #DDDDDD;
 	margin-right: 20px;
 	font-size: 1.2em;
-	box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.25);
+	box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.25);
 }
 
 .sfum-list li a{
@@ -54,7 +54,7 @@ input[type='checkbox'] {
 }
 
 .collapsible-content {
-	max-height: 0px;
+	max-height: 0;
 	overflow: hidden;
 	transition: max-height .25s ease-in-out;
 	background: #FFFFFF;
