@@ -1,0 +1,105 @@
+# Copyright (C) 2019 Gieffe edizioni srl
+# This file is distributed under the same license as the Stats for Update Manager plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Stats for Update Manager 1.0.0-rc1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/xsx-stats-for-"
+"update-manager\n"
+"POT-Creation-Date: 2019-12-13T13:54:09+01:00\n"
+"PO-Revision-Date: 2019-12-11 14:24+0100\n"
+"Last-Translator: root <simone@gieffeedizioni.it>\n"
+"Language-Team: Italian\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: WP-CLI 2.3.0\n"
+"X-Domain: xsx-stats-for-update-manager\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Translators: %1 is plugin name, %2 is the number of active installations
+#: xsx-stats-for-update-manager.php:242
+msgid "%1$s has one active installation."
+msgid_plural "%1$s has %2$d active installations."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1 is the link to Update Manager homepage
+#: xsx-stats-for-update-manager.php:105
+msgid ""
+"<b>Stats for Update Manager</b> is pretty unuseful without <a href=\"%1$s\" "
+"target=\"_blank\">Update Manager</a>."
+msgstr ""
+
+#. translators: 1 is the link to the Statistics page
+#: xsx-stats-for-update-manager.php:107
+msgid ""
+"<br>You can view statistics under tools menu or by clicking <a href=\"%1$s"
+"\">here</a>."
+msgstr ""
+
+#: xsx-stats-for-update-manager.php:230
+msgid "Active installations"
+msgstr ""
+
+#: xsx-stats-for-update-manager.php:260
+msgid "DATE"
+msgstr ""
+
+#: xsx-stats-for-update-manager.php:249
+msgid "Debug information"
+msgstr ""
+
+#: xsx-stats-for-update-manager.php:260
+msgid "FIRST 30 CHAR OF URL"
+msgstr ""
+
+#. Author of the plugin
+msgid "Gieffe edizioni srl"
+msgstr ""
+
+#: xsx-stats-for-update-manager.php:253
+msgid "Latest updates"
+msgstr ""
+
+#: xsx-stats-for-update-manager.php:232
+msgid "No active installations."
+msgstr ""
+
+#: xsx-stats-for-update-manager.php:257
+msgid "No database entries."
+msgstr ""
+
+#: xsx-stats-for-update-manager.php:260
+msgid "PLUGIN"
+msgstr ""
+
+#: xsx-stats-for-update-manager.php:199
+msgctxt "Menu Title"
+msgid "Statistics"
+msgstr ""
+
+#: xsx-stats-for-update-manager.php:198
+msgctxt "Page Title"
+msgid "Statistics for Update Manager"
+msgstr ""
+
+#. Description of the plugin
+msgid "Statistics for Update Manager by CodePotent."
+msgstr ""
+
+#. Plugin Name of the plugin
+msgid "Stats for Update Manager"
+msgstr ""
+
+#: xsx-stats-for-update-manager.php:284
+msgid "Update Manager statistics"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://software.gieffeedizioni.it"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.gieffeedizioni.it"
+msgstr ""

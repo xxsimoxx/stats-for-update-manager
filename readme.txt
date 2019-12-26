@@ -1,0 +1,49 @@
+=== Stats for Update Manager ===
+Plugin Name:        Stats for Update Manager
+Description:        With Stats for Update Manager you can count active installations of your plugins.
+Version:            1.0.0-rc1
+Text Domain:        stats-for-update-manager
+Domain Path:        /languages
+Requires PHP:       5.6
+Requires:           1.0.0
+Tested:             4.9.99
+Author:             Gieffe edizioni
+Author URI:         https://www.gieffeedizioni.it
+Plugin URI:         https://software.gieffeedizioni.it
+Download link:      https://github.com/xxsimoxx/stats-for-update-manager/releases/download/v1.0.0-rc1/stats-for-update-manager.zip
+License:            GPLv2
+License URI:        https://www.gnu.org/licenses/gpl-2.0.html
+
+With Stats for Update Manager you can count active installations of your plugins.
+
+== Description ==
+
+With Stats for Update Manager you can count active installations of your plugins.
+
+It needs [**Update Manager** from CodePotent](https://codepotent.com/).
+
+You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
+
+Plugins that queried Update Manager at least once in the last week are considered active.
+
+== GDPR and disclaimer ==
+
+This plugin is intended to be used by *developers*.
+
+This plugin stores data about plugin updates in a table. 
+You can see/change how much time this data is kept in the first lines of the plugin.
+By default (for now to change this you have to change the plugin code!) all the data is removed at plugin uninstall.
+
+The table structure contains:
+* URL of the site asking for updates, sha512 hashed
+* plugin checked
+* timestamp of the last check
+
+**Is up to you to decide if and to inform your plugin users that this data is kept.**
+
+*This plugin itself is sending such information to the developer to keep statistical usage information.*
+
+== Changelog ==
+
+= 1.0.0-rc1 =
+* First release candidate
