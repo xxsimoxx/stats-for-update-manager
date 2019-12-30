@@ -57,7 +57,7 @@ class StatsForUpdateManager{
 	private $um_running = false;
 	
 	// Array to keep statistics for plugin details
-	public $stat_array = [];
+	private $stat_array = [];
 	
 	
 	public function __construct() {
