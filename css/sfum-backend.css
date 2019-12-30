@@ -16,7 +16,7 @@
 	transition: .5s;
 }
 
-input[type='checkbox'] {
+input.toggle[type='checkbox'] {
   display: none;
 }
 
@@ -51,14 +51,14 @@ input[type='checkbox'] {
 
 .collapsible-content .content-inner {
 	padding: .5rem 1rem;
+	width: 100%;
 }
 
 .collapsible-content {
 	max-height: 0;
-	overflow: hidden;
+	width:90%;
+	overflow: scroll;
 	transition: max-height .25s ease-in-out;
-	background: #FFFFFF;
-
 }
 
 .toggle:checked + .lbl-toggle + .collapsible-content {

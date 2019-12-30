@@ -86,6 +86,9 @@ class StatsForUpdateManager{
 			wp_schedule_event(time(), 'daily', 'sfum_clean_table');
 		}
 
+		//$this->active_installations_populate();
+
+
 		// Activation, deactivation and uninstall
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
@@ -114,7 +117,11 @@ class StatsForUpdateManager{
 			// Save it all for 6 hours.
 			set_transient('sfum_all_stats', $all_stats, 6 * HOUR_IN_SECONDS );
 		}
-		return $all_stats[$slug];
+		
+		//foreach ($all_stats as $slug => $count) {
+		//	add_filter( 'codepotent_update_manager_'.$slug.'_active_installs', RETURN $count);
+		//}
+		
 	}
 	 
 	// Notice for Update Manager missing.
@@ -208,10 +215,9 @@ class StatsForUpdateManager{
 	
 	// Enqueue CSS only in the page.
 	public function backend_css($hook) {
-		if (!$hook == 'edit.php?post_type='.$this->um_cpt.'&page=sfum_statistics') {
-			return;
+		if ($hook === $this->um_cpt.'_page_sfum_statistics') {
+			wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'/css/sfum-backend.css');
 		}
-		wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'/css/sfum-backend.css');
 	}
 	
 	// Render statistics page.
