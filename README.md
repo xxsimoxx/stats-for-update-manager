@@ -20,7 +20,7 @@ This plugin is intended to be used by *developers*.
 Examples:
 Add the filter...
 
-`add_filter('sfum_active_installations',[$this, 'example_filter'] );
+`add_filter('sfum_active_installations',[$this, 'example_filter']);`
 
 Don't show active installation for my nothing-to-see plugin and raise it to one million for boost!
 
