@@ -56,9 +56,10 @@ input.toggle[type='checkbox'] {
 
 .collapsible-content {
 	max-height: 0;
-	width:90%;
+	margin-right: 20px;
 	overflow: scroll;
 	transition: max-height .25s ease-in-out;
+	background-color: white;
 }
 
 .toggle:checked + .lbl-toggle + .collapsible-content {
