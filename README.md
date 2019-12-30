@@ -42,6 +42,27 @@ Or simply disable it all
 
 Note: the real number is cached for 6 hours.
 
+**`sfum_my_sites`** let's you recognize your own sites. They will be marked with an * in the debug informations.
+with this filter you can populate an array of sha512-hashed urls.
+Example:
+
+```php
+add_filter('sfum_my_sites', [$this, 'all_my_sites']);
+
+function all_my_sites($sha) {
+	$mysites = [
+		'https://my-first-site.dog',
+		'https://www.my-second-site.dog'
+		];
+	
+	$myhashes = array_map(function($value){
+		return hash('sha512', $value);
+	}, $mysites);
+	
+	return $myhashes;
+}
+```
+
 ### GDPR / privacy
 
 This plugin stores data about plugin updates in a table. 

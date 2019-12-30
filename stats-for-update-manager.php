@@ -286,7 +286,11 @@ class StatsForUpdateManager{
 		}
 		foreach ($last as $value){
 		/* translators: %1 is plugin slug, %2 is the number of active installations */
-		printf('%-32s %-21s %s<br>', substr($value->site, 0, 30), date('Y/m/d H:i:s', strtotime($value->last)), $value->slug);
+			printf('%-32s %-21s %s', substr($value->site, 0, 30), date('Y/m/d H:i:s', strtotime($value->last)), $value->slug);
+			if (in_array($value->site, apply_filters('sfum_my_sites', [])  )){
+				echo " *";
+			}
+			echo "<br>";
 		}
 		echo '</pre>';
 		echo'</p></div></div></div>';
