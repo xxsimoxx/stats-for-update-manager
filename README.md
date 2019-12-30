@@ -15,7 +15,6 @@ Plugins that queried Update Manager at least once in the last week are considere
 This plugin is intended to be used by *developers*.
 
 ## Filters
-
 **`sfum_active_installations`** let's you change/hide the number displayed in the details of your plugins.
 Examples:
 Add the filter...
