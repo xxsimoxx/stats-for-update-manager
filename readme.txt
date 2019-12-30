@@ -45,13 +45,18 @@ The table structure contains:
 
 *This plugin itself is sending such information to the developer to keep statistical usage information.*
 
-== Filters ==
+== FAQ ==
 
-`sfum_active_installations` let's you change/hide the number displayed in the details of your plugins.
+# Filters
+
+**`sfum_active_installations`** let's you change/hide the number displayed in the details of your plugins.
 Examples:
 Add the filter...
+
 `add_filter('sfum_active_installations',[$this, 'example_filter'] );
+
 Don't show active installation for my nothing-to-see plugin and raise it to one million for boost!
+
 ```php
 	public function example_filter($ar){
 		unset ($ar['nothing-to-see/nothing-to-see.php']);
@@ -59,13 +64,38 @@ Don't show active installation for my nothing-to-see plugin and raise it to one 
 		return $ar;
 	}
 ```
+
 Or simply disable it all
+
 ```php
 	public function example_filter($ar){
 		return [];
 	}
 ```
+
 Note: the real number is cached for 6 hours.
+
+**`sfum_my_sites`** let's you recognize your own sites. They will be marked with an * in the debug informations.
+with this filter you can populate an array of sha512-hashed urls.
+Example:
+
+```php
+add_filter('sfum_my_sites', [$this, 'all_my_sites']);
+
+function all_my_sites($sha) {
+	$mysites = [
+		'https://my-first-site.dog',
+		'https://www.my-second-site.dog'
+		];
+	
+	$myhashes = array_map(function($value){
+		return hash('sha512', $value);
+	}, $mysites);
+	
+	return $myhashes;
+}
+```
+
 == Changelog ==
 
 = 1.0.0-rc1 =
