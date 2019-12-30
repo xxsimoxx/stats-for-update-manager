@@ -46,9 +46,7 @@ The table structure contains:
 *This plugin itself is sending such information to the developer to keep statistical usage information.*
 
 == FAQ ==
-
 # Filters
-
 **`sfum_active_installations`** let's you change/hide the number displayed in the details of your plugins.
 Examples:
 Add the filter...
@@ -100,3 +98,6 @@ function all_my_sites($sha) {
 
 = 1.0.0-rc1 =
 * First release candidate
+
+== Screenshots ==
+1. Main page.
