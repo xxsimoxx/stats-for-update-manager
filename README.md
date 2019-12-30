@@ -63,6 +63,7 @@ function all_my_sites($sha) {
 }
 ```
 
+
 ### GDPR / privacy
 
 This plugin stores data about plugin updates in a table. 
