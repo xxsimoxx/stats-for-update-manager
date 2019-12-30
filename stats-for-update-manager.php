@@ -93,7 +93,7 @@ class StatsForUpdateManager{
 		$this->stat_array = $this->active_installations_populate();
 		foreach ($this->stat_array as $slug => $count) {
 			// Decomment me if codepotent changes the filter
-			// add_filter('codepotent_update_manager_'.$slug.'_active_installs', [$this, 'active_installations_filter'], 10, 2);
+			add_filter('codepotent_update_manager_'.$slug.'_active_installs', [$this, 'active_installations_filter'], 10, 2);
 		}
 
 		// Activation, deactivation and uninstall
@@ -125,7 +125,12 @@ class StatsForUpdateManager{
 		return $all_stats;
 	}
 	
-	public function active_installations_filter($val, $identifier) {
+	// Filter that return number of installations of a plugin
+	public function active_installations_filter($val, $identifier = null) {
+		if (is_null($identifier)) {
+			return 0;
+		}
+		// Let's user change or hide the numbers
 		$retval = apply_filters('sfum_active_installations', $this->stat_array);
 		if (isset($retval[$identifier])) {
 			return $retval[$identifier];
