@@ -78,3 +78,6 @@ The table structure contains:
 **Is up to you to decide if and to inform your plugin users that this data is kept.**
 
 *This plugin itself is sending such information to the developer to keep statistical usage information.*
+
+## Screenshot
+![Main page](images/screenshot-1.png)
