@@ -26,6 +26,8 @@ You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 
 Plugins that queried Update Manager at least once in the last week are considered active.
 
+It also add the number of active installations in the plugin details. (See Filters section to tweak)
+
 ## GDPR and disclaimer
 
 This plugin is intended to be used by *developers*.
@@ -43,6 +45,27 @@ The table structure contains:
 
 *This plugin itself is sending such information to the developer to keep statistical usage information.*
 
+== Filters ==
+
+`sfum_active_installations` let's you change/hide the number displayed in the details of your plugins.
+Examples:
+Add the filter...
+`add_filter('sfum_active_installations',[$this, 'example_filter'] );
+Don't show active installation for my nothing-to-see plugin and raise it to one million for boost!
+```php
+	public function example_filter($ar){
+		unset ($ar['nothing-to-see/nothing-to-see.php']);
+		$ar['boost/boost.php'] = 1000000;
+		return $ar;
+	}
+```
+Or simply disable it all
+```php
+	public function example_filter($ar){
+		return [];
+	}
+```
+Note: the real number is cached for 6 hours.
 == Changelog ==
 
 = 1.0.0-rc1 =

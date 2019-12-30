@@ -56,6 +56,9 @@ class StatsForUpdateManager{
 	// Is Update Manager running?
 	private $um_running = false;
 	
+	// Array to keep statistics for plugin details
+	public $stat_array = [];
+	
 	
 	public function __construct() {
 
@@ -86,8 +89,12 @@ class StatsForUpdateManager{
 			wp_schedule_event(time(), 'daily', 'sfum_clean_table');
 		}
 
-		//$this->active_installations_populate();
-
+		// Fill a stat array and add hooks to show active installations in plugin details
+		$this->stat_array = $this->active_installations_populate();
+		foreach ($this->stat_array as $slug => $count) {
+			// Decomment me if codepotent changes the filter
+			// add_filter('codepotent_update_manager_'.$slug.'_active_installs', [$this, 'active_installations_filter'], 10, 2);
+		}
 
 		// Activation, deactivation and uninstall
 		register_activation_hook(__FILE__, [$this, 'activate']);
@@ -102,11 +109,9 @@ class StatsForUpdateManager{
 	}
 
 	// Get active installations array
-	// This function is not used. It's the first step to populate
-	// codepotent_update_manager_{identifier}_active_installs
 	private function active_installations_populate() {
 		// Check if we have already a transient with needed data
-		if(!($all_stats = get_transient('sfum_all_stats'))) {
+		if(true || !($all_stats = get_transient('sfum_all_stats'))) {
 			// Build an array in the form 'slug'->count.
 			$all_stats = [];
 			global $wpdb;
@@ -117,11 +122,16 @@ class StatsForUpdateManager{
 			// Save it all for 6 hours.
 			set_transient('sfum_all_stats', $all_stats, 6 * HOUR_IN_SECONDS );
 		}
-		
-		//foreach ($all_stats as $slug => $count) {
-		//	add_filter( 'codepotent_update_manager_'.$slug.'_active_installs', RETURN $count);
-		//}
-		
+		return $all_stats;
+	}
+	
+	public function active_installations_filter($val, $identifier) {
+		$retval = apply_filters('sfum_active_installations', $this->stat_array);
+		if (isset($retval[$identifier])) {
+			return $retval[$identifier];
+		} else {
+			return 0;
+		}
 	}
 	 
 	// Notice for Update Manager missing.

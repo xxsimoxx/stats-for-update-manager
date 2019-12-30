@@ -14,6 +14,34 @@ Plugins that queried Update Manager at least once in the last week are considere
 ## Disclaimers
 This plugin is intended to be used by *developers*.
 
+## Filters
+
+**`sfum_active_installations`** let's you change/hide the number displayed in the details of your plugins.
+Examples:
+Add the filter...
+
+`add_filter('sfum_active_installations',[$this, 'example_filter'] );
+
+Don't show active installation for my nothing-to-see plugin and raise it to one million for boost!
+
+```php
+	public function example_filter($ar){
+		unset ($ar['nothing-to-see/nothing-to-see.php']);
+		$ar['boost/boost.php'] = 1000000;
+		return $ar;
+	}
+```
+
+Or simply disable it all
+
+```php
+	public function example_filter($ar){
+		return [];
+	}
+```
+
+Note: the real number is cached for 6 hours.
+
 ### GDPR / privacy
 
 This plugin stores data about plugin updates in a table. 
