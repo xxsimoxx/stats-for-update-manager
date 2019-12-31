@@ -23,7 +23,7 @@ if (!defined('ABSPATH')){
 require_once('classes/UpdateClient.class.php');
 
 // The main Class
-DEFINE DB_TABLE_NAME = 'sfum_logs';
+define('DB_TABLE_NAME', 'sfum_logs');
 
 class StatsForUpdateManager{
 
