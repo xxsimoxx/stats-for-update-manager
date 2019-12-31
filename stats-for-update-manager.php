@@ -23,11 +23,12 @@ if (!defined('ABSPATH')){
 require_once('classes/UpdateClient.class.php');
 
 // The main Class
+DEFINE DB_TABLE_NAME = 'sfum_logs';
 
 class StatsForUpdateManager{
 
 	// DB table name without prefix
-	private $db_table_name = 'sfum_logs';
+	private $db_table_name = DB_TABLE_NAME;
 	
 	// Time (in SQL format) for the plugin to be considered installed
 	private $db_unactive_entry = 'INTERVAL 1 WEEK';
@@ -352,15 +353,13 @@ class StatsForUpdateManager{
 	}
 	
 	public static function uninstall() {
-		if ($this->db_remove_on_uninstall){
-			// delete table
-			global $wpdb;
-			$table_name = $wpdb->prefix.$this->db_table_name;
-			$sql = "DROP TABLE IF EXISTS $table_name;";
-			$wpdb->query($sql);
-			// delete options
-			delete_option('sfum_db_ver');
-		}
+		// delete table
+		global $wpdb;
+		$table_name = $wpdb->prefix.DB_TABLE_NAME;
+		$sql = "DROP TABLE IF EXISTS $table_name;";
+		$wpdb->query($sql);
+		// delete options
+		delete_option('sfum_db_ver');
 	}
 	
 };
