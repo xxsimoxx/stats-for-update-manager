@@ -76,7 +76,7 @@ class StatsForUpdateManager{
 		// Hook to Update Manager filter request.
 		add_filter($this->um_hook, [$this, 'log_request'], PHP_INT_MAX);
 		
-		// Add menu	for statistics	.
+		// Add menu	for statistics.
 		add_action('admin_menu', [$this, 'create_menu']);
 		add_action('admin_enqueue_scripts', [$this, 'backend_css']);
 		add_filter('admin_footer_text', [$this, 'change_footer_text'], PHP_INT_MAX);
@@ -90,12 +90,8 @@ class StatsForUpdateManager{
 			wp_schedule_event(time(), 'daily', 'sfum_clean_table');
 		}
 
-		// Fill a stat array and add hooks to show active installations in plugin details
-		$this->stat_array = $this->active_installations_populate();
-		foreach ($this->stat_array as $slug => $count) {
-			// Decomment me if codepotent changes the filter https://github.com/codepotent/Update-Manager/pull/20
-			add_filter('codepotent_update_manager_'.$slug.'_active_installs', [$this, 'active_installations_filter'], 10, 2);
-		}
+		// Populate active installations.
+		add_action('init', [$this, 'active_installations_filters']);
 
 		// Activation, deactivation and uninstall
 		register_activation_hook(__FILE__, [$this, 'activate']);
@@ -107,6 +103,15 @@ class StatsForUpdateManager{
 	// Helpful? in developement
 	private function test($x) {
 		 trigger_error(print_r($x, TRUE), E_USER_WARNING);
+	}
+
+	// Fill a stat array and add hooks to show active installations in plugin details
+	public function active_installations_filters() {
+		$this->stat_array = $this->active_installations_populate();
+		foreach ($this->stat_array as $slug => $count) {
+			// Decomment me if codepotent changes the filter https://github.com/codepotent/Update-Manager/pull/20
+			add_filter('codepotent_update_manager_'.$slug.'_active_installs', [$this, 'active_installations_filter'], 10, 2);
+		}
 	}
 
 	// Get active installations array
@@ -231,7 +236,7 @@ class StatsForUpdateManager{
 	
 	// Enqueue CSS only in the page.
 	public function backend_css($hook) {
-		if ($hook === $this->um_cpt.'_page_sfum_statistics') {
+		if ($hook === $this->um_cpt.'_page_sfum_statistics' || $hook === 'tools_page_sfum_statistics') {
 			wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'/css/sfum-backend.css');
 		}
 	}
