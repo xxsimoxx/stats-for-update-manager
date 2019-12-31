@@ -267,7 +267,7 @@ class StatsForUpdateManager{
 				$title = $value->slug;
 			}
 			/* Translators: %1 is plugin name, %2 is the number of active installations */
-			printf('<li>'.esc_html(_n('%1$s has one active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
+			printf('<li>'.esc_html(_n('%1$s has %2$d active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
 		}
 		echo '</ul>';
 		

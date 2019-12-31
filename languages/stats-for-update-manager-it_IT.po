@@ -5,115 +5,120 @@ msgstr ""
 "Project-Id-Version: Stats for Update Manager 1.0.0-rc1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/stats-for-update-"
 "manager\n"
+"POT-Creation-Date: 2019-12-31T08:13:13+01:00\n"
+"PO-Revision-Date: 2019-12-26 16:51+0100\n"
 "Last-Translator: root <simone@gieffeedizioni.it>\n"
 "Language-Team: Italian\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-12-26T16:50:37+01:00\n"
-"PO-Revision-Date: 2019-12-26 16:51+0100\n"
 "X-Generator: WP-CLI 2.3.0\n"
 "X-Domain: stats-for-update-manager\n"
-"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#. Plugin Name of the plugin
-msgid "Statistiche per Update Manager"
-msgstr ""
+#. Translators: %1 is plugin name, %2 is the number of active installations
+#: stats-for-update-manager.php:270
+msgid "%1$s has %2$d active installation."
+msgid_plural "%1$s has %2$d active installations."
+msgstr[0] "%1$s ha %2$d installazione attiva."
+msgstr[1] "%1$s ha %2$d installazioni attive."
 
-#. Plugin URI of the plugin
-msgid "https://software.gieffeedizioni.it"
+#. translators: 1 is the link to Update Manager homepage
+#: stats-for-update-manager.php:149
+msgid ""
+"<b>Stats for Update Manager</b> is pretty unuseful without <a href=\"%1$s\" "
+"target=\"_blank\">Update Manager</a>."
 msgstr ""
+"<b>Statistiche per Update Manager</b> è abbastanza inutile senza <a href="
+"\"%1$s\" target=\"_blank\">Update Manager</a>."
 
-#. Description of the plugin
-msgid "Statistics for Update Manager by CodePotent."
-msgstr "Statistiche per Update Manager di CodePotent."
+#. translators: 1 is the link to the Statistics page
+#: stats-for-update-manager.php:151
+msgid ""
+"<br>You can view statistics under tools menu or by clicking <a href=\"%1$s"
+"\">here</a>."
+msgstr ""
+"<br>Puoi vedere le statistiche nel menu strumenti cliccando <a href=\"%1$s"
+"\">qui</a>."
+
+#: stats-for-update-manager.php:258
+msgid "Active installations"
+msgstr "Installazioni attive"
+
+#: stats-for-update-manager.php:285
+msgid "DATE"
+msgstr "DATA"
+
+#: stats-for-update-manager.php:276
+msgid "Debug information"
+msgstr "Informazioni di debug"
+
+#: stats-for-update-manager.php:285
+msgid "FIRST 30 CHAR OF THE HASH"
+msgstr "PRIMI 30 CARATTERI DELL'HASH"
 
 #. Author of the plugin
 msgid "Gieffe edizioni srl"
 msgstr ""
 
-#. Author URI of the plugin
-msgid "https://www.gieffeedizioni.it"
+#: stats-for-update-manager.php:278
+msgid "Latest updates"
+msgstr "Ultimi aggiornamenti"
+
+#: stats-for-update-manager.php:260
+msgid "No active installations."
+msgstr "Nessun installazione attiva."
+
+#: stats-for-update-manager.php:282
+msgid "No database entries."
+msgstr "Database vuoto"
+
+#: stats-for-update-manager.php:285
+msgid "PLUGIN"
 msgstr ""
 
-#. translators: 1 is the link to Update Manager homepage
-#: stats-for-update-manager.php:127
-msgid ""
-"<b>Stats for Update Manager</b> is pretty unuseful without <a href=\"%1$s\" "
-"target=\"_blank\">Update Manager</a>."
-msgstr "<b>Statistiche per Update Manager</b> è abbastanza inutile senza <a href=\"%1$s\" target=\"_blank\">Update Manager</a>."
-
-#. translators: 1 is the link to the Statistics page
-#: stats-for-update-manager.php:129
-msgid ""
-"<br>You can view statistics under tools menu or by clicking <a href=\"%1$s"
-"\">here</a>."
-msgstr "<br>Puoi vedere le statistiche nel menu strumenti cliccando <a href=\"%1$s\">qui</a>."
-
-#: stats-for-update-manager.php:196
+#: stats-for-update-manager.php:218
 msgctxt "Menu Title"
 msgid "Statistics"
 msgstr "Statistiche"
 
-#: stats-for-update-manager.php:196
+#: stats-for-update-manager.php:303
+msgid "Statistics for Update Manager"
+msgstr "Statistiche per Update Manager"
+
+#: stats-for-update-manager.php:218
 msgctxt "Menu Title with UM deactivated"
 msgid "Statistics for Update Manager"
 msgstr "Statistiche per Update Manager"
 
-#: stats-for-update-manager.php:199
+#: stats-for-update-manager.php:221
 msgctxt "Page Title"
 msgid "Statistics for Update Manager"
 msgstr "Statistiche per Update Manager"
 
+#. Description of the plugin
+msgid "Statistics for Update Manager by CodePotent."
+msgstr "Statistiche per Update Manager di CodePotent."
+
+#. Plugin Name of the plugin
+#, fuzzy
+msgid "Stats for Update Manager"
+msgstr "Statistiche per Update Manager"
+
 #. translators: 1 is the link to Update Manager homepage
-#: stats-for-update-manager.php:222
+#: stats-for-update-manager.php:243
 msgid "Update Manager not running.Data may be old."
 msgstr "Update Manager non attivo. I dati potrebbero essere vecchi."
 
-#: stats-for-update-manager.php:237
-msgid "Active installations"
-msgstr "Installazioni attive"
-
-#: stats-for-update-manager.php:239
-msgid "No active installations."
-msgstr "Nessun installazione attiva."
-
-#. Translators: %1 is plugin name, %2 is the number of active installations
-#: stats-for-update-manager.php:249
-msgid "%1$s has one active installation."
-msgid_plural "%1$s has %2$d active installations."
-msgstr[0] "%1$s ha un'installazione attiva."
-msgstr[1] "%1$s ha %2$d installazioni attive."
-
-#: stats-for-update-manager.php:255
-msgid "Debug information"
-msgstr "Informazioni di debug"
-
-#: stats-for-update-manager.php:257
-msgid "Latest updates"
-msgstr "Ultimi aggiornamenti"
-
-#: stats-for-update-manager.php:261
-msgid "No database entries."
-msgstr "Database vuoto"
-
-#: stats-for-update-manager.php:264
-msgid "FIRST 30 CHAR OF URL"
-msgstr ""
-
-#: stats-for-update-manager.php:264
-msgid "DATE"
-msgstr "DATA"
-
-#: stats-for-update-manager.php:264
-msgid "PLUGIN"
-msgstr ""
-
-#: stats-for-update-manager.php:278
-msgid "Statistics for Update Manager"
-msgstr "Statistiche per Update Manager"
-
-#: stats-for-update-manager.php:285
+#: stats-for-update-manager.php:310
 msgid "Update Manager statistics"
 msgstr "Statistiche per Update Manager"
+
+#. Plugin URI of the plugin
+msgid "https://software.gieffeedizioni.it"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.gieffeedizioni.it"
+msgstr ""
