@@ -245,49 +245,57 @@ class StatsForUpdateManager{
 	
 	// Render statistics page.
 	public function render_page () { 
-		global $wpdb;
-
-		if ($this->um_running){
-			// Get needed data.
-			$um_posts = $this->get_cpt();	
-			$active = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.$this->db_table_name.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug');
-
-			// Sort by most active.
-			usort($active, function($a, $b) {
-				return $b->total - $a->total;
-			});
-
-			// Display statistics.
-			echo '<h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
-			if (count($active) === 0){
-				echo esc_html__('No active installations.', 'stats-for-update-manager');
-			} else {
-				echo '<ul class="sfum-list">';
-				foreach ($active as $value){
-					// If there is a request for a plugin not served by UM use slug.
-					if (isset($um_posts[$value->slug])){
-						$title = '<a href="'.admin_url('post.php?post='.$um_posts[$value->slug].'&action=edit').'">'.get_the_title($um_posts[$value->slug]).'</a>';
-						/* Translators: %1 is plugin name, %2 is the number of active installations */
-						printf('<li>'.esc_html(_n('%1$s has %2$d active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
-					}
-				}
-				echo '</ul>';
-			}
+		if (!$this->um_running){
+			$this->render_page_debug();
+			return;
 		}
 		
+		// Get needed data.
+		$um_posts = $this->get_cpt();	
+		global $wpdb;
+		$active = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.$this->db_table_name.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug');
+
+		// Sort by most active.
+		usort($active, function($a, $b) {
+			return $b->total - $a->total;
+		});
+
+		// Display statistics.
+		echo '<h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
+		if (count($active) === 0){
+			echo '<p>'.esc_html__('No active installations.', 'stats-for-update-manager').'<p>';
+			$this->render_page_debug();
+			return;
+		}
+		
+		echo '<ul class="sfum-list">';
+		foreach ($active as $value){
+			// If there is a request for a plugin not served by UM use slug.
+			if (isset($um_posts[$value->slug])){
+				$title = '<a href="'.admin_url('post.php?post='.$um_posts[$value->slug].'&action=edit').'">'.get_the_title($um_posts[$value->slug]).'</a>';
+				/* Translators: %1 is plugin name, %2 is the number of active installations */
+				printf('<li>'.esc_html(_n('%1$s has %2$d active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
+			}
+		}
+		echo '</ul>';
+		$this->render_page_debug();
+	}
+	
+	private function render_page_debug () {
+		global $wpdb;
+		$last = $wpdb->get_results( 
+			'SELECT slug, site, last FROM '.$wpdb->prefix.$this->db_table_name.' ORDER BY last DESC LIMIT 100' );
+		if (count($last) === 0){
+			echo '<p>'.esc_html__('No database entries.', 'stats-for-update-manager').'<p>';
+			return;
+		}
 		// Display debug information. 
 		echo '<div class="wrap-collabsible"><input id="collapsible" class="toggle" type="checkbox">';
 		echo '<label for="collapsible" class="lbl-toggle">'.esc_html__('Debug information', 'stats-for-update-manager').'</label>';
-  		echo '<div class="collapsible-content"><div class="content-inner"><p>';
+  		echo '<div class="collapsible-content"><div class="content-inner">';
   		echo '<h2>'.esc_html__('Latest updates', 'stats-for-update-manager').'</h2>';
-  		$last = $wpdb->get_results( 
-			'SELECT slug, site, last FROM '.$wpdb->prefix.$this->db_table_name.' ORDER BY last DESC LIMIT 100' );
-		if (count($last) === 0){
-			echo esc_html__('No database entries.', 'stats-for-update-manager');
-		} else {
-		  	echo '<pre>';
-  			printf('%-32s %-21s %s<br>', __("FIRST 30 CHAR OF THE HASH", 'stats-for-update-manager'), __("DATE", 'stats-for-update-manager'), __("PLUGIN", 'stats-for-update-manager'));
-		}
+		echo '<pre>';
+		printf('%-32s %-21s %s<br>', __("FIRST 30 CHAR OF THE HASH", 'stats-for-update-manager'), __("DATE", 'stats-for-update-manager'), __("PLUGIN", 'stats-for-update-manager'));
 		foreach ($last as $value){
 		/* translators: %1 is plugin slug, %2 is the number of active installations */
 			printf('%-32s %-21s %s', substr($value->site, 0, 30), date('Y/m/d H:i:s', strtotime($value->last)), $value->slug);
@@ -296,8 +304,7 @@ class StatsForUpdateManager{
 			}
 			echo "<br>";
 		}
-		echo '</pre>';
-		echo'</p></div></div></div>';
+		echo '</pre></p></div></div></div>';
 	}
 
 	// Change footer text in statistic section.
