@@ -1,6 +1,6 @@
 # Stats for Update Manager
 
-This is a companion plugin for [**Update Manager** from CodePotent](https://codepotent.com/).
+This is a companion plugin for [**Update Manager**](https://codepotent.com/classicpress/plugins/) from [CodePotent](https://codepotent.com/).
 
 With Stats for Update Manager you can count active installations of your plugins that serve updates with Update Manager.
 
@@ -66,7 +66,7 @@ function all_my_sites($sha) {
 ### GDPR / privacy
 
 This plugin stores data about plugin updates in a table. 
-You can see/change how much time this data is kept in the first lines of the plugin.
+You can see/change how much time this data is kept in the first lines of the plugin (defaults to 4 weeks.
 By default (for now to change this you have to change the plugin code!) all the data is removed at plugin uninstall.
 
 The table structure contains:

@@ -20,7 +20,7 @@ With Stats for Update Manager you can count active installations of your plugins
 
 With Stats for Update Manager you can count active installations of your plugins.
 
-It needs [**Update Manager** from CodePotent](https://codepotent.com/).
+This is a companion plugin for [**Update Manager**](https://codepotent.com/classicpress/plugins/) from [CodePotent](https://codepotent.com/).
 
 You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 
@@ -28,12 +28,12 @@ Plugins that queried Update Manager at least once in the last week are considere
 
 It also add the number of active installations in the plugin details. (See Filters section to tweak)
 
-## GDPR and disclaimer
+## GDPR & Disclaimer
 
 This plugin is intended to be used by *developers*.
 
 This plugin stores data about plugin updates in a table. 
-You can see/change how much time this data is kept in the first lines of the plugin.
+You can see/change how much time this data is kept in the first lines of the plugin (defaults to 4 weeks).
 By default (for now to change this you have to change the plugin code!) all the data is removed at plugin uninstall.
 
 The table structure contains:
@@ -45,9 +45,11 @@ The table structure contains:
 
 *This plugin itself is sending such information to the developer to keep statistical usage information.*
 
-== FAQ ==
-# Filters
-**`sfum_active_installations`** let's you change/hide the number displayed in the details of your plugins.
+== faq ==
+
+## Filters
+
+`sfum_active_installations` let's you change/hide the number displayed in the details of your plugins.
 Examples:
 Add the filter...
 
@@ -73,7 +75,7 @@ Or simply disable it all
 
 Note: the real number is cached for 6 hours.
 
-**`sfum_my_sites`** let's you recognize your own sites. They will be marked with an * in the debug informations.
+`sfum_my_sites` let's you recognize your own sites. They will be marked with an * in the debug informations.
 with this filter you can populate an array of sha512-hashed urls.
 Example:
 
