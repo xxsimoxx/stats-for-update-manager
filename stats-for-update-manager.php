@@ -22,6 +22,7 @@ if (!defined('ABSPATH')){
 // https://codepotent.com/classicpress/plugins/update-manager/
 require_once('classes/UpdateClient.class.php');
 
+// Define table name.
 define('DB_TABLE_NAME', 'sfum_logs');
 
 class StatsForUpdateManager{
