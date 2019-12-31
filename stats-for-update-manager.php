@@ -92,7 +92,7 @@ class StatsForUpdateManager{
 		// Fill a stat array and add hooks to show active installations in plugin details
 		$this->stat_array = $this->active_installations_populate();
 		foreach ($this->stat_array as $slug => $count) {
-			// Decomment me if codepotent changes the filter
+			// Decomment me if codepotent changes the filter https://github.com/codepotent/Update-Manager/pull/20
 			add_filter('codepotent_update_manager_'.$slug.'_active_installs', [$this, 'active_installations_filter'], 10, 2);
 		}
 
@@ -282,7 +282,7 @@ class StatsForUpdateManager{
 			echo esc_html__('No database entries.', 'stats-for-update-manager');
 		} else {
 		  	echo '<pre>';
-  			printf('%-32s %-21s %s<br>', esc_html__("FIRST 30 CHAR OF URL", 'stats-for-update-manager'), esc_html__("DATE", 'stats-for-update-manager'), esc_html__("PLUGIN", 'stats-for-update-manager'));
+  			printf('%-32s %-21s %s<br>', esc_html__("FIRST 30 CHAR OF THE HASH", 'stats-for-update-manager'), esc_html__("DATE", 'stats-for-update-manager'), esc_html__("PLUGIN", 'stats-for-update-manager'));
 		}
 		foreach ($last as $value){
 		/* translators: %1 is plugin slug, %2 is the number of active installations */

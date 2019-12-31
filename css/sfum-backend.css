@@ -57,7 +57,7 @@ input.toggle[type='checkbox'] {
 .collapsible-content {
 	max-height: 0;
 	margin-right: 20px;
-	overflow: scroll;
+	overflow: hidden;
 	transition: max-height .25s ease-in-out;
 	background-color: white;
 }
