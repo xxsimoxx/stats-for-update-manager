@@ -286,7 +286,7 @@ class StatsForUpdateManager{
 			echo esc_html__('No database entries.', 'stats-for-update-manager');
 		} else {
 		  	echo '<pre>';
-  			printf('%-32s %-21s %s<br>', esc_html__("FIRST 30 CHAR OF THE HASH", 'stats-for-update-manager'), esc_html__("DATE", 'stats-for-update-manager'), esc_html__("PLUGIN", 'stats-for-update-manager'));
+  			printf('%-32s %-21s %s<br>', __("FIRST 30 CHAR OF THE HASH", 'stats-for-update-manager'), __("DATE", 'stats-for-update-manager'), __("PLUGIN", 'stats-for-update-manager'));
 		}
 		foreach ($last as $value){
 		/* translators: %1 is plugin slug, %2 is the number of active installations */
