@@ -99,7 +99,7 @@ class StatsForUpdateManager{
 		// Activation, deactivation and uninstall
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
-		register_uninstall_hook(__FILE__, [$this, 'uninstall']);
+		register_uninstall_hook(__FILE__, [__CLASS__, 'uninstall']);
 				
 	}
 
@@ -351,7 +351,7 @@ class StatsForUpdateManager{
 		wp_unschedule_event($timestamp, 'sfum_clean_table');
 	}
 	
-	public function uninstall() {
+	public static function uninstall() {
 		if ($this->db_remove_on_uninstall){
 			// delete table
 			global $wpdb;
