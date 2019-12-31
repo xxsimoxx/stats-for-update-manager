@@ -23,7 +23,7 @@ if (!defined('ABSPATH')){
 require_once('classes/UpdateClient.class.php');
 
 // Define table name.
-define('DB_TABLE_NAME', 'sfum_logs');
+const DB_TABLE_NAME = 'sfum_logs';
 
 class StatsForUpdateManager{
 
@@ -166,6 +166,7 @@ class StatsForUpdateManager{
 		}
 		$posts = get_posts([
 			'post_type' => $this->um_cpt,
+			'post_status' => ['publish', 'pending' ,'draft'],
 			'numberposts' => -1
 			]);
 		foreach($posts as $post) {
@@ -244,39 +245,35 @@ class StatsForUpdateManager{
 	
 	// Render statistics page.
 	public function render_page () { 
-		if (!$this->um_running) {
-			echo '<div class="notice notice-warning"><p>';
-			/* translators: 1 is the link to Update Manager homepage */
-			printf(esc_html__('Update Manager not running.Data may be old.', 'stats-for-update-manager'), $this->um_link);
-			echo '</p></div>';
-		};
-
 		global $wpdb;
-		// Get needed data.
-		$um_posts = $this->get_cpt();	
-		$active = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.$this->db_table_name.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug');
 
-		// Sort by most active.
-		usort($active, function($a, $b) {
-			return $b->total - $a->total;
-		});
+		if ($this->um_running){
+			// Get needed data.
+			$um_posts = $this->get_cpt();	
+			$active = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.$this->db_table_name.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug');
 
-		// Display statistics.
-		echo '<h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1><ul class="sfum-list">';
-		if (count($active) === 0){
-			echo esc_html__('No active installations.', 'stats-for-update-manager');
-		}
-		foreach ($active as $value){
-			// If there is a request for a plugin not served by UM use slug.
-			if (isset($um_posts[$value->slug])){
-				$title = '<a href="'.admin_url('post.php?post='.$um_posts[$value->slug].'&action=edit').'">'.get_the_title($um_posts[$value->slug]).'</a>';
+			// Sort by most active.
+			usort($active, function($a, $b) {
+				return $b->total - $a->total;
+			});
+
+			// Display statistics.
+			echo '<h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
+			if (count($active) === 0){
+				echo esc_html__('No active installations.', 'stats-for-update-manager');
 			} else {
-				$title = $value->slug;
+				echo '<ul class="sfum-list">';
+				foreach ($active as $value){
+					// If there is a request for a plugin not served by UM use slug.
+					if (isset($um_posts[$value->slug])){
+						$title = '<a href="'.admin_url('post.php?post='.$um_posts[$value->slug].'&action=edit').'">'.get_the_title($um_posts[$value->slug]).'</a>';
+						/* Translators: %1 is plugin name, %2 is the number of active installations */
+						printf('<li>'.esc_html(_n('%1$s has %2$d active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
+					}
+				}
+				echo '</ul>';
 			}
-			/* Translators: %1 is plugin name, %2 is the number of active installations */
-			printf('<li>'.esc_html(_n('%1$s has %2$d active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
 		}
-		echo '</ul>';
 		
 		// Display debug information. 
 		echo '<div class="wrap-collabsible"><input id="collapsible" class="toggle" type="checkbox">';
