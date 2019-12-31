@@ -76,6 +76,9 @@ class StatsForUpdateManager{
 		// Hook to Update Manager filter request.
 		add_filter($this->um_hook, [$this, 'log_request'], PHP_INT_MAX);
 		
+		// Populate active installations.
+		add_action('init', [$this, 'active_installations_filters']);
+		
 		// Add menu	for statistics.
 		add_action('admin_menu', [$this, 'create_menu']);
 		add_action('admin_enqueue_scripts', [$this, 'backend_css']);
@@ -90,22 +93,19 @@ class StatsForUpdateManager{
 			wp_schedule_event(time(), 'daily', 'sfum_clean_table');
 		}
 
-		// Populate active installations.
-		add_action('init', [$this, 'active_installations_filters']);
-
-		// Activation, deactivation and uninstall
+		// Activation, deactivation and uninstall.
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
 		register_uninstall_hook(__FILE__, [__CLASS__, 'uninstall']);
 				
 	}
 
-	// Helpful? in developement
+	// Helpful? in developement.
 	private function test($x) {
 		 trigger_error(print_r($x, TRUE), E_USER_WARNING);
 	}
 
-	// Fill a stat array and add hooks to show active installations in plugin details
+	// Fill a stat array and add hooks to show active installations in plugin details.
 	public function active_installations_filters() {
 		$this->stat_array = $this->active_installations_populate();
 		foreach ($this->stat_array as $slug => $count) {
@@ -114,9 +114,9 @@ class StatsForUpdateManager{
 		}
 	}
 
-	// Get active installations array
+	// Get active installations array.
 	private function active_installations_populate() {
-		// Check if we have already a transient with needed data
+		// Check if we have already a transient with needed data.
 		if(true || !($all_stats = get_transient('sfum_all_stats'))) {
 			// Build an array in the form 'slug'->count.
 			$all_stats = [];
@@ -131,12 +131,12 @@ class StatsForUpdateManager{
 		return $all_stats;
 	}
 	
-	// Filter that return number of installations of a plugin
+	// Filter that return number of installations of a plugin.
 	public function active_installations_filter($val, $identifier = null) {
 		if (is_null($identifier)) {
 			return 0;
 		}
-		// Let's user change or hide the numbers
+		// Let's user change or hide the numbers.
 		$retval = apply_filters('sfum_active_installations', $this->stat_array);
 		if (isset($retval[$identifier])) {
 			return $retval[$identifier];
@@ -200,7 +200,7 @@ class StatsForUpdateManager{
 			$wpdb->insert($wpdb->prefix.$this->db_table_name, $data);
 		}
 		
-		// return unchanged
+		// Return unchanged.
 		return $query;
 	}
 	
@@ -236,7 +236,8 @@ class StatsForUpdateManager{
 	
 	// Enqueue CSS only in the page.
 	public function backend_css($hook) {
-		if ($hook === $this->um_cpt.'_page_sfum_statistics' || $hook === 'tools_page_sfum_statistics') {
+		//             When UM disabled.                                       When UM enabled.
+		if ($hook === 'tools_page_sfum_statistics' || $hook === $this->um_cpt.'_page_sfum_statistics' ) {
 			wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'/css/sfum-backend.css');
 		}
 	}
@@ -324,13 +325,13 @@ class StatsForUpdateManager{
 		$wpdb->query('DELETE FROM '.$wpdb->prefix.$this->db_table_name.' WHERE last < NOW() - '.$this->db_old_entry);
 	}	
 	
-	// load text domain
+	// Load text domain.
 	public function text_domain() {
 		load_plugin_textdomain('stats-for-update-manager', false, basename(dirname(__FILE__)).'/languages'); 
 	}
 
 	public function activate() {
-		// create or update database structure
+		// Create or update database structure.
 		global $wpdb;
 		$table_name = $wpdb->prefix.$this->db_table_name;
 		$wpdb_collate = $wpdb->collate;
@@ -347,23 +348,23 @@ class StatsForUpdateManager{
 		
 		// in the future HERE do something interesting with db version
 		
-		// register database version for a future use
+		// Register database version for a future use.
 		update_option('sfum_db_ver', $this->db_revision);
 	}
 
 	public function deactivate() {
-		// unschedule cron
+		// Unschedule cron.
 		$timestamp = wp_next_scheduled('sfum_clean_table');
 		wp_unschedule_event($timestamp, 'sfum_clean_table');
 	}
 	
 	public static function uninstall() {
-		// delete table
+		// Delete table.
 		global $wpdb;
 		$table_name = $wpdb->prefix.DB_TABLE_NAME;
 		$sql = "DROP TABLE IF EXISTS $table_name;";
 		$wpdb->query($sql);
-		// delete options
+		// Delete options.
 		delete_option('sfum_db_ver');
 	}
 	
