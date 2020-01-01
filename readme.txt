@@ -26,7 +26,7 @@ You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 
 Plugins that queried Update Manager at least once in the last week are considered active.
 
-It also add the number of active installations in the plugin details. (See Filters section to tweak)
+It also add the number of active installations in the plugin details. See FAQ section to tweak.
 
 ## GDPR & Disclaimer
 

@@ -10,11 +10,12 @@ You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 
 Plugins that queried Update Manager at least once in the last week are considered active.
 
+It also add the number of active installations in the plugin details. See [filters](#filters) section to tweak.
 
 ## Disclaimers
 This plugin is intended to be used by *developers*.
 
-## Filters
+## <a name="filters"></a>Filters
 **`sfum_active_installations`** let's you change/hide the number displayed in the details of your plugins.
 Examples:
 Add the filter...

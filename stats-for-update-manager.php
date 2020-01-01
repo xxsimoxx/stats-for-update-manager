@@ -27,37 +27,40 @@ const DB_TABLE_NAME = 'sfum_logs';
 
 class StatsForUpdateManager{
 
-	// DB table name without prefix
+	// DB table name without prefix.
 	private $db_table_name = DB_TABLE_NAME;
 	
-	// Time (in SQL format) for the plugin to be considered installed
+	// Time (in SQL format) for the plugin to be considered installed.
 	private $db_unactive_entry = 'INTERVAL 1 WEEK';
 
-	// Time (in SQL format) for the record to be deleted
+	// Time (in SQL format) for the record to be deleted.
 	private $db_old_entry = 'INTERVAL 4 WEEK';	
 	
 	// Delete SQL table when uninstalling?
 	private $db_remove_on_uninstall = true;	
 	
-	// Database schema version (for future use)
+	// Database schema version (for future use).
 	private $db_revision = 1;
 	
-	// Link to Update Manager homepage
+	// Link to our plugins on GitHub.
+	private $xxsimoxx_link = 'https://github.com/xxsimoxx?tab=repositories';
+	
+	// Link to Update Manager homepage.
 	private $um_link = 'https://codepotent.com/classicpress/plugins/update-manager/';
 
-	// Update Manager class	
+	// Update Manager class.
 	private $um_class = '\CodePotent\UpdateManager\UpdateManager';
 	
-	// Update Manager hook	
+	// Update Manager hook.	
 	private $um_hook = 'codepotent_update_manager_filter_request';
 	
-	// Update Manager custom post type name
+	// Update Manager custom post type name.
 	private $um_cpt = 'plugin_endpoint';
 	
 	// Is Update Manager running?
 	private $um_running = false;
 	
-	// Array to keep statistics for plugin details
+	// Array to keep statistics for plugin details.
 	private $stat_array = [];
 	
 	
@@ -109,7 +112,7 @@ class StatsForUpdateManager{
 	public function active_installations_filters() {
 		$this->stat_array = $this->active_installations_populate();
 		foreach ($this->stat_array as $slug => $count) {
-			// Decomment me if codepotent changes the filter https://github.com/codepotent/Update-Manager/pull/20
+			// This will work after https://github.com/codepotent/Update-Manager/pull/20
 			add_filter('codepotent_update_manager_'.$slug.'_active_installs', [$this, 'active_installations_filter'], 10, 2);
 		}
 	}
@@ -244,7 +247,7 @@ class StatsForUpdateManager{
 	}
 	
 	// Render statistics page.
-	public function render_page () { 
+	public function render_page() { 
 		if (!$this->um_running){
 			$this->render_page_debug();
 			return;
@@ -255,22 +258,23 @@ class StatsForUpdateManager{
 		global $wpdb;
 		$active = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.$this->db_table_name.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug');
 
-		// Sort by most active.
-		usort($active, function($a, $b) {
-			return $b->total - $a->total;
-		});
-
 		// Display statistics.
 		echo '<h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
+		// Exit if query returned 0 results.
 		if (count($active) === 0){
 			echo '<p>'.esc_html__('No active installations.', 'stats-for-update-manager').'<p>';
 			$this->render_page_debug();
 			return;
 		}
 		
+		// Sort by most active.
+		usort($active, function($a, $b) {
+			return $b->total - $a->total;
+		});
+		
 		echo '<ul class="sfum-list">';
 		foreach ($active as $value){
-			// If there is a request for a plugin not served by UM use slug.
+			// If there is a request for a plugin not served by UM don't display.
 			if (isset($um_posts[$value->slug])){
 				$title = '<a href="'.admin_url('post.php?post='.$um_posts[$value->slug].'&action=edit').'">'.get_the_title($um_posts[$value->slug]).'</a>';
 				/* Translators: %1 is plugin name, %2 is the number of active installations */
@@ -278,10 +282,13 @@ class StatsForUpdateManager{
 			}
 		}
 		echo '</ul>';
+		
+		// Display the debug section.
 		$this->render_page_debug();
 	}
 	
-	private function render_page_debug () {
+	// Render the debug section of the page.
+	private function render_page_debug() {
 		global $wpdb;
 		$last = $wpdb->get_results( 
 			'SELECT slug, site, last FROM '.$wpdb->prefix.$this->db_table_name.' ORDER BY last DESC LIMIT 100' );
@@ -299,7 +306,7 @@ class StatsForUpdateManager{
 		foreach ($last as $value){
 		/* translators: %1 is plugin slug, %2 is the number of active installations */
 			printf('%-32s %-21s %s', substr($value->site, 0, 30), date('Y/m/d H:i:s', strtotime($value->last)), $value->slug);
-			if (in_array($value->site, apply_filters('sfum_my_sites', [])  )){
+			if (in_array($value->site, apply_filters('sfum_my_sites', []))){
 				echo " *";
 			}
 			echo "<br>";
@@ -311,13 +318,16 @@ class StatsForUpdateManager{
 	public function change_footer_text($text) {
 		$screen = get_current_screen();
 		if ($screen->base === $this->um_cpt.'_page_sfum_statistics') {
-			$text = '<span>'.esc_html__('Statistics for Update Manager', 'stats-for-update-manager').'</span>';
+			$text = '<span><a href="'.$this->xxsimoxx_link.'" target="_blank">'.esc_html__('Statistics for Update Manager', 'stats-for-update-manager').'</a></span>';
 		}
 		return $text;
 	}
 	
 	// Add link to statistic page in plugins page.
 	public function pal($links) {
+		if(!$this->um_running){
+			return $links;
+		}
 		$link = '<a href="'.admin_url('edit.php?post_type='.$this->um_cpt.'&page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar"></i></a>';
 		array_unshift($links, $link);
 		return $links;
@@ -334,6 +344,7 @@ class StatsForUpdateManager{
 		load_plugin_textdomain('stats-for-update-manager', false, basename(dirname(__FILE__)).'/languages'); 
 	}
 
+	// Activation hook.
 	public function activate() {
 		// Create or update database structure.
 		global $wpdb;
@@ -350,18 +361,20 @@ class StatsForUpdateManager{
 		require_once(ABSPATH.'wp-admin/includes/upgrade.php');
 		dbDelta( $sql );
 		
-		// in the future HERE do something interesting with db version
+		// In the future HERE do something interesting with db version.
 		
 		// Register database version for a future use.
 		update_option('sfum_db_ver', $this->db_revision);
 	}
 
+	// Deactivation hook.
 	public function deactivate() {
 		// Unschedule cron.
 		$timestamp = wp_next_scheduled('sfum_clean_table');
 		wp_unschedule_event($timestamp, 'sfum_clean_table');
 	}
-	
+
+	// Uninstall hook.	
 	public static function uninstall() {
 		// Delete table.
 		global $wpdb;
