@@ -67,7 +67,7 @@ function all_my_sites($sha) {
 ### GDPR / privacy
 
 This plugin stores data about plugin updates in a table. 
-You can see/change how much time this data is kept in the first lines of the plugin (defaults to 4 weeks.
+You can see/change how much time this data is kept in the first lines of the plugin (defaults to 4 weeks).
 By default (for now to change this you have to change the plugin code!) all the data is removed at plugin uninstall.
 
 The table structure contains:
