@@ -29,7 +29,7 @@ const DB_TABLE_NAME = 'sfum_logs';
 const DEFAULT_INACTIVE_DAYS = 7;
 
 // Default days for a plugin to be considered stale.
-const DEFAULT_OLD_DAYS = 30;
+const DEFAULT_OLD_DAYS = 28;
 
 class StatsForUpdateManager{
 
