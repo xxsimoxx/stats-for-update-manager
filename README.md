@@ -8,7 +8,7 @@ You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 
 ## When a plugin is in that count
 
-Plugins that queried Update Manager at least once in the last week are considered active.
+Plugins that queried Update Manager at least once in the last week are considered active.  When a plugin have not queried Update Manager in the last 4 week it's removed from the database table. See [filters](#filters) section to tweak.
 
 It also add the number of active installations in the plugin details. See [filters](#filters) section to tweak.
 
@@ -43,7 +43,7 @@ Or simply disable it all
 Note: the real number is cached for 6 hours.
 
 **`sfum_my_sites`** let's you recognize your own sites. They will be marked with an * in the debug informations.
-with this filter you can populate an array of sha512-hashed urls.
+With this filter you can populate an array of sha512-hashed urls.
 Example:
 
 ```php
@@ -63,13 +63,31 @@ function all_my_sites($sha) {
 }
 ```
 
+**`sfum_inactive_after`** let's you configure the number of days before a plugin installations is considered inactive.
+
+**`sfum_old_after`** let's you configure the number of days before a plugin installations is considered stale and will be removed from the database.
+
+Example:
+
+```php
+// An entry is old after 2 days and will be removed after 7
+add_filter('sfum_inactive_after', return_two);
+add_filter('sfum_old_after', return_seven);
+
+function return_two($days) {
+	return 2;
+}
+function return_seven($days) {
+	return 7;
+}
+
+```
+*Note that filtering `sfum_old_after` to 0 will erase your database when the daily maintenence cronjob is executed.*
 
 ### GDPR / privacy
 
-This plugin stores data about plugin updates in a table. 
+This plugin stores data about plugins update requests in a table.
 You can see/change how much time this data is kept in the first lines of the plugin (defaults to 4 weeks.
-By default (for now to change this you have to change the plugin code!) all the data is removed at plugin uninstall.
-
 The table structure contains:
 
 - URL of the site asking for updates, sha512 hashed

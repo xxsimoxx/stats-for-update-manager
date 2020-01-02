@@ -3,7 +3,7 @@
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: Statistics for Update Manager by CodePotent.
- * Version: 1.0.0-rc1
+ * Version: 1.0.0-rc2
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -25,24 +25,21 @@ require_once('classes/UpdateClient.class.php');
 // Define table name.
 const DB_TABLE_NAME = 'sfum_logs';
 
+// Default days for a plugin to be considered inactive.
+const DEFAULT_INACTIVE_DAYS = 7;
+
+// Default days for a plugin to be considered stale.
+const DEFAULT_OLD_DAYS = 30;
+
 class StatsForUpdateManager{
 
 	// DB table name without prefix.
 	private $db_table_name = DB_TABLE_NAME;
 	
-	// Time (in SQL format) for the plugin to be considered installed.
-	private $db_unactive_entry = 'INTERVAL 1 WEEK';
-
-	// Time (in SQL format) for the record to be deleted.
-	private $db_old_entry = 'INTERVAL 4 WEEK';	
-	
-	// Delete SQL table when uninstalling?
-	private $db_remove_on_uninstall = true;	
-	
 	// Database schema version (for future use).
 	private $db_revision = 1;
 	
-	// Link to our plugins on GitHub.
+	// Link to my plugins on GitHub.
 	private $xxsimoxx_link = 'https://github.com/xxsimoxx?tab=repositories';
 	
 	// Link to Update Manager homepage.
@@ -56,6 +53,12 @@ class StatsForUpdateManager{
 	
 	// Update Manager custom post type name.
 	private $um_cpt = 'plugin_endpoint';
+	
+	// Time (in SQL format) for the plugin to be considered installed.
+	private $db_unactive_entry = '';
+
+	// Time (in SQL format) for the record to be deleted.
+	private $db_old_entry = '';
 	
 	// Is Update Manager running?
 	private $um_running = false;
@@ -79,9 +82,13 @@ class StatsForUpdateManager{
 		// Hook to Update Manager filter request.
 		add_filter($this->um_hook, [$this, 'log_request'], PHP_INT_MAX);
 		
+		// On init apply filters to set the number of days for an entry
+		// to be considered inactive or have to be removed from db.	
+		add_action('init', [$this, 'apply_timing_filters']);
+
 		// Populate active installations.
-		add_action('init', [$this, 'active_installations_filters']);
-		
+		add_action('init', [$this, 'active_installations_filters'], PHP_INT_MAX);
+
 		// Add menu	for statistics.
 		add_action('admin_menu', [$this, 'create_menu']);
 		add_action('admin_enqueue_scripts', [$this, 'backend_css']);
@@ -107,6 +114,12 @@ class StatsForUpdateManager{
 	private function test($x) {
 		 trigger_error(print_r($x, TRUE), E_USER_WARNING);
 	}
+	
+	// Apply filters to set the number of days for an entry to be considered inactive or have to be removed from db.	
+	public function apply_timing_filters() {
+		$this->db_unactive_entry = 'INTERVAL '.apply_filters('sfum_inactive_after', DEFAULT_INACTIVE_DAYS).' DAY';
+		$this->db_old_entry = 'INTERVAL '.apply_filters('sfum_old_after', DEFAULT_OLD_DAYS).' DAY';
+	}
 
 	// Fill a stat array and add hooks to show active installations in plugin details.
 	public function active_installations_filters() {
@@ -120,7 +133,7 @@ class StatsForUpdateManager{
 	// Get active installations array.
 	private function active_installations_populate() {
 		// Check if we have already a transient with needed data.
-		if(true || !($all_stats = get_transient('sfum_all_stats'))) {
+		if(!($all_stats = get_transient('sfum_all_stats'))) {
 			// Build an array in the form 'slug'->count.
 			$all_stats = [];
 			global $wpdb;
