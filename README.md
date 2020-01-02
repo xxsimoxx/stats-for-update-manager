@@ -86,9 +86,9 @@ function return_seven($days) {
 
 ### GDPR / privacy
 
-This plugin stores data about plugins update requests in a table.
-You can see/change how much time this data is kept in the first lines of the plugin (defaults to 4 weeks.
-The table structure contains:
+This plugin stores data about plugin updates in a table. 
+You can configure how much time this data is kept using `sfum_old_after` filter (defaults to 4 weeks).
+All the data is removed at plugin uninstall.
 
 - URL of the site asking for updates, sha512 hashed
 - plugin checked

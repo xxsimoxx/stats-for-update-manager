@@ -33,6 +33,7 @@ It also add the number of active installations in the plugin details. See FAQ se
 This plugin is intended to be used by *developers*.
 
 This plugin stores data about plugins update requests in a table.
+You can configure how much time this data is kept using `sfum_old_after` filter (defaults to 4 weeks).
 
 The table structure contains:
 * URL of the site asking for updates, sha512 hashed
