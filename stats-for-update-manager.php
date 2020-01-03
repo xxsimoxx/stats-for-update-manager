@@ -107,7 +107,7 @@ class StatsForUpdateManager{
 		
 		// Add "statistics" command to WP-CLI
 		if (defined( 'WP_CLI' ) && WP_CLI){
-			\WP_CLI::add_command( 'statistics', [$this, 'handle_wpcli_statistics']);
+			\WP_CLI::add_command('statistics', [$this, 'wpcli_statistics']);
 		}
 	
 		// Activation, deactivation and uninstall.
@@ -392,12 +392,12 @@ class StatsForUpdateManager{
     *
 	* ## EXAMPLES
 	*
-	*     wp statistics --days=4
+	*     wp statistics show --days=4
 	*
 	* @when after_wp_load
 	*/
-	// Handel WP-CLI statistics command
-	public function handle_wpcli_statistics($args, $assoc_args) {
+	// Handle WP-CLI statistics command.
+	public function wpcli_statistics($args, $assoc_args) {
 		// Check for UM running.
 		if (!$this->um_running) {
 			return \WP_CLI::error('Update Manager is not running.');
@@ -410,7 +410,7 @@ class StatsForUpdateManager{
 		}
 		// Query database and CPT
 		global $wpdb;
-		$results = $wpdb->get_results('SELECT slug as "IDENTIFIER", count(*) as "ACTIVE" FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$timing.' group by slug', 'ARRAY_A');
+		$results = $wpdb->get_results('SELECT slug as "identifier", count(*) as "active" FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$timing.' group by slug', 'ARRAY_A');
 		if (count($results) === 0){
 			return \WP_CLI::error('No active plugins found.');
 		}
@@ -418,19 +418,19 @@ class StatsForUpdateManager{
 		$cpt = $this->get_cpt();
 		// Join db results with CPT informations.
 		foreach ($results as $key=>&$result) {
-			if (!isset($cpt[$result['IDENTIFIER']])){
+			if (!isset($cpt[$result['identifier']])){
 				unset($results[$key]);
 				continue;
 			}
-			$result['POST_ID'] = $cpt[$result['IDENTIFIER']];
-			$result['TITLE']= get_the_title($cpt[$result['IDENTIFIER']]);
-			$result['STATUS']= get_post_status($cpt[$result['IDENTIFIER']]);
+			$result['ID'] = $cpt[$result['identifier']];
+			$result['title']= get_the_title($cpt[$result['identifier']]);
+			$result['status']= get_post_status($cpt[$result['identifier']]);
 		}
 		// Display results using buildin WP CLI function.
 		\WP_CLI\Utils\format_items(
 			\WP_CLI\Utils\get_flag_value($assoc_args, 'format', 'table'),
 			$results,
-			\WP_CLI\Utils\get_flag_value($assoc_args, 'fields', 'POST_ID,TITLE,ACTIVE,IDENTIFIER,STATUS')
+			\WP_CLI\Utils\get_flag_value($assoc_args, 'fields', 'ID,title,active,identifier,status')
 		);
 	}
 
