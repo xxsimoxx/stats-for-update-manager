@@ -218,9 +218,7 @@ class StatsForUpdateManager{
 			'last' => current_time('mysql', 1) 
 			];
 		
-		$updated = $wpdb->update( $wpdb->prefix.DB_TABLE_NAME, $data, $where );
- 
-		if ($updated === 0) {
+		if (!$wpdb->update( $wpdb->prefix.DB_TABLE_NAME, $data, $where)) {
 			$wpdb->insert($wpdb->prefix.DB_TABLE_NAME, $data);
 		}
 		
