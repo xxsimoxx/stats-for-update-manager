@@ -22,7 +22,9 @@ if (!defined('ABSPATH')){
 // https://codepotent.com/classicpress/plugins/update-manager/
 require_once('classes/UpdateClient.class.php');
 
-// Define table name.
+// Define constants
+
+// DB table name without prefix.
 const DB_TABLE_NAME = 'sfum_logs';
 
 // Default days for a plugin to be considered inactive.
@@ -31,28 +33,27 @@ const DEFAULT_INACTIVE_DAYS = 7;
 // Default days for a plugin to be considered stale.
 const DEFAULT_OLD_DAYS = 28;
 
+// Database schema version (for future use).
+const DB_REVISION = 1;
+
+// Link to my plugins on GitHub.
+const XXSIMOXX_LINK = 'https://github.com/xxsimoxx?tab=repositories';
+
+// Link to Update Manager homepage.
+const UM_LINK = 'https://codepotent.com/classicpress/plugins/update-manager/';
+
+// Update Manager class.
+const UM_CLASS = '\CodePotent\UpdateManager\UpdateManager';
+
+// Update Manager hook.	
+const UM_HOOK = 'codepotent_update_manager_filter_request';
+
+// Update Manager custom post type name.
+const UM_CPT = 'plugin_endpoint';
+	
 class StatsForUpdateManager{
 
-	// DB table name without prefix.
-	private $db_table_name = DB_TABLE_NAME;
-	
-	// Database schema version (for future use).
-	private $db_revision = 1;
-	
-	// Link to my plugins on GitHub.
-	private $xxsimoxx_link = 'https://github.com/xxsimoxx?tab=repositories';
-	
-	// Link to Update Manager homepage.
-	private $um_link = 'https://codepotent.com/classicpress/plugins/update-manager/';
-
-	// Update Manager class.
-	private $um_class = '\CodePotent\UpdateManager\UpdateManager';
-	
-	// Update Manager hook.	
-	private $um_hook = 'codepotent_update_manager_filter_request';
-	
-	// Update Manager custom post type name.
-	private $um_cpt = 'plugin_endpoint';
+	// Initialize variables
 	
 	// Time (in SQL format) for the plugin to be considered installed.
 	private $db_unactive_entry = '';
@@ -66,11 +67,10 @@ class StatsForUpdateManager{
 	// Array to keep statistics for plugin details.
 	private $stat_array = [];
 	
-	
 	public function __construct() {
 
 		// Check for Update Manager running.
-		if (!class_exists($this->um_class)) {
+		if (!class_exists(UM_CLASS)) {
 			add_action('admin_notices', [$this, 'um_missing']);
 		} else {
 			$this->um_running = true;
@@ -80,7 +80,7 @@ class StatsForUpdateManager{
 		add_action('plugins_loaded', [$this, 'text_domain']);
 
 		// Hook to Update Manager filter request.
-		add_filter($this->um_hook, [$this, 'log_request'], PHP_INT_MAX);
+		add_filter(UM_HOOK, [$this, 'log_request'], PHP_INT_MAX);
 		
 		// On init apply filters to set the number of days for an entry
 		// to be considered inactive or have to be removed from db.	
@@ -142,7 +142,7 @@ class StatsForUpdateManager{
 			// Build an array in the form 'slug'->count.
 			$all_stats = [];
 			global $wpdb;
-			$results = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.$this->db_table_name.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug', 'ARRAY_A');
+			$results = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug', 'ARRAY_A');
 			foreach ($results as $result){
 				$all_stats[$result['slug']]=$result['total'];
 			}
@@ -173,7 +173,7 @@ class StatsForUpdateManager{
 		}
 		echo '<div class="notice notice-warning"><p>';
 		/* translators: 1 is the link to Update Manager homepage */
-		printf(__('<b>Stats for Update Manager</b> is pretty unuseful without <a href="%1$s" target="_blank">Update Manager</a>.', 'stats-for-update-manager'), $this->um_link);
+		printf(__('<b>Stats for Update Manager</b> is pretty unuseful without <a href="%1$s" target="_blank">Update Manager</a>.', 'stats-for-update-manager'), UM_LINK);
 		/* translators: 1 is the link to the Statistics page */
 		printf(__('<br>You can view statistics under tools menu or by clicking <a href="%1$s">here</a>.', 'stats-for-update-manager'), admin_url('tools.php?page=sfum_statistics'));		
 		echo '</p></div>';
@@ -186,7 +186,7 @@ class StatsForUpdateManager{
 			return $data;
 		}
 		$posts = get_posts([
-			'post_type' => $this->um_cpt,
+			'post_type' => UM_CPT,
 			'post_status' => ['publish', 'pending' ,'draft'],
 			'numberposts' => -1
 			]);
@@ -216,10 +216,10 @@ class StatsForUpdateManager{
 			'last' => current_time('mysql', 1) 
 			];
 		
-		$updated = $wpdb->update( $wpdb->prefix.$this->db_table_name, $data, $where );
+		$updated = $wpdb->update( $wpdb->prefix.DB_TABLE_NAME, $data, $where );
  
 		if ($updated === 0) {
-			$wpdb->insert($wpdb->prefix.$this->db_table_name, $data);
+			$wpdb->insert($wpdb->prefix.DB_TABLE_NAME, $data);
 		}
 		
 		// Return unchanged.
@@ -242,7 +242,7 @@ class StatsForUpdateManager{
 	public function create_menu() {
 		if ( current_user_can( 'manage_options' ) ) {
 			// If Update Manager is not there, go under "tools" menu.
-			$parent_slug = $this->um_running ? 'edit.php?post_type='.$this->um_cpt : 'tools.php';
+			$parent_slug = $this->um_running ? 'edit.php?post_type='.UM_CPT : 'tools.php';
 			$menu_title  = $this->um_running ? esc_html_x('Statistics', 'Menu Title', 'stats-for-update-manager') : esc_html_x('Statistics for Update Manager', 'Menu Title with UM deactivated', 'stats-for-update-manager');
 			$page = add_submenu_page( 
 				$parent_slug, 
@@ -259,7 +259,7 @@ class StatsForUpdateManager{
 	// Enqueue CSS only in the page.
 	public function backend_css($hook) {
 		//             When UM disabled.                                       When UM enabled.
-		if ($hook === 'tools_page_sfum_statistics' || $hook === $this->um_cpt.'_page_sfum_statistics' ) {
+		if ($hook === 'tools_page_sfum_statistics' || $hook === UM_CPT.'_page_sfum_statistics' ) {
 			wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'/css/sfum-backend.css');
 		}
 	}
@@ -274,7 +274,7 @@ class StatsForUpdateManager{
 		// Get needed data.
 		$um_posts = $this->get_cpt();	
 		global $wpdb;
-		$active = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.$this->db_table_name.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug');
+		$active = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug');
 
 		// Display statistics.
 		echo '<h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
@@ -309,7 +309,7 @@ class StatsForUpdateManager{
 	private function render_page_debug() {
 		global $wpdb;
 		$last = $wpdb->get_results( 
-			'SELECT slug, site, last FROM '.$wpdb->prefix.$this->db_table_name.' ORDER BY last DESC LIMIT 100' );
+			'SELECT slug, site, last FROM '.$wpdb->prefix.DB_TABLE_NAME.' ORDER BY last DESC LIMIT 100' );
 		if (count($last) === 0){
 			echo '<p>'.esc_html__('No database entries.', 'stats-for-update-manager').'<p>';
 			return;
@@ -331,12 +331,12 @@ class StatsForUpdateManager{
 		}
 		echo '</pre></p></div></div></div>';
 	}
-
+	
 	// Change footer text in statistic section.
 	public function change_footer_text($text) {
 		$screen = get_current_screen();
-		if ($screen->base === $this->um_cpt.'_page_sfum_statistics') {
-			$text = '<span><a href="'.$this->xxsimoxx_link.'" target="_blank">'.esc_html__('Statistics for Update Manager', 'stats-for-update-manager').'</a></span>';
+		if ($screen->base === UM_CPT.'_page_sfum_statistics') {
+			$text = '<span><a href="'.XXSIMOXX_LINK.'" target="_blank">'.esc_html__('Statistics for Update Manager', 'stats-for-update-manager').'</a></span>';
 		}
 		return $text;
 	}
@@ -346,7 +346,7 @@ class StatsForUpdateManager{
 		if(!$this->um_running){
 			return $links;
 		}
-		$link = '<a href="'.admin_url('edit.php?post_type='.$this->um_cpt.'&page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar"></i></a>';
+		$link = '<a href="'.admin_url('edit.php?post_type='.UM_CPT.'&page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar"></i></a>';
 		array_unshift($links, $link);
 		return $links;
 	}
@@ -354,7 +354,7 @@ class StatsForUpdateManager{
 	// Delete old entries.
 	public function clean_table() {
 		global $wpdb;
-		$wpdb->query('DELETE FROM '.$wpdb->prefix.$this->db_table_name.' WHERE last < NOW() - '.$this->db_old_entry);
+		$wpdb->query('DELETE FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last < NOW() - '.$this->db_old_entry);
 	}	
 	
 	// Load text domain.
@@ -362,7 +362,7 @@ class StatsForUpdateManager{
 		load_plugin_textdomain('stats-for-update-manager', false, basename(dirname(__FILE__)).'/languages'); 
 	}
 	
-	// Handel WP-CLI statistics command
+	
 	/**
 	* Print statistics for Update Manager.
 	*
@@ -394,6 +394,7 @@ class StatsForUpdateManager{
 	*
 	* @when after_wp_load
 	*/
+	// Handel WP-CLI statistics command
 	public function handle_wpcli_statistics($args, $assoc_args) {
 		// Check for UM running.
 		if (!$this->um_running) {
@@ -407,7 +408,7 @@ class StatsForUpdateManager{
 		}
 		// Query database and CPT
 		global $wpdb;
-		$results = $wpdb->get_results('SELECT slug as "IDENTIFIER", count(*) as "ACTIVE" FROM '.$wpdb->prefix.$this->db_table_name.' WHERE last > NOW() - '.$timing.' group by slug', 'ARRAY_A');
+		$results = $wpdb->get_results('SELECT slug as "IDENTIFIER", count(*) as "ACTIVE" FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$timing.' group by slug', 'ARRAY_A');
 		if (count($results) === 0){
 			return \WP_CLI::error('No active plugins found.');
 		}
@@ -435,7 +436,7 @@ class StatsForUpdateManager{
 	public function activate() {
 		// Create or update database structure.
 		global $wpdb;
-		$table_name = $wpdb->prefix.$this->db_table_name;
+		$table_name = $wpdb->prefix.DB_TABLE_NAME;
 		$wpdb_collate = $wpdb->collate;
 		$sql =
 			"CREATE TABLE {$table_name} (
@@ -451,7 +452,7 @@ class StatsForUpdateManager{
 		// In the future HERE do something interesting with db version.
 		
 		// Register database version for a future use.
-		update_option('sfum_db_ver', $this->db_revision);
+		update_option('sfum_db_ver', DB_REVISION);
 	}
 
 	// Deactivation hook.
