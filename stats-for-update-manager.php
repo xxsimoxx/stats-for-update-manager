@@ -18,8 +18,7 @@ if (!defined('ABSPATH')){
 	die('-1');
 };
 
-// Add auto updater
-// https://codepotent.com/classicpress/plugins/update-manager/
+// Add auto updater https://codepotent.com/classicpress/plugins/update-manager/
 require_once('classes/UpdateClient.class.php');
 
 // Define constants
@@ -35,6 +34,9 @@ const DEFAULT_OLD_DAYS = 28;
 
 // Database schema version (for future use).
 const DB_REVISION = 1;
+
+// This plugin version
+const PLUGIN_VERSION = '1.0.0-rc2';
 
 // Link to my plugins on GitHub.
 const XXSIMOXX_LINK = 'https://github.com/xxsimoxx?tab=repositories';
@@ -336,7 +338,7 @@ class StatsForUpdateManager{
 	public function change_footer_text($text) {
 		$screen = get_current_screen();
 		if ($screen->base === UM_CPT.'_page_sfum_statistics') {
-			$text = '<span><a href="'.XXSIMOXX_LINK.'" target="_blank">'.esc_html__('Statistics for Update Manager', 'stats-for-update-manager').'</a></span>';
+			$text = '<span><a href="'.XXSIMOXX_LINK.'" target="_blank">'.esc_html__('Statistics for Update Manager', 'stats-for-update-manager').'</a> v.'.PLUGIN_VERSION.'</span>';
 		}
 		return $text;
 	}
