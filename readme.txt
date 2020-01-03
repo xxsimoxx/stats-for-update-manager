@@ -28,6 +28,8 @@ Plugins that queried Update Manager at least once in the last week are considere
 
 It also add the number of active installations in the plugin details. See FAQ section to tweak.
 
+It supports WP-CLI (see the help typing `wp help statistics`).
+
 ## GDPR & Disclaimer
 
 This plugin is intended to be used by *developers*.

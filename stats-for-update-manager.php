@@ -102,7 +102,12 @@ class StatsForUpdateManager{
 		if (!wp_next_scheduled('sfum_clean_table')) {
 			wp_schedule_event(time(), 'daily', 'sfum_clean_table');
 		}
-
+		
+		// Add "statistics" command to WP-CLI
+		if (defined( 'WP_CLI' ) && WP_CLI){
+			\WP_CLI::add_command( 'statistics', [$this, 'handle_wpcli_statistics']);
+		}
+	
 		// Activation, deactivation and uninstall.
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
@@ -355,6 +360,75 @@ class StatsForUpdateManager{
 	// Load text domain.
 	public function text_domain() {
 		load_plugin_textdomain('stats-for-update-manager', false, basename(dirname(__FILE__)).'/languages'); 
+	}
+	
+	// Handel WP-CLI statistics command
+	/**
+	* Print statistics for Update Manager.
+	*
+	* ## OPTIONS
+	*
+	*
+	* [--days=<integer>]
+	* : How many day an unseen installation is considered active
+	*
+	* [--format=<format>]
+	* : Render output in a particular format.
+	* ---
+	* default: table
+	* options:
+	*   - table
+	*   - csv
+	*   - ids
+	*   - json
+	*   - count
+	*   - yaml
+	* ---
+	*
+	* [--fields=<fields>]
+    * : Limit the output to specific object fields (comma separated list).
+    *
+	* ## EXAMPLES
+	*
+	*     wp statistics --days=4
+	*
+	* @when after_wp_load
+	*/
+	public function handle_wpcli_statistics($args, $assoc_args) {
+		// Check for UM running.
+		if (!$this->um_running) {
+			return \WP_CLI::error('Update Manager is not running.');
+		}
+		// Use option from command line or default for days.
+		if (!is_numeric($timing=\WP_CLI\Utils\get_flag_value($assoc_args, 'days'))){
+			$timing = $this->db_unactive_entry;
+		} else {
+			$timing = 'INTERVAL '.$timing.' DAY';
+		}
+		// Query database and CPT
+		global $wpdb;
+		$results = $wpdb->get_results('SELECT slug as "IDENTIFIER", count(*) as "ACTIVE" FROM '.$wpdb->prefix.$this->db_table_name.' WHERE last > NOW() - '.$timing.' group by slug', 'ARRAY_A');
+		if (count($results) === 0){
+			return \WP_CLI::error('No active plugins found.');
+		}
+		// Get CPT
+		$cpt = $this->get_cpt();
+		// Join db results with CPT informations.
+		foreach ($results as $key=>&$result) {
+			if (!isset($cpt[$result['IDENTIFIER']])){
+				unset($results[$key]);
+				continue;
+			}
+			$result['POST_ID'] = $cpt[$result['IDENTIFIER']];
+			$result['TITLE']= get_the_title($cpt[$result['IDENTIFIER']]);
+			$result['STATUS']= get_post_status($cpt[$result['IDENTIFIER']]);
+		}
+		// Display results using buildin WP CLI function.
+		\WP_CLI\Utils\format_items(
+			\WP_CLI\Utils\get_flag_value($assoc_args, 'format', 'table'),
+			$results,
+			\WP_CLI\Utils\get_flag_value($assoc_args, 'fields', 'POST_ID,TITLE,ACTIVE,IDENTIFIER,STATUS')
+		);
 	}
 
 	// Activation hook.

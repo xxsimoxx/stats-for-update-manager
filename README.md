@@ -6,6 +6,8 @@ With Stats for Update Manager you can count active installations of your plugins
 
 You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 
+It supports WP-CLI (see the help typing `wp help statistics`).
+
 ## When a plugin is in that count
 
 Plugins that queried Update Manager at least once in the last week are considered active.  When a plugin have not queried Update Manager in the last 4 week it's removed from the database table. See [filters](#filters) section to tweak.
