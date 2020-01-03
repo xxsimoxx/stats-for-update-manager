@@ -424,6 +424,10 @@ class StatsForUpdateManager{
 			$result['title']= get_the_title($cpt[$result['identifier']]);
 			$result['status']= get_post_status($cpt[$result['identifier']]);
 		}
+		// Sort results.
+		usort($results, function($a, $b) {
+			return $b['active'] - $a['active'];
+		});
 		// Display results using buildin WP CLI function.
 		\WP_CLI\Utils\format_items(
 			\WP_CLI\Utils\get_flag_value($assoc_args, 'format', 'table'),
