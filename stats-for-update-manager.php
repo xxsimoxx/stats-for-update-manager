@@ -18,7 +18,7 @@ if (!defined('ABSPATH')){
 	die('-1');
 };
 
-// Load constants
+// Load constants.
 require_once('includes/constants.php');
 
 // Add auto updater https://codepotent.com/classicpress/plugins/update-manager/
@@ -193,6 +193,9 @@ class StatsForUpdateManager{
 			];
 
 		if (!$wpdb->update( $wpdb->prefix.DB_TABLE_NAME, $data, $where)) {
+			// Ensure that if the log_request is called twice in the same second
+			// we don't get a SQL error
+			$wpdb->delete($wpdb->prefix.DB_TABLE_NAME, $where);
 			$wpdb->insert($wpdb->prefix.DB_TABLE_NAME, $data);
 		}
 
