@@ -48,6 +48,24 @@ The table structure contains:
 
 == faq ==
 
+## Shortcodes 
+
+### [sfum-installs]
+
+The above shortcode returns an integer depicting the total number of all installations (of all plugins) across the web. Developers can use it in a sentence:
+> Our plugins have [_n_] active installations!
+
+### [sfum-installs id="my-plugin-folder/my-plugin-file.php"]
+
+Building on the previous example, you can also provide a plugin id. This shortcode returns an integer depicting the total number of installs for the plugin with the given `identifier`. Developers can use it in a sentence:
+> My Awesome Plugin has [_n_] active installations!
+
+### [sfum-domains]
+
+This shortcode returns an integer depicting the number of unique domains using all of the developer's plugins. Developers can use it in a sentence: 
+
+> Code Potent is running on [_n_] sites!
+
 ## Filters
 
 `sfum_active_installations` let's you change/hide the number displayed in the details of your plugins.
@@ -116,6 +134,7 @@ function return_seven($days) {
 }
 
 ```
+
 *Note that filtering `sfum_inactive_after` to 0 will erase your database when the daily maintenence cronjob is executed.*
 
 == Changelog ==
