@@ -81,12 +81,12 @@ class Shortcodes {
 		$total_installs = 0;
 
 		// Default SQL counts all rows.
-		$sql = 'SELECT count(slug) FROM '.$wpdb->prefix.'sfum_logs';
+		$sql = 'SELECT count(slug) FROM '.$wpdb->prefix.DB_TABLE_NAME;
 
 		// Id passed in? Refine and prepare the query.
 		if (!empty($atts['id'])) {
 			$sql = $wpdb->prepare('SELECT count(slug)
-							FROM '.$wpdb->prefix.'sfum_logs
+							FROM '.$wpdb->prefix.DB_TABLE_NAME.'
 							WHERE slug
 							LIKE "%s"',
 							$atts['id']);
@@ -127,7 +127,7 @@ class Shortcodes {
 		$total_installs = 0;
 
 		// Default SQL counts all rows.
-		$sql = 'SELECT count(DISTINCT site) FROM '.$wpdb->prefix.'sfum_logs';
+		$sql = 'SELECT count(DISTINCT site) FROM '.$wpdb->prefix.DB_TABLE_NAME;
 
 		// Execute SQL.
 		$result = $wpdb->get_results($sql, ARRAY_A);
