@@ -29,9 +29,18 @@
  *
  * Code Potent has [sfum-installs] active plugin installations!
  *
- * The "Update Me" plugin has [sfum-installs id="update-me/update-me.php"] active installs!
+ * This plugin has [sfum-installs id="update-me/update-me.php"] active installs!
  *
  * Code Potent is running on [sfum-domains] sites!
+ *
+ *
+ * To Do
+ * ---------------------------------
+ *
+ * Calculate numbers in process_shortcode_installs and process_shortcode_domains
+ * methods; currently hardcoded for PoC.
+ *
+ * Line 114; id needs to be validated/checked.
  *
  */
 
@@ -93,22 +102,33 @@ class Shortcodes {
 	 */
 	function process_shortcode_installs($atts) {
 
-		// No id passed in? Calculate and return total of all plugin installs.
-		if (empty($atts['id'])) {
-			$plugin_a = 2323;
-			$plugin_b = 4921;
-			$plugin_c = 6232;
-			$total_installs = number_format($plugin_a + $plugin_b + $plugin_c);
-			return $total_installs;
+		// Bring database object into scope.
+		global $wpdb;
+
+		// Initialization.
+		$total_installs = 0;
+
+		// Default SQL counts all rows.
+		$sql = 'SELECT count(slug) FROM '.$wpdb->prefix.'sfum_logs';
+
+		// Id passed in? Refine and prepare the query.
+		if (!empty($atts['id'])) {
+			$sql = $wpdb->prepare('SELECT count(slug)
+							FROM '.$wpdb->prefix.'sfum_logs
+							WHERE slug
+							LIKE "%s"',
+							$atts['id']);
 		}
 
-		// Validate id or bail here.
+		// Execute SQL.
+		$result = $wpdb->get_results($sql, ARRAY_A);
 
+		// Got something? Count it.
+		if (!empty($result[0])) {
+			$total_installs = number_format(array_sum($result[0]));
+		}
 
-		// Calculate the total installs for the given plugin.
-		$total_installs = number_format(2353);
-
-		// Return an integer.
+		// Return.
 		return $total_installs;
 
 	}
@@ -128,19 +148,25 @@ class Shortcodes {
 	 */
 	function process_shortcode_domains($atts) {
 
-		// No $atts to bother with, move on.
+		// Bring database object into scope.
+		global $wpdb;
 
-		// Gather all hashes into an array.
+		// Initialization.
+		$total_installs = 0;
 
-		// Use array_unique
+		// Default SQL counts all rows.
+		$sql = 'SELECT count(DISTINCT site) FROM '.$wpdb->prefix.'sfum_logs';
 
-		// Count remaining elements.
+		// Execute SQL.
+		$result = $wpdb->get_results($sql, ARRAY_A);
 
-		// Format the number.
-		$unique_domains = number_format(1257);
+		// Got something? Count it.
+		if (!empty($result[0])) {
+			$total_installs = number_format(array_sum($result[0]));
+		}
 
-		// Return..
-		return $unique_domains;
+		// Return.
+		return $total_installs;
 
 	}
 
