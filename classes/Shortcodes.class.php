@@ -14,34 +14,6 @@
  * -----------------------------------------------------------------------------
  * Copyright © 2019 - CodePotent
  * -----------------------------------------------------------------------------
- *           ____          _      ____       _             _
- *          / ___|___   __| | ___|  _ \ ___ | |_ ___ _ __ | |_
- *         | |   / _ \ / _` |/ _ \ |_) / _ \| __/ _ \ '_ \| __|
- *         | |__| (_) | (_| |  __/  __/ (_) | ||  __/ | | | |_
- *          \____\___/ \__,_|\___|_|   \___/ \__\___|_| |_|\__|.com
- *
- * -----------------------------------------------------------------------------
- */
-
-/**
- * Example Usage
- * ---------------------------------
- *
- * Code Potent has [sfum-installs] active plugin installations!
- *
- * This plugin has [sfum-installs id="update-me/update-me.php"] active installs!
- *
- * Code Potent is running on [sfum-domains] sites!
- *
- *
- * To Do
- * ---------------------------------
- *
- * Calculate numbers in process_shortcode_installs and process_shortcode_domains
- * methods; currently hardcoded for PoC.
- *
- * Line 114; id needs to be validated/checked.
- *
  */
 
 // Declare the namespace.
