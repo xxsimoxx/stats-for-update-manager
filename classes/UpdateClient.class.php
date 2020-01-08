@@ -3,8 +3,6 @@
 /**
  * -----------------------------------------------------------------------------
  * Purpose: Remote client to communicate with the Update Manager plugin.
- * Package: CodePotent\UpdateManager
- * Version: 1.0.0
  * Author: Code Potent
  * Author URI: https://codepotent.com
  * -----------------------------------------------------------------------------
@@ -13,7 +11,7 @@
  * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Full
  * text of the license is available at https://www.gnu.org/licenses/gpl-2.0.txt.
  * -----------------------------------------------------------------------------
- * Copyright © 2019 - CodePotent
+ * Copyright © 2019 - Code Potent
  * -----------------------------------------------------------------------------
  *           ____          _      ____       _             _
  *          / ___|___   __| | ___|  _ \ ___ | |_ ___ _ __ | |_
@@ -23,6 +21,14 @@
  *
  * -----------------------------------------------------------------------------
  */
+
+/**
+ * 
+ * Note: this is not the original file. 
+ * It's modified to remove text domain.
+ *
+ */
+ 
 
 // EDIT: Make this unique. Example: YourDevName\YourPluginName;
 namespace XXSimoXX\StatsForUpdateManager\UpdateClient;
@@ -42,8 +48,7 @@ if (!defined('ABSPATH')) {
  * integrated update path for end-users of your ClassicPress plugins. This class
  * is intended for plugins that will be receiving updates directly from a remote
  * server, such as GitHub or your own site. The Update Manager ensures that your
- * updates look great with all the right images and texts. If you need some more
- * context, skip to: https://codepotent.com/classicpress/plugins/update-manager/
+ * updates look great with all the right images and texts.
  *
  * @author John Alarcon
  */
@@ -88,7 +93,7 @@ class UpdateClient {
 			// Plugin identifier; ie, plugin-folder/plugin-file.php.
 			'id' => $this->get_plugin_identifier(),
 			// Leave as-is.
-			'api' => '1.0.0',
+			'api' => '1.1.0',
 			// Leave as-is – tutorial can be created with enough interest.
 			'post' => [],
 		];
@@ -138,7 +143,7 @@ class UpdateClient {
 
 		// Print footer scripts; see comments on the method.
 		add_action('admin_print_footer_scripts', [$this, 'print_admin_scripts']);
-		
+
 		// Filter the plugin admin row.
 		add_filter('plugin_row_meta', [$this, 'filter_plugin_row_meta'], 10, 2);
 
@@ -334,7 +339,7 @@ class UpdateClient {
 		// Add the link to the plugin's own row, if not already existing.
 		if ($this->identifier === $plugin_file) {
 			$anchors_string = implode('', $plugin_meta);
-			$anchor_text = esc_html('View details', 'codepotent-update-manager');
+			$anchor_text = esc_html__('View details');
 			if (!preg_match('|(\<a[ \s\S\d]*)('.$anchor_text.')(<\/a>)|', $anchors_string)) {
 				$plugin_meta[] = '<a class="thickbox" href="'.admin_url('/plugin-install.php?tab=plugin-information&plugin='.$this->server_slug.'&TB_iframe=true&width=600&height=550').'">'.$anchor_text.'</a>';
 			}
@@ -555,6 +560,10 @@ class UpdateClient {
 		// Set path and URL to this plugin's own images directory.
 		$image_path = untrailingslashit(WP_PLUGIN_DIR).'/'.$plugin.'/images';
 		$image_url  = untrailingslashit(WP_PLUGIN_URL).'/'.$plugin.'/images';
+
+		// Allow directory location to be filtered.
+		$image_path = apply_filters('codepotent_update_manager_image_path', $image_path);
+		$image_url  = apply_filters('codepotent_update_manager_image_url', $image_url);
 
 		// Banner and icon images are keyed differently; it's a core thing.
 		$image_qualities = [
