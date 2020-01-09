@@ -18,6 +18,7 @@ It also add the number of active installations in the plugin details. See [filte
 This plugin is intended to be used by *developers*.
 
 ## <a name="filters"></a>Filters
+### Change/hide the number of active installations in plugin info tab
 **`sfum_active_installations`** let's you change/hide the number displayed in the details of your plugins.
 
 Examples:
@@ -44,6 +45,7 @@ Or simply disable it all
 
 Note: the real number is cached for 6 hours.
 
+### Recognize your own sites in debug
 **`sfum_my_sites`** let's you recognize your own sites. They will be marked with an * in the debug informations.
 With this filter you can populate an array of sha512-hashed urls.
 Example:
@@ -64,7 +66,7 @@ function all_my_sites($sha) {
 	return $myhashes;
 }
 ```
-
+### Configure the timing a plugin is considered active or stale
 **`sfum_inactive_after`** let's you configure the number of days before a plugin installations is considered inactive.
 
 **`sfum_old_after`** let's you configure the number of days before a plugin installations is considered stale and will be removed from the database.

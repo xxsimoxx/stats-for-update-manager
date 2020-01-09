@@ -68,14 +68,13 @@ This shortcode returns an integer depicting the number of unique domains using a
 
 ## Filters
 
+### Change/hide the number of active installations in plugin info tab
+
 `sfum_active_installations` let's you change/hide the number displayed in the details of your plugins.
 Examples:
 Add the filter...
-
 `add_filter('sfum_active_installations', 'example_filter');`
-
 Don't show active installation for my nothing-to-see plugin and raise it to one million for boost!
-
 ```php
 	function example_filter($ar){
 		unset ($ar['nothing-to-see/nothing-to-see.php']);
@@ -85,7 +84,6 @@ Don't show active installation for my nothing-to-see plugin and raise it to one 
 ```
 
 Or simply disable it all
-
 ```php
 	function example_filter($ar){
 		return [];
@@ -94,10 +92,11 @@ Or simply disable it all
 
 Note: the real number is cached for 6 hours.
 
+### Recognize your own sites in debug
+
 `sfum_my_sites` let's you recognize your own sites. They will be marked with an * in the debug informations.
 With this filter you can populate an array of sha512-hashed urls.
 Example:
-
 ```php
 add_filter('sfum_my_sites', 'all_my_sites');
 
@@ -115,12 +114,13 @@ function all_my_sites($sha) {
 }
 ```
 
+### Configure the timing a plugin is considered active or stale
+
 **`sfum_inactive_after`** let's you configure the number of days before a plugin installations is considered inactive.
 
 **`sfum_old_after`** let's you configure the number of days before a plugin installations is considered stale and will be removed from the database.
 
 Example:
-
 ```php
 // An entry is old after 2 days and will be removed after 7
 add_filter('sfum_inactive_after', 'return_two');
@@ -139,6 +139,8 @@ function return_seven($days) {
 
 == Changelog ==
 = 1.0.0-rc2 =
+* Added shortcodes
+* Added WP-CLI
 * Added filters to change when a plugin installation is considered active
 
 = 1.0.0-rc1 =
