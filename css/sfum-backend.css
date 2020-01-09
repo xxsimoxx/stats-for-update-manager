@@ -51,19 +51,19 @@ input.toggle[type='checkbox'] {
 
 .collapsible-content .content-inner {
 	padding: .5rem 1rem;
-	width: 100%;
 }
 
 .collapsible-content {
 	max-height: 0;
 	margin-right: 20px;
-	overflow: hidden;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
 	transition: max-height .25s ease-in-out;
 	background-color: white;
 }
 
 .toggle:checked + .lbl-toggle + .collapsible-content {
-	max-height: 1024px;
+	max-height: 2048px;
 }
 
 .toggle:checked + .lbl-toggle::before {

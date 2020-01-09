@@ -237,7 +237,7 @@ class StatsForUpdateManager{
 	public function backend_css($hook) {
 		//             When UM disabled.                                       When UM enabled.
 		if ($hook === 'tools_page_sfum_statistics' || $hook === UM_CPT.'_page_sfum_statistics' ) {
-			wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'/css/sfum-backend.css');
+			wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'/css/sfum-backend.css', [], '1.0.0');
 		}
 	}
 
