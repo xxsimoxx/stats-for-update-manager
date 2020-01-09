@@ -118,7 +118,7 @@ All the data is removed at plugin uninstall.
 
 **Is up to you to decide if and to inform your plugin users that this data is kept.**
 
-*This plugin itself is sending such information to the developer to keep statistical usage information.*
+**To help us know the number of active installations of this plugin, we collect and store anonymized data when the plugin check in for updates. The date and unique plugin identifier are stored as plain text and the requesting URL is stored as a non-reversible hashed value. This data is stored for up to 28 days.**
 
 ## Screenshot
 ![Main page](images/screenshot-1.png)
