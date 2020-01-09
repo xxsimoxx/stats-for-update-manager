@@ -147,11 +147,14 @@ class StatsForUpdateManager{
 		if (!current_user_can('manage_options') || (defined('WP_CLI') && WP_CLI)) {
 			return;
 		}
+		$screen = get_current_screen();
+		if ( $screen->id !== 'tools_page_sfum_statistics') {
+			return;
+		}
+
 		echo '<div class="notice notice-warning"><p>';
 		/* translators: 1 is the link to Update Manager homepage */
 		printf(__('<b>Stats for Update Manager</b> is pretty unuseful without <a href="%1$s" target="_blank">Update Manager</a>.', 'stats-for-update-manager'), UM_LINK);
-		/* translators: 1 is the link to the Statistics page */
-		printf(__('<br>You can view statistics under tools menu or by clicking <a href="%1$s">here</a>.', 'stats-for-update-manager'), admin_url('tools.php?page=sfum_statistics'));
 		echo '</p></div>';
 	}
 
@@ -321,6 +324,8 @@ class StatsForUpdateManager{
 	// Add link to statistic page in plugins page.
 	public function pal($links) {
 		if(!$this->um_running){
+			$link = '<a href="'.admin_url('tools.php?page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'">'.esc_html_x('Statistics', 'Menu Title', 'stats-for-update-manager').' <i class="dashicon dashicons-warning"></i> </a>';
+			array_unshift($links, $link);
 			return $links;
 		}
 		$link = '<a href="'.admin_url('edit.php?post_type='.UM_CPT.'&page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar"></i></a>';
