@@ -65,6 +65,9 @@ class StatsForUpdateManager{
 		// Populate active installations.
 		add_action('init', [$this, 'active_installations_filters'], PHP_INT_MAX);
 
+		// Register privacy policy.
+		add_action('admin_init', [$this, 'privacy']);
+		
 		// Add menu	for statistics.
 		add_action('admin_menu', [$this, 'create_menu']);
 		add_action('admin_enqueue_scripts', [$this, 'backend_css']);
@@ -457,6 +460,47 @@ class StatsForUpdateManager{
 		$wpdb->query($sql);
 		// Delete options.
 		delete_option('sfum_db_ver');
+	}
+	
+	// Register privacy policy.
+	public function privacy() {
+		$content = sprintf(
+			esc_html__('
+				This plugin stores data about plugins update requests in a table.
+
+				The table structure contains:
+				%1$s
+				%2$sURL of the site asking for updates, sha512 hashed%3$s
+				%4$splugin checked%5$s
+				%6$stimestamp of the last check%7$s
+				%8$s
+				This data is kept %9$sXX%10$s days.
+
+				%11$sTo help us know the number of active installations of this plugin, 
+				we collect and store anonymized data when the plugin check in for 
+				updates. The date and unique plugin identifier are stored as plain 
+				text and the requesting URL is stored as a non-reversible hashed 
+				value. This data is stored for up to 28 days.%12$s
+				',
+				'stats-for-update-manager'
+			),
+			'<ul style="list-style-type: disc; list-style-position: inside">',
+			'<li>',
+			'</li>',
+			'<li>',
+			'</li>',
+			'<li>',
+			'</li>',
+			'<ul>',
+			'<span style="color:red;">',
+			'</span>',
+			'<strong>',
+			'</strong>'
+		);
+
+		$content = wpautop($content, false);
+		wp_add_privacy_policy_content("Stats for Update Manager", $content);
+
 	}
 
 };
