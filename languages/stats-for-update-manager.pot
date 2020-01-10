@@ -1,17 +1,17 @@
-# Copyright (C) 2019 Gieffe edizioni srl
+# Copyright (C) 2020 Gieffe edizioni srl
 # This file is distributed under the same license as the Stats for Update Manager plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Stats for Update Manager 1.0.0-rc1\n"
+"Project-Id-Version: Stats for Update Manager 1.0.0-rc2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/stats-for-update-manager\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-12-31T08:13:13+01:00\n"
+"POT-Creation-Date: 2020-01-10T08:58:43+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.3.0\n"
+"X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: stats-for-update-manager\n"
 
 #. Plugin Name of the plugin
@@ -35,78 +35,94 @@ msgid "https://www.gieffeedizioni.it"
 msgstr ""
 
 #. translators: 1 is the link to Update Manager homepage
-#: stats-for-update-manager.php:149
+#: stats-for-update-manager.php:160
 msgid "<b>Stats for Update Manager</b> is pretty unuseful without <a href=\"%1$s\" target=\"_blank\">Update Manager</a>."
 msgstr ""
 
-#. translators: 1 is the link to the Statistics page
-#: stats-for-update-manager.php:151
-msgid "<br>You can view statistics under tools menu or by clicking <a href=\"%1$s\">here</a>."
-msgstr ""
-
-#: stats-for-update-manager.php:218
+#: stats-for-update-manager.php:229
 msgctxt "Menu Title"
 msgid "Statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:218
+#: stats-for-update-manager.php:229
 msgctxt "Menu Title with UM deactivated"
 msgid "Statistics for Update Manager"
 msgstr ""
 
-#: stats-for-update-manager.php:221
+#: stats-for-update-manager.php:232
 msgctxt "Page Title"
 msgid "Statistics for Update Manager"
 msgstr ""
 
-#. translators: 1 is the link to Update Manager homepage
-#: stats-for-update-manager.php:243
-msgid "Update Manager not running.Data may be old."
-msgstr ""
-
-#: stats-for-update-manager.php:258
+#: stats-for-update-manager.php:263
 msgid "Active installations"
 msgstr ""
 
-#: stats-for-update-manager.php:260
+#: stats-for-update-manager.php:266
 msgid "No active installations."
 msgstr ""
 
 #. Translators: %1 is plugin name, %2 is the number of active installations
-#: stats-for-update-manager.php:270
+#: stats-for-update-manager.php:282
 msgid "%1$s has %2$d active installation."
 msgid_plural "%1$s has %2$d active installations."
 msgstr[0] ""
 msgstr[1] ""
 
-#: stats-for-update-manager.php:276
-msgid "Debug information"
-msgstr ""
-
-#: stats-for-update-manager.php:278
-msgid "Latest updates"
-msgstr ""
-
-#: stats-for-update-manager.php:282
+#: stats-for-update-manager.php:297
 msgid "No database entries."
 msgstr ""
 
-#: stats-for-update-manager.php:285
+#: stats-for-update-manager.php:302
+msgid "Debug information"
+msgstr ""
+
+#: stats-for-update-manager.php:304
+msgid "Latest updates"
+msgstr ""
+
+#: stats-for-update-manager.php:306
 msgid "FIRST 30 CHAR OF THE HASH"
 msgstr ""
 
-#: stats-for-update-manager.php:285
+#: stats-for-update-manager.php:306
 msgid "DATE"
 msgstr ""
 
-#: stats-for-update-manager.php:285
+#: stats-for-update-manager.php:306
 msgid "PLUGIN"
 msgstr ""
 
-#: stats-for-update-manager.php:303
+#: stats-for-update-manager.php:322
 msgid "Statistics for Update Manager"
 msgstr ""
 
-#: stats-for-update-manager.php:310
+#: stats-for-update-manager.php:330
+#: stats-for-update-manager.php:334
 msgid "Update Manager statistics"
+msgstr ""
+
+#: stats-for-update-manager.php:330
+msgid "Debug"
+msgstr ""
+
+#: stats-for-update-manager.php:468
+msgid ""
+"\n"
+"\t\t\t\tThis plugin stores data about plugins update requests in a table.\n"
+"\n"
+"\t\t\t\tThe table structure contains:\n"
+"\t\t\t\t%1$s\n"
+"\t\t\t\t%2$sURL of the site asking for updates, sha512 hashed%3$s\n"
+"\t\t\t\t%4$splugin checked%5$s\n"
+"\t\t\t\t%6$stimestamp of the last check%7$s\n"
+"\t\t\t\t%8$s\n"
+"\t\t\t\tThis data is kept %9$sXX%10$s days.\n"
+"\n"
+"\t\t\t\t%11$sTo help us know the number of active installations of this plugin, \n"
+"\t\t\t\twe collect and store anonymized data when the plugin check in for \n"
+"\t\t\t\tupdates. The date and unique plugin identifier are stored as plain \n"
+"\t\t\t\ttext and the requesting URL is stored as a non-reversible hashed \n"
+"\t\t\t\tvalue. This data is stored for up to 28 days.%12$s\n"
+"\t\t\t\t"
 msgstr ""

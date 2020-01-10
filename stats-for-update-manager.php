@@ -327,7 +327,7 @@ class StatsForUpdateManager{
 	// Add link to statistic page in plugins page.
 	public function pal($links) {
 		if(!$this->um_running){
-			$link = '<a href="'.admin_url('tools.php?page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'">'.esc_html_x('Statistics', 'Menu Title', 'stats-for-update-manager').' <i class="dashicon dashicons-warning"></i> </a>';
+			$link = '<a href="'.admin_url('tools.php?page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'">'.esc_html__('Debug', 'stats-for-update-manager').' <i class="dashicon dashicons-warning"></i> </a>';
 			array_unshift($links, $link);
 			return $links;
 		}
