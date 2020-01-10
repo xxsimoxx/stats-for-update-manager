@@ -106,6 +106,7 @@ function no_log_please($list) {
 	];
 	return $excluded;
 }
+```
 
 ## Shortcodes 
 
