@@ -4,16 +4,22 @@
 }
 
 .sfum-list li {
-	padding: 5px 10px;
+	padding: 10px;
 	background-color: #FFFFFF;
-	border: 1px solid #DDDDDD;
+	border: 1px solid #BBBBBB;
 	margin-right: 20px;
 	font-size: 1.2em;
-	box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.25);
+	margin-bottom: -1px;
+}
+
+.sfum-list li:nth-child(odd) {
+	background-color: #EEEEEE;
 }
 
 .sfum-list li a{
 	transition: .5s;
+	font-weight: bold;
+	text-decoration: none;
 }
 
 input.toggle[type='checkbox'] {
