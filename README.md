@@ -88,6 +88,25 @@ function return_seven($days) {
 ```
 *Note that filtering `sfum_old_after` to 0 will erase your database when the daily maintenence cronjob is executed.*
 
+### Prevent specific(s) plugin(s) to be logged
+
+**`sfum_exclude`** let's you configure an array of identifier that are excluded from logging.
+
+*Note: this don't clean your database from already logged ones.*
+
+Example:
+```php
+// Don't log those plugins
+add_filter('sfum_exclude', 'no_log_please');
+
+function no_log_please($list) {
+	$excluded = [
+		'please-dont/log-me.php',
+		'excluded-plugin/excluded-plugin.php'
+	];
+	return $excluded;
+}
+
 ## Shortcodes 
 
 ### [sfum-installs]

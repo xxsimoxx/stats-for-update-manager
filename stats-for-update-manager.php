@@ -3,7 +3,7 @@
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: Statistics for Update Manager by CodePotent.
- * Version: 1.0.0-rc2
+ * Version: 1.0.0
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -183,6 +183,11 @@ class StatsForUpdateManager{
 	public function log_request($query) {
 		// If the input is corrupted, don't log.
 		if(!$this->is_safe_slug($query["plugin"]) || !$this->is_safe_url($query["site_url"])) {
+			// Don't break Update Manager if something changes.
+			return $query;
+		}
+		// Prevent specific(s) plugin to be logged.
+		if(in_array($query["plugin"], apply_filters('sfum_exclude', []))){
 			// Don't break Update Manager if something changes.
 			return $query;
 		}

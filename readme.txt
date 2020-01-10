@@ -1,7 +1,7 @@
 === Stats for Update Manager ===
 Plugin Name:        Stats for Update Manager
 Description:        With Stats for Update Manager you can count active installations of your plugins.
-Version:            1.0.0-rc2
+Version:            1.0.0
 Text Domain:        stats-for-update-manager
 Domain Path:        /languages
 Requires PHP:       5.6
@@ -10,7 +10,7 @@ Tested:             4.9.99
 Author:             Gieffe edizioni
 Author URI:         https://www.gieffeedizioni.it
 Plugin URI:         https://software.gieffeedizioni.it
-Download link:      https://github.com/xxsimoxx/stats-for-update-manager/releases/download/v1.0.0-rc2/stats-for-update-manager.zip
+Download link:      https://github.com/xxsimoxx/stats-for-update-manager/releases/download/v1.0.0/stats-for-update-manager.zip
 License:            GPLv2
 License URI:        https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,7 +67,6 @@ This shortcode returns an integer depicting the number of unique domains using a
 > Code Potent is running on [_n_] sites!
 
 ## Filters
-
 ### Change/hide the number of active installations in plugin info tab
 
 `sfum_active_installations` let's you change/hide the number displayed in the details of your plugins.
@@ -135,9 +134,35 @@ function return_seven($days) {
 
 ```
 
+### Prevent specific(s) plugin(s) to be logged
+
+**`sfum_exclude`** let's you configure an array of identifier that are excluded from logging.
+
+*Note: this don't clean your database from already logged ones.*
+
+Example:
+```php
+// Don't log those plugins
+add_filter('sfum_exclude', 'no_log_please');
+
+function no_log_please($list) {
+	$excluded = [
+		'please-dont/log-me.php',
+		'excluded-plugin/excluded-plugin.php'
+	];
+	return $excluded;
+}
+
+
+```
+
 *Note that filtering `sfum_inactive_after` to 0 will erase your database when the daily maintenence cronjob is executed.*
 
 == Changelog ==
+= 1.0.0 =
+* Added a filter to prevent specific(s) plugin(s) to be logged
+* Added privacy
+
 = 1.0.0-rc2 =
 * Added shortcodes
 * Added WP-CLI
