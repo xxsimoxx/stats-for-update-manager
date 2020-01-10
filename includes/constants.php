@@ -21,7 +21,7 @@ const DEFAULT_OLD_DAYS = 28;
 const DB_REVISION = 1;
 
 // This plugin version
-const PLUGIN_VERSION = '1.0.0-rc2';
+const PLUGIN_VERSION = '1.0.0';
 
 // Link to my plugins on GitHub.
 const XXSIMOXX_LINK = 'https://github.com/xxsimoxx?tab=repositories';
