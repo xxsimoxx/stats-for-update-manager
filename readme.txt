@@ -18,6 +18,8 @@ With Stats for Update Manager you can count active installations of your plugins
 
 == Description ==
 
+# Discover how many sites are using your plugins!
+
 With Stats for Update Manager you can count active installations of your plugins.
 
 This is a companion plugin for [**Update Manager**](https://codepotent.com/classicpress/plugins/) from [CodePotent](https://codepotent.com/).
@@ -46,9 +48,9 @@ The table structure contains:
 
 **To help us know the number of active installations of this plugin, we collect and store anonymized data when the plugin check in for updates. The date and unique plugin identifier are stored as plain text and the requesting URL is stored as a non-reversible hashed value. This data is stored for up to 28 days.**
 
-== faq ==
+== Frequently asked questions ==
 
-## Shortcodes 
+# Shortcodes 
 
 ### [sfum-installs]
 
@@ -66,7 +68,8 @@ This shortcode returns an integer depicting the number of unique domains using a
 
 > Code Potent is running on [_n_] sites!
 
-## Filters
+# Filters
+
 ### Change/hide the number of active installations in plugin info tab
 
 `sfum_active_installations` let's you change/hide the number displayed in the details of your plugins.
@@ -152,7 +155,6 @@ function no_log_please($list) {
 	];
 	return $excluded;
 }
-
 
 ```
 
