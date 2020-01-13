@@ -56,7 +56,7 @@ class StatsForUpdateManager{
 		add_action('plugins_loaded', [$this, 'text_domain']);
 
 		// Hook to Update Manager filter request.
-		add_filter(UM_HOOK, [$this, 'log_request'], PHP_INT_MAX);
+		add_filter(UM_HOOK, [$this, 'log_request'], 1000);
 
 		// On init apply filters to set the number of days for an entry
 		// to be considered inactive or have to be removed from db.
@@ -69,7 +69,7 @@ class StatsForUpdateManager{
 		add_action('admin_init', [$this, 'privacy']);
 		
 		// Add menu	for statistics.
-		add_action('admin_menu', [$this, 'create_menu']);
+		add_action('admin_menu', [$this, 'create_menu'], 100);
 		add_action('admin_enqueue_scripts', [$this, 'backend_css']);
 		add_filter('admin_footer_text', [$this, 'change_footer_text'], PHP_INT_MAX);
 
@@ -238,8 +238,7 @@ class StatsForUpdateManager{
 				$menu_title,
 				'manage_options',
 				'sfum_statistics',
-				[$this, 'render_page'],
-				PHP_INT_MAX
+				[$this, 'render_page']
 			);
 		}
 	}
