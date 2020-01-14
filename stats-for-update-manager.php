@@ -42,6 +42,9 @@ class StatsForUpdateManager{
 
 	// Array to keep statistics for plugin details.
 	private $stat_array = [];
+	
+	// Array to keep options found in the request.
+	private $options = [];
 
 	public function __construct() {
 
@@ -63,7 +66,7 @@ class StatsForUpdateManager{
 		add_action('init', [$this, 'apply_timing_filters']);
 
 		// Populate active installations.
-		add_action('init', [$this, 'active_installations_filters'], PHP_INT_MAX);
+		add_action('init', [$this, 'active_installations_filters'], 1000);
 
 		// Register privacy policy.
 		add_action('admin_init', [$this, 'privacy']);
@@ -181,6 +184,17 @@ class StatsForUpdateManager{
 
 	// Log requests to the db.
 	public function log_request($query) {
+	
+		// Parse options from request.
+		if (isset($query['sfum'])) {
+			$this->options = explode(',', $query['sfum']);
+		}
+		
+		// Allow opt-out.
+		if(in_array('no-log', $this->options)){
+			return $query;
+		}
+		
 		// If the input is corrupted, don't log.
 		if(!$this->is_safe_slug($query["plugin"]) || !$this->is_safe_url($query["site_url"])) {
 			// Don't break Update Manager if something changes.
