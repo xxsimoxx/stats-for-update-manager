@@ -192,17 +192,19 @@ class StatsForUpdateManager{
 		
 		// Allow opt-out.
 		if(in_array('no-log', $this->options)){
+			// Don't break Update Manager.
 			return $query;
 		}
 		
 		// If the input is corrupted, don't log.
 		if(!$this->is_safe_slug($query["plugin"]) || !$this->is_safe_url($query["site_url"])) {
-			// Don't break Update Manager if something changes.
+			// Don't break Update Manager.
 			return $query;
 		}
+		
 		// Prevent specific(s) plugin to be logged.
 		if(in_array($query["plugin"], apply_filters('sfum_exclude', []))){
-			// Don't break Update Manager if something changes.
+			// Don't break Update Manager.
 			return $query;
 		}
 
@@ -224,7 +226,7 @@ class StatsForUpdateManager{
 			$wpdb->insert($wpdb->prefix.DB_TABLE_NAME, $data);
 		}
 
-		// Return unchanged.
+		// Return unchanged. 
 		return $query;
 	}
 
