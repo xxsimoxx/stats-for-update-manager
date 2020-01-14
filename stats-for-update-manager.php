@@ -288,9 +288,13 @@ class StatsForUpdateManager{
 			return;
 		}
 
-		// Sort by most active.
+		// Sort results.
 		usort($active, function($a, $b) {
-			return $b->total - $a->total;
+			$c = $b->total - $a->total;
+			if ($c !== 0) {
+				return $c;
+			}
+			return strcasecmp($a->slug, $b->slug);
 		});
 
 		echo '<ul class="sfum-list">';
@@ -431,7 +435,11 @@ class StatsForUpdateManager{
 		}
 		// Sort results.
 		usort($results, function($a, $b) {
-			return $b['active'] - $a['active'];
+			$c = $b['active'] - $a['active'];
+			if ($c !== 0) {
+				return $c;
+			}
+			return strcasecmp($a['title'], $b['title']);
 		});
 		// Display results using buildin WP CLI function.
 		\WP_CLI\Utils\format_items(
