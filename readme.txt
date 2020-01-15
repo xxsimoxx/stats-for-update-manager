@@ -166,6 +166,7 @@ function no_log_please($list) {
 = 1.0.0 =
 * Added a filter to prevent specific(s) plugin(s) to be logged
 * Added privacy
+* Added a check to skip logging specific requests
 
 = 1.0.0-rc2 =
 * Added shortcodes
