@@ -42,6 +42,9 @@ class StatsForUpdateManager{
 
 	// Array to keep statistics for plugin details.
 	private $stat_array = [];
+	
+	// Array to keep options found in the request.
+	private $options = [];
 
 	public function __construct() {
 
@@ -63,7 +66,7 @@ class StatsForUpdateManager{
 		add_action('init', [$this, 'apply_timing_filters']);
 
 		// Populate active installations.
-		add_action('init', [$this, 'active_installations_filters'], PHP_INT_MAX);
+		add_action('init', [$this, 'active_installations_filters'], 1000);
 
 		// Register privacy policy.
 		add_action('admin_init', [$this, 'privacy']);
@@ -181,14 +184,27 @@ class StatsForUpdateManager{
 
 	// Log requests to the db.
 	public function log_request($query) {
-		// If the input is corrupted, don't log.
-		if(!$this->is_safe_slug($query["plugin"]) || !$this->is_safe_url($query["site_url"])) {
-			// Don't break Update Manager if something changes.
+	
+		// Parse options from request.
+		if (isset($query['sfum'])) {
+			$this->options = explode(',', $query['sfum']);
+		}
+		
+		// Allow opt-out.
+		if(in_array('no-log', $this->options)){
+			// Don't break Update Manager.
 			return $query;
 		}
+		
+		// If the input is corrupted, don't log.
+		if(!$this->is_safe_slug($query["plugin"]) || !$this->is_safe_url($query["site_url"])) {
+			// Don't break Update Manager.
+			return $query;
+		}
+		
 		// Prevent specific(s) plugin to be logged.
 		if(in_array($query["plugin"], apply_filters('sfum_exclude', []))){
-			// Don't break Update Manager if something changes.
+			// Don't break Update Manager.
 			return $query;
 		}
 
@@ -210,7 +226,7 @@ class StatsForUpdateManager{
 			$wpdb->insert($wpdb->prefix.DB_TABLE_NAME, $data);
 		}
 
-		// Return unchanged.
+		// Return unchanged. 
 		return $query;
 	}
 
@@ -272,9 +288,13 @@ class StatsForUpdateManager{
 			return;
 		}
 
-		// Sort by most active.
+		// Sort results.
 		usort($active, function($a, $b) {
-			return $b->total - $a->total;
+			$c = $b->total - $a->total;
+			if ($c !== 0) {
+				return $c;
+			}
+			return strcasecmp($a->slug, $b->slug);
 		});
 
 		echo '<ul class="sfum-list">';
@@ -415,7 +435,11 @@ class StatsForUpdateManager{
 		}
 		// Sort results.
 		usort($results, function($a, $b) {
-			return $b['active'] - $a['active'];
+			$c = $b['active'] - $a['active'];
+			if ($c !== 0) {
+				return $c;
+			}
+			return strcasecmp($a['title'], $b['title']);
 		});
 		// Display results using buildin WP CLI function.
 		\WP_CLI\Utils\format_items(
