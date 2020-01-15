@@ -142,7 +142,8 @@ All the data is removed at plugin uninstall.
 
 ### Opt-out from Statistics
 Plugin developers can have an option to give their users ability to opt-in or opt-out from statistics.
-To skip Stats for Update Manager from logging, the plugin have to ask for updates defining, in the body of the request `$query['sfum']='no-log'`.
+To skip Stats for Update Manager from logging, the plugin have to ask for updates defining, in the body of the request `$body['sfum']='no-log'`.
+However is up to you tweak the request.
 
 ## Screenshot
 ![Main page](images/screenshot-1.png)
