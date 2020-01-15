@@ -74,7 +74,6 @@ class StatsForUpdateManager{
 		// Add menu	for statistics.
 		add_action('admin_menu', [$this, 'create_menu'], 100);
 		add_action('admin_enqueue_scripts', [$this, 'backend_css']);
-		add_filter('admin_footer_text', [$this, 'change_footer_text'], PHP_INT_MAX);
 
 		// Add a button that links to statistics in plugins page.
 		add_filter('plugin_action_links_'.plugin_basename(__FILE__), [$this, 'pal']);
@@ -269,6 +268,10 @@ class StatsForUpdateManager{
 
 	// Render statistics page.
 	public function render_page() {
+	
+		echo '<h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
+		echo '<h2>'.esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager').'</h2>';
+		
 		if (!$this->um_running){
 			$this->render_page_debug();
 			return;
@@ -280,7 +283,7 @@ class StatsForUpdateManager{
 		$active = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug');
 
 		// Display statistics.
-		echo '<h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
+
 		// Exit if query returned 0 results.
 		if (count($active) === 0){
 			echo '<p>'.esc_html__('No active installations.', 'stats-for-update-manager').'<p>';
@@ -337,15 +340,6 @@ class StatsForUpdateManager{
 			echo "<br>";
 		}
 		echo '</pre></p></div></div></div>';
-	}
-
-	// Change footer text in statistic section.
-	public function change_footer_text($text) {
-		$screen = get_current_screen();
-		if ($screen->base === UM_CPT.'_page_sfum_statistics') {
-			$text = '<span><a href="'.XXSIMOXX_LINK.'" target="_blank">'.esc_html__('Statistics for Update Manager', 'stats-for-update-manager').'</a> v.'.PLUGIN_VERSION.'</span>';
-		}
-		return $text;
 	}
 
 	// Add link to statistic page in plugins page.
