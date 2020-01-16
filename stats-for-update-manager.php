@@ -45,6 +45,9 @@ class StatsForUpdateManager{
 	
 	// Array to keep options found in the request.
 	private $options = [];
+	
+	// String to keep the screen.
+	private $screen = '';
 
 	public function __construct() {
 
@@ -247,7 +250,7 @@ class StatsForUpdateManager{
 			// If Update Manager is not there, go under "tools" menu.
 			$parent_slug = $this->um_running ? 'edit.php?post_type='.UM_CPT : 'tools.php';
 			$menu_title  = $this->um_running ? esc_html_x('Statistics', 'Menu Title', 'stats-for-update-manager') : esc_html_x('Statistics for Update Manager', 'Menu Title with UM deactivated', 'stats-for-update-manager');
-			$page = add_submenu_page(
+			$this->screen = add_submenu_page(
 				$parent_slug,
 				esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager'),
 				$menu_title,
@@ -261,13 +264,14 @@ class StatsForUpdateManager{
 	// Enqueue CSS only in the page.
 	public function backend_css($hook) {
 		//             When UM disabled.                                       When UM enabled.
-		if ($hook === 'tools_page_sfum_statistics' || $hook === UM_CPT.'_page_sfum_statistics' ) {
+		if ($hook === $this->screen) {
 			wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'/css/sfum-backend.css', [], '1.0.0');
 		}
 	}
 
 	// Render statistics page.
 	public function render_page() {
+		//do_meta_boxex
 	
 		echo '<h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
 		echo '<h2>'.esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager').'</h2>';
