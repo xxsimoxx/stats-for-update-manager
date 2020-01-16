@@ -74,7 +74,7 @@ class StatsForUpdateManager{
 		// Register privacy policy.
 		add_action('admin_init', [$this, 'privacy']);
 		
-		// Add menu	for statistics.
+		// Add menu for statistics.
 		add_action('admin_menu', [$this, 'create_menu'], 100);
 		add_action('admin_enqueue_scripts', [$this, 'backend_css']);
 
@@ -270,9 +270,7 @@ class StatsForUpdateManager{
 	}
 
 	// Render statistics page.
-	public function render_page() {
-		//do_meta_boxex
-	
+	public function render_page() {	
 		echo '<h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
 		echo '<h2>'.esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager').'</h2>';
 		
