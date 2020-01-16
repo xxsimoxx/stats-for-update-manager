@@ -76,20 +76,25 @@ class Shortcodes {
 
 		// Bring database object into scope.
 		global $wpdb;
+		
+		// Bring StatsForUpdateManager class into scope.
+		global $sfum_instance;
 
 		// Initialization.
 		$total_installs = 0;
 
 		// Default SQL counts all rows.
-		$sql = 'SELECT count(slug) FROM '.$wpdb->prefix.DB_TABLE_NAME;
+		$sql = 'SELECT count(slug) FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$sfum_instance->db_unactive_entry;
 
 		// Id passed in? Refine and prepare the query.
 		if (!empty($atts['id'])) {
 			$sql = $wpdb->prepare('SELECT count(slug)
 							FROM '.$wpdb->prefix.DB_TABLE_NAME.'
 							WHERE slug
-							LIKE "%s"',
-							$atts['id']);
+							LIKE "%s"
+							AND last > NOW() - '.$sfum_instance->db_unactive_entry,
+							$atts['id']
+							);
 		}
 
 		// Execute SQL.
@@ -101,6 +106,7 @@ class Shortcodes {
 		}
 
 		// Return.
+		
 		return $total_installs;
 
 	}
@@ -123,11 +129,14 @@ class Shortcodes {
 		// Bring database object into scope.
 		global $wpdb;
 
+		// Bring StatsForUpdateManager class into scope.
+		global $sfum_instance;
+		
 		// Initialization.
 		$total_installs = 0;
 
 		// Default SQL counts all rows.
-		$sql = 'SELECT count(DISTINCT site) FROM '.$wpdb->prefix.DB_TABLE_NAME;
+		$sql = 'SELECT count(DISTINCT site) FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$sfum_instance->db_unactive_entry;
 
 		// Execute SQL.
 		$result = $wpdb->get_results($sql, ARRAY_A);

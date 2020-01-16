@@ -32,10 +32,10 @@ class StatsForUpdateManager{
 	// Initialize variables
 
 	// Time (in SQL format) for the plugin to be considered installed.
-	private $db_unactive_entry = '';
+	public $db_unactive_entry = '';
 
 	// Time (in SQL format) for the record to be deleted.
-	private $db_old_entry = '';
+	public $db_old_entry = '';
 
 	// Is Update Manager running?
 	private $um_running = false;
@@ -532,4 +532,6 @@ class StatsForUpdateManager{
 };
 
 // Fire up...
-new StatsForUpdateManager;
+$sfum_instance = new StatsForUpdateManager;
+
+
