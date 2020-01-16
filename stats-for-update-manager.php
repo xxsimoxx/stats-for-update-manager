@@ -27,6 +27,9 @@ require_once('classes/UpdateClient.class.php');
 // Shortcodes.
 require_once('classes/Shortcodes.class.php');
 
+// WP-CLI extensions.
+require_once('classes/WPCLI.class.php');
+
 class StatsForUpdateManager{
 
 	// Initialize variables
@@ -38,7 +41,7 @@ class StatsForUpdateManager{
 	public $db_old_entry = '';
 
 	// Is Update Manager running?
-	private $um_running = false;
+	public $um_running = false;
 
 	// Array to keep statistics for plugin details.
 	private $stat_array = [];
@@ -87,9 +90,9 @@ class StatsForUpdateManager{
 			wp_schedule_event(time(), 'daily', 'sfum_clean_table');
 		}
 
-		// Add "statistics" command to WP-CLI
+		// Add "statistics" commands to WP-CLI
 		if (defined( 'WP_CLI' ) && WP_CLI){
-			\WP_CLI::add_command('statistics', [$this, 'wpcli_statistics']);
+			\WP_CLI::add_command('statistics', '\XXSimoXX\StatsForUpdateManager\Statistics');
 		}
 
 		// Activation, deactivation and uninstall.
@@ -167,7 +170,7 @@ class StatsForUpdateManager{
 	}
 
 	// Get associative array to resolve Endpoint Identifier/Post ID.
-	private function get_cpt() {
+	public function get_cpt() {
 		$data = [];
 		if (!$this->um_running) {
 			return $data;
@@ -533,5 +536,3 @@ class StatsForUpdateManager{
 
 // Fire up...
 $sfum_instance = new StatsForUpdateManager;
-
-
