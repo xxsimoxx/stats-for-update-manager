@@ -1,3 +1,31 @@
+.sfum-title {
+	display:inline-block;
+}
+
+.sfum-title-logo img {
+	height: 100px;
+	padding:20px 20px 20px 0;
+	transition: all 0.5s ease-in;
+}
+
+.sfum-title-logo img:hover {
+	transform: rotate(15deg) scale(1.1,1.1);
+	transform-origin: center;
+	transition: all 1s ease-out;
+}
+
+.sfum-title-logo {
+	height: 120px;
+	float: left;
+}
+
+.sfum-title-text {
+	position: relative;
+	float: left;
+	height: 100px;
+	padding:20px 20px 20px 0 ;
+}
+
 .sfum-list li {
 	padding: 10px;
 	background-color: #FFFFFF;
@@ -11,7 +39,7 @@
 	background-color: #EEEEEE;
 }
 
-.sfum-list li a{
+.sfum-list li a {
 	transition: .5s;
 	font-weight: bold;
 	text-decoration: none;

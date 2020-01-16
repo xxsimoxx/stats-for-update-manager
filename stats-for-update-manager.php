@@ -271,8 +271,10 @@ class StatsForUpdateManager{
 
 	// Render statistics page.
 	public function render_page() {	
-		echo '<h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
-		echo '<h2>'.esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager').'</h2>';
+		echo '<div class="sfum-title">';
+		echo '<div class="sfum-title-logo"><a href="'.XXSIMOXX_LINK.'" target="_blank"><img src="'.plugin_dir_url(__FILE__).'images/icon.svg"></a></div>';
+		echo '<div class="sfum-title-text"><h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
+		echo '<h2>'.esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager').'</h2></div></div>';
 		
 		if (!$this->um_running){
 			$this->render_page_debug();
@@ -302,7 +304,7 @@ class StatsForUpdateManager{
 			return strcasecmp($a->slug, $b->slug);
 		});
 
-		echo '<ul class="sfum-list">';
+		echo '<div><ul class="sfum-list">';
 		foreach ($active as $value){
 			// If there is a request for a plugin not served by UM don't display.
 			if (isset($um_posts[$value->slug])){
@@ -311,7 +313,7 @@ class StatsForUpdateManager{
 				printf('<li>'.esc_html(_n('%1$s has %2$d active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
 			}
 		}
-		echo '</ul>';
+		echo '</ul></div>';
 
 		// Display the debug section.
 		$this->render_page_debug();
