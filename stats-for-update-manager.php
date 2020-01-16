@@ -63,7 +63,7 @@ class StatsForUpdateManager{
 
 		// On init apply filters to set the number of days for an entry
 		// to be considered inactive or have to be removed from db.
-		add_action('init', [$this, 'apply_timing_filters']);
+		add_action('init', [$this, 'apply_timing_filters'], 1000);
 
 		// Populate active installations.
 		add_action('init', [$this, 'active_installations_filters'], 1000);
@@ -99,7 +99,7 @@ class StatsForUpdateManager{
 	// Helpful? in developement.
 	private function test($x) {
 		 trigger_error(print_r($x, TRUE), E_USER_WARNING);
-	}
+	}				
 
 	// Apply filters to set the number of days for an entry to be considered inactive or have to be removed from db.
 	public function apply_timing_filters() {
