@@ -112,4 +112,35 @@ class Statistics{
 			\WP_CLI\Utils\get_flag_value($assoc_args, 'fields', 'ID,title,active,identifier,status')
 		);
 	}
+	
+	/**
+	* Purge (empty) the log table.
+	*
+	* Be careful, this deletes all the logs in an irreversible way!
+	*
+	* ## OPTIONS
+	*
+	*
+	* [--yes]
+    * : Skip confirmation.
+	*
+	* @when after_wp_load
+	*/
+	// Handle WP-CLI statistics command.
+	public function purge($args, $assoc_args) {
+		// Ask for confirmation if --yes not given.
+		if(!\WP_CLI\Utils\get_flag_value($assoc_args, 'yes', false)){
+			\WP_CLI::warning('This will delete ALL the logs.');
+		}
+		\WP_CLI::confirm('Are you sure?', $assoc_args);
+		// Truncate the table.
+		global $wpdb;
+		$wpdb->suppress_errors();
+		if(!$wpdb->query('TRUNCATE TABLE '.$wpdb->prefix.DB_TABLE_NAME)){
+			// Failed, bail and exit.
+			\WP_CLI::error('Can\'t delete logs.', true);
+		}
+		// Success.
+		\WP_CLI::success('Table is empty now.');
+	}
 }
