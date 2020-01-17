@@ -30,7 +30,7 @@ Plugins that queried Update Manager at least once in the last week are considere
 
 It also add the number of active installations in the plugin details. See FAQ section to tweak.
 
-It supports WP-CLI (see the help typing `wp help statistics show`).
+It supports WP-CLI (see the help typing `wp help statistics show` or `wp help statistics purge`).
 
 ## GDPR & Disclaimer
 
@@ -164,6 +164,7 @@ function no_log_please($list) {
 
 == Changelog ==
 = 1.0.0 =
+* Added wp statistics purge
 * Moved WP-CLI code to a separate class
 * Added a filter to prevent specific(s) plugin(s) to be logged
 * Added privacy
