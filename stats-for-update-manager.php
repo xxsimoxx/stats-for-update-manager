@@ -3,7 +3,7 @@
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: Statistics for Update Manager by CodePotent.
- * Version: 1.0.0-rc3
+ * Version: 1.0.0
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -117,12 +117,11 @@ class StatsForUpdateManager{
 	public function active_installations_filters() {
 		$this->stat_array = $this->active_installations_populate();
 		foreach ($this->stat_array as $slug => $count) {
-			// This will work after https://github.com/codepotent/Update-Manager/pull/20
 			add_filter('codepotent_update_manager_'.$slug.'_active_installs', [$this, 'active_installations_filter'], 10, 2);
 		}
 	}
 
-	// Get active installations array.
+	// Populate active installations array.
 	private function active_installations_populate() {
 		// Check if we have already a transient with needed data.
 		if(!($all_stats = get_transient('sfum_all_stats'))) {
@@ -188,6 +187,7 @@ class StatsForUpdateManager{
 	}
 
 	// Log requests to the db.
+	// $query have to be always returned unchanged.
 	public function log_request($query) {
 	
 		// Parse options from request.
