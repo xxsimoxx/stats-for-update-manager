@@ -57,10 +57,13 @@ class Statistics{
 	*
 	* [--fields=<fields>]
     * : Limit the output to specific object fields (comma separated list).
+	*
+	* [--date=<date-format>]
+    * : Add current date to results in the specified format.
     *
 	* ## EXAMPLES
 	*
-	*     wp statistics show --days=4
+	*     wp statistics show --days=1 --date='d/m/Y'
 	*
 	* @when after_wp_load
 	*/
@@ -92,6 +95,14 @@ class Statistics{
 		// Get CPT.
 		$cpt = $sfum_instance->get_cpt();
 		
+		// Define fields
+		$field_list='ID,title,active,identifier,status';
+		
+		// Handle --date.
+		if($date_format=\WP_CLI\Utils\get_flag_value($assoc_args, 'date')){
+			$field_list='date,'.$field_list;
+		}
+			
 		// Join db results with CPT informations.
 		foreach ($results as $key=>&$result) {
 			if (!isset($cpt[$result['identifier']])){
@@ -101,6 +112,9 @@ class Statistics{
 			$result['ID'] = $cpt[$result['identifier']];
 			$result['title']= get_the_title($cpt[$result['identifier']]);
 			$result['status']= get_post_status($cpt[$result['identifier']]);
+			if($date_format !== null){
+				$result['date']=date($date_format);
+			}
 		}
 		
 		// Sort results.
@@ -111,12 +125,12 @@ class Statistics{
 			}
 			return strcasecmp($a['title'], $b['title']);
 		});
-		
+
 		// Display results using buildin WP CLI function.
 		\WP_CLI\Utils\format_items(
 			\WP_CLI\Utils\get_flag_value($assoc_args, 'format', 'table'),
 			$results,
-			\WP_CLI\Utils\get_flag_value($assoc_args, 'fields', 'ID,title,active,identifier,status')
+			\WP_CLI\Utils\get_flag_value($assoc_args, 'fields', $field_list)
 		);
 	}
 	
