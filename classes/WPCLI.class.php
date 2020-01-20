@@ -66,27 +66,32 @@ class Statistics{
 	*/
 	// Handle WP-CLI statistics command.
 	public function show($args, $assoc_args) {
+	
 		// Bring StatsForUpdateManager class into scope.
 		global $sfum_instance;
+		
 		// Check for UM running.
 		if (!$sfum_instance->um_running) {
 			return \WP_CLI::error('Update Manager is not running.');
 		}
+		
 		// Use option from command line or default for days.
 		if (!is_numeric($timing=\WP_CLI\Utils\get_flag_value($assoc_args, 'days'))){
-			
 			$timing = $sfum_instance->db_unactive_entry;
 		} else {
 			$timing = 'INTERVAL '.$timing.' DAY';
 		}
-		// Query database and CPT
+		
+		// Query database.
 		global $wpdb;
 		$results = $wpdb->get_results('SELECT slug as "identifier", count(*) as "active" FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$timing.' group by slug', 'ARRAY_A');
 		if (count($results) === 0){
 			return \WP_CLI::error('No active plugins found.');
 		}
-		// Get CPT
+		
+		// Get CPT.
 		$cpt = $sfum_instance->get_cpt();
+		
 		// Join db results with CPT informations.
 		foreach ($results as $key=>&$result) {
 			if (!isset($cpt[$result['identifier']])){
@@ -97,6 +102,7 @@ class Statistics{
 			$result['title']= get_the_title($cpt[$result['identifier']]);
 			$result['status']= get_post_status($cpt[$result['identifier']]);
 		}
+		
 		// Sort results.
 		usort($results, function($a, $b) {
 			$c = $b['active'] - $a['active'];
@@ -105,6 +111,7 @@ class Statistics{
 			}
 			return strcasecmp($a['title'], $b['title']);
 		});
+		
 		// Display results using buildin WP CLI function.
 		\WP_CLI\Utils\format_items(
 			\WP_CLI\Utils\get_flag_value($assoc_args, 'format', 'table'),
@@ -128,11 +135,13 @@ class Statistics{
 	*/
 	// Handle WP-CLI statistics command.
 	public function purge($args, $assoc_args) {
+	
 		// Ask for confirmation if --yes not given.
 		if(!\WP_CLI\Utils\get_flag_value($assoc_args, 'yes', false)){
 			\WP_CLI::warning('This will delete ALL the logs.');
 		}
 		\WP_CLI::confirm('Are you sure?', $assoc_args);
+		
 		// Truncate the table.
 		global $wpdb;
 		$wpdb->suppress_errors();
@@ -140,6 +149,7 @@ class Statistics{
 			// Failed, bail and exit.
 			\WP_CLI::error('Can\'t delete logs.', true);
 		}
+		
 		// Success.
 		\WP_CLI::success('Table is empty now.');
 	}
