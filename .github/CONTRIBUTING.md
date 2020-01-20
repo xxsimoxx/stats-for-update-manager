@@ -27,4 +27,4 @@ We are not enforcing a precise code standard, but hope your contributes will fol
 1. Keep your code similar to the code you are contributing to.
 1. Don't `eval()`.
 1. JavaScript and CSS must not be minified or obfuscated.
-1. Code Must be compatible from the minimum required version to PHP 7.4.
+1. Code must be compatible with ClassicPress from 1.0.0 to the latest release, PHP from 5.6 to 7.4.
