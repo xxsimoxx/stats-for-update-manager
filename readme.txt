@@ -164,6 +164,7 @@ function no_log_please($list) {
 
 == Changelog ==
 = 1.0.0 =
+* Added --date to WP-CLI
 * Code cleanup
 
 = 1.0.0-rc3 =
