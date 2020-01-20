@@ -1,15 +1,11 @@
 <?php
 /**
- * Plugin Name: Stats for Update Manager
- * Plugin URI: https://software.gieffeedizioni.it
- * Description: Statistics for Update Manager by CodePotent.
- * Version: 1.0.0
- * License: GPL2
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Author: Gieffe edizioni srl
- * Author URI: https://www.gieffeedizioni.it
- * Text Domain: stats-for-update-manager
- * Domain Path: /languages
+ * -----------------------------------------------------------------------------
+ * Purpose: WP-CLI commands.
+ * Package: XXSimoXX\StatsForUpdateManager
+ * -----------------------------------------------------------------------------
+ * Copyright © 2020 - Simone Fioravanti
+ * -----------------------------------------------------------------------------
  */
 
 namespace XXSimoXX\StatsForUpdateManager;
@@ -167,4 +163,45 @@ class Statistics{
 		// Success.
 		\WP_CLI::success('Table is empty now.');
 	}
+
+	/**
+	* Delete plugin from logs.
+	*
+	* ## PARAMETER
+	*
+	*
+	* <identifier>
+    * : The identifier of the plugin you want to remove logs.
+	*
+	* @when after_wp_load
+	*/
+	// Handle WP-CLI statistics command.
+	public function delete($args, $assoc_args) {
+
+		// Bring StatsForUpdateManager class into scope.
+		global $sfum_instance;
+		
+		// Get CPT.
+		$cpt = $sfum_instance->get_cpt();
+
+		// Check if the identifier exists.
+		if(!array_key_exists($args[0], $cpt)){
+			\WP_CLI::error('Can\'t find "'.$args[0].'".', true);
+		}
+		
+		// Delete from DB.
+		$where = ['slug'=>$args[0]];
+		global $wpdb;
+		$deleted=$wpdb->delete($wpdb->prefix.DB_TABLE_NAME, $where);
+
+		// Bail if nothing deleted.
+		if(!$deleted>0){
+			\WP_CLI::error('Can\'t find "'.$args[0].'".', true);
+		}
+				
+		// Success.
+		\WP_CLI::success('"'.$args[0].'" deleted.');
+
+	}
+	
 }

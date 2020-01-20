@@ -10,7 +10,10 @@ With Stats for Update Manager you can count active installations of your plugins
 
 You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 
-It supports WP-CLI (see the help typing `wp help statistics show` or `wp help statistics purge`).
+It supports WP-CLI. See the help typing:
+* `wp help statistics show` 
+* `wp help statistics purge`
+* `wp help statistics delete`
 
 ## When a plugin is in that count
 
