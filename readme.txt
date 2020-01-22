@@ -31,9 +31,9 @@ Plugins that queried Update Manager at least once in the last week are considere
 It also add the number of active installations in the plugin details. See FAQ section to tweak.
 
 It supports WP-CLI. See the help typing:
-* `wp help statistics show` 
-* `wp help statistics purge`
-* `wp help statistics delete`
+* `wp help statistics show` (get stats from WP-CLI)
+* `wp help statistics purge` (delete all logs)
+* `wp help statistics delete` (delete a specific plugin data)
 
 ## GDPR & Disclaimer
 
