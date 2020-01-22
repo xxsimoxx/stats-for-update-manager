@@ -1,7 +1,6 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/xxsimoxx/stats-for-update-manager/badge)](https://www.codefactor.io/repository/github/xxsimoxx/stats-for-update-manager)
 ![GitHub language count](https://img.shields.io/github/languages/count/xxsimoxx/stats-for-update-manager)
 ![GitHub All Releases](https://img.shields.io/github/downloads/xxsimoxx/stats-for-update-manager/total)
-![GitHub All Releases](https://img.shields.io/github/downloads/xxsimoxx/stats-for-update-manager/total)
 
 # Stats for Update Manager
 
