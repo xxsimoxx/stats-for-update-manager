@@ -1,7 +1,7 @@
 === Stats for Update Manager ===
 Plugin Name:        Stats for Update Manager
 Description:        With Stats for Update Manager you can count active installations of your plugins.
-Version:            1.0.0
+Version:            1.0.1
 Text Domain:        stats-for-update-manager
 Domain Path:        /languages
 Requires PHP:       5.6
@@ -10,7 +10,7 @@ Tested:             4.9.99
 Author:             Gieffe edizioni
 Author URI:         https://www.gieffeedizioni.it
 Plugin URI:         https://software.gieffeedizioni.it
-Download link:      https://github.com/xxsimoxx/stats-for-update-manager/releases/download/v1.0.0/stats-for-update-manager.zip
+Download link:      https://github.com/xxsimoxx/stats-for-update-manager/releases/download/v1.0.1/stats-for-update-manager.zip
 License:            GPLv2
 License URI:        https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,6 +166,9 @@ function no_log_please($list) {
 *Note that filtering `sfum_inactive_after` to 0 will erase your database when the daily maintenence cronjob is executed.*
 
 == Changelog ==
+= 1.0.1 =
+* Better WP-CLI comments
+
 = 1.0.0 =
 * Added statistics delete to WP-CLI
 * Added statistics show --date to WP-CLI
