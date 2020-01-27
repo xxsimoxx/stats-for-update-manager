@@ -17,12 +17,14 @@ if (!defined('ABSPATH')){
 global $sfum_instance;
 
 /**
-* Commands to work with Stats Update Manager.
+* Commands to work with Stats for Update Manager.
 *
 *
 * ## EXAMPLES
 *
-*     wp statistics show --days=4
+*     wp statistics show [--days=<integer>] [--format=<format>] [--fields=<fields>] [--date=<date-format>]
+*     wp statistics delete <identifier>
+*     wp statistics purge [--yes] 
 *
 * @when after_wp_load
 */
@@ -63,7 +65,6 @@ class Statistics{
 	*
 	* @when after_wp_load
 	*/
-	// Handle WP-CLI statistics command.
 	public function show($args, $assoc_args) {
 	
 		// Bring StatsForUpdateManager class into scope.
@@ -143,7 +144,6 @@ class Statistics{
 	*
 	* @when after_wp_load
 	*/
-	// Handle WP-CLI statistics command.
 	public function purge($args, $assoc_args) {
 	
 		// Ask for confirmation if --yes not given.
@@ -175,7 +175,6 @@ class Statistics{
 	*
 	* @when after_wp_load
 	*/
-	// Handle WP-CLI statistics command.
 	public function delete($args, $assoc_args) {
 
 		// Bring StatsForUpdateManager class into scope.
