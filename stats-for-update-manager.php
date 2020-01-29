@@ -3,7 +3,7 @@
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: Statistics for Update Manager by CodePotent.
- * Version: 1.0.1
+ * Version: 1.1.0
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -44,7 +44,7 @@ class StatsForUpdateManager{
 	public $um_running = false;
 
 	// Array to keep statistics for plugin details.
-	private $stat_array = [];
+	public $stat_array = [];
 	
 	// Array to keep options found in the request.
 	private $options = [];
@@ -93,6 +93,12 @@ class StatsForUpdateManager{
 		// Add "statistics" commands to WP-CLI
 		if (defined( 'WP_CLI' ) && WP_CLI){
 			\WP_CLI::add_command('statistics', '\XXSimoXX\StatsForUpdateManager\Statistics');
+		}
+		
+		// Fire REST API class. It have to be enabled defining SFUM_ENABLE_REST = true.
+		if (defined('\SFUM_ENABLE_REST') && \SFUM_ENABLE_REST===true){
+			require_once('classes/CustomEndPoint.class.php');
+			new CustomEndPoint;
 		}
 
 		// Activation, deactivation and uninstall.
