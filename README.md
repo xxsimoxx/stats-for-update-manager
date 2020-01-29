@@ -133,6 +133,16 @@ This shortcode returns an integer depicting the number of unique domains using a
 
 > Code Potent is running on [_n_] sites!
 
+## REST API
+
+To get a list of endpoint identifier and active installations you can access `wp-json/stats/v1/stats/`.
+To enable this, add to `wp-config.php` this line:
+```php
+define( 'SFUM_ENABLE_REST', true );
+```
+
+*Note that the value of active installation is affected by the [filter](#filters) `sfum_active_installations`.*
+
 ## GDPR / privacy
 
 This plugin stores data about plugin updates in a table. 
