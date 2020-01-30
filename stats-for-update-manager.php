@@ -108,7 +108,7 @@ class StatsForUpdateManager{
 
 	}
 
-	// Helpful? in developement.
+	// Trigger a warning. Helpful in developement.
 	private function test($x) {
 		 trigger_error(print_r($x, TRUE), E_USER_WARNING);
 	}				
@@ -255,7 +255,7 @@ class StatsForUpdateManager{
 
 	// Register Statistics submenu.
 	public function create_menu() {
-		if ( current_user_can( 'manage_options' ) ) {
+		if (current_user_can('manage_options')) {
 			// If Update Manager is not there, go under "tools" menu.
 			$parent_slug = $this->um_running ? 'edit.php?post_type='.UM_CPT : 'tools.php';
 			$menu_title  = $this->um_running ? esc_html_x('Statistics', 'Menu Title', 'stats-for-update-manager') : esc_html_x('Statistics for Update Manager', 'Menu Title with UM deactivated', 'stats-for-update-manager');
@@ -460,7 +460,7 @@ class StatsForUpdateManager{
 
 	}
 
-};
+}
 
 // Fire up...
 $sfum_instance = new StatsForUpdateManager;
