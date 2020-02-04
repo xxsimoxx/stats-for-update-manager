@@ -17,7 +17,7 @@ if (!defined('ABSPATH')){
 
 class CustomEndPoint{
 
-	public function __construct( ){
+	public function __construct( ) {
 		
 		// Create a custom endpoint at /wp-json/stats/v1/stats/
 		add_action( 'rest_api_init', function () {
@@ -34,7 +34,7 @@ class CustomEndPoint{
 	}
 	
 	// Return statistics.
-	public function stats_route($data){
+	public function stats_route($data) {
 	
 		// Bring StatsForUpdateManager class into scope.
 		global $sfum_instance;

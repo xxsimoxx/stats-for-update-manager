@@ -14,7 +14,7 @@
 
 namespace XXSimoXX\StatsForUpdateManager;
 
-if (!defined('ABSPATH')){
+if (!defined('ABSPATH')) {
 	die('-1');
 };
 
@@ -91,12 +91,12 @@ class StatsForUpdateManager{
 		}
 
 		// Add "statistics" commands to WP-CLI
-		if (defined( 'WP_CLI' ) && WP_CLI){
+		if (defined( 'WP_CLI' ) && WP_CLI) {
 			\WP_CLI::add_command('statistics', '\XXSimoXX\StatsForUpdateManager\Statistics');
 		}
 		
 		// Fire REST API class. It have to be enabled defining SFUM_ENABLE_REST = true.
-		if (defined('\SFUM_ENABLE_REST') && \SFUM_ENABLE_REST===true){
+		if (defined('\SFUM_ENABLE_REST') && \SFUM_ENABLE_REST===true) {
 			require_once('classes/CustomEndPoint.class.php');
 			new CustomEndPoint;
 		}
@@ -135,7 +135,7 @@ class StatsForUpdateManager{
 			$all_stats = [];
 			global $wpdb;
 			$results = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug', 'ARRAY_A');
-			foreach ($results as $result){
+			foreach ($results as $result) {
 				$all_stats[$result['slug']]=$result['total'];
 			}
 			// Save it all for 6 hours.
@@ -202,7 +202,7 @@ class StatsForUpdateManager{
 		}
 		
 		// Allow opt-out.
-		if(in_array('no-log', $this->options)){
+		if(in_array('no-log', $this->options)) {
 			// Don't break Update Manager.
 			return $query;
 		}
@@ -214,7 +214,7 @@ class StatsForUpdateManager{
 		}
 		
 		// Prevent specific(s) plugin to be logged.
-		if(in_array($query["plugin"], apply_filters('sfum_exclude', []))){
+		if(in_array($query["plugin"], apply_filters('sfum_exclude', []))) {
 			// Don't break Update Manager.
 			return $query;
 		}
@@ -285,7 +285,7 @@ class StatsForUpdateManager{
 		echo '<div class="sfum-title-text"><h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
 		echo '<h2>'.esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager').'</h2></div></div>';
 		
-		if (!$this->um_running){
+		if (!$this->um_running) {
 			$this->render_page_debug();
 			return;
 		}
@@ -298,7 +298,7 @@ class StatsForUpdateManager{
 		// Display statistics.
 
 		// Exit if query returned 0 results.
-		if (count($active) === 0){
+		if (count($active) === 0) {
 			echo '<p>'.esc_html__('No active installations.', 'stats-for-update-manager').'<p>';
 			$this->render_page_debug();
 			return;
@@ -314,9 +314,9 @@ class StatsForUpdateManager{
 		});
 
 		echo '<div><ul class="sfum-list">';
-		foreach ($active as $value){
+		foreach ($active as $value) {
 			// If there is a request for a plugin not served by UM don't display.
-			if (isset($um_posts[$value->slug])){
+			if (isset($um_posts[$value->slug])) {
 				$title = '<a href="'.admin_url('post.php?post='.$um_posts[$value->slug].'&action=edit').'">'.get_the_title($um_posts[$value->slug]).'</a>';
 				/* Translators: %1 is plugin name, %2 is the number of active installations */
 				printf('<li>'.esc_html(_n('%1$s has %2$d active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
@@ -333,7 +333,7 @@ class StatsForUpdateManager{
 		global $wpdb;
 		$last = $wpdb->get_results(
 			'SELECT slug, site, last FROM '.$wpdb->prefix.DB_TABLE_NAME.' ORDER BY last DESC LIMIT 100' );
-		if (count($last) === 0){
+		if (count($last) === 0) {
 			echo '<p>'.esc_html__('No database entries.', 'stats-for-update-manager').'<p>';
 			return;
 		}
@@ -344,10 +344,10 @@ class StatsForUpdateManager{
   		echo '<h2>'.esc_html__('Latest updates', 'stats-for-update-manager').'</h2>';
 		echo '<pre>';
 		printf('%-32s %-21s %s<br>', __("FIRST 30 CHAR OF THE HASH", 'stats-for-update-manager'), __("DATE", 'stats-for-update-manager'), __("PLUGIN", 'stats-for-update-manager'));
-		foreach ($last as $value){
+		foreach ($last as $value) {
 		/* translators: %1 is plugin slug, %2 is the number of active installations */
 			printf('%-32s %-21s %s', substr($value->site, 0, 30), date('Y/m/d H:i:s', strtotime($value->last)), $value->slug);
-			if (in_array($value->site, apply_filters('sfum_my_sites', []))){
+			if (in_array($value->site, apply_filters('sfum_my_sites', []))) {
 				echo " *";
 			}
 			echo "<br>";
@@ -357,7 +357,7 @@ class StatsForUpdateManager{
 
 	// Add link to statistic page in plugins page.
 	public function pal($links) {
-		if(!$this->um_running){
+		if(!$this->um_running) {
 			$link = '<a href="'.admin_url('tools.php?page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'">'.esc_html__('Debug', 'stats-for-update-manager').' <i class="dashicon dashicons-warning"></i> </a>';
 			array_unshift($links, $link);
 			return $links;

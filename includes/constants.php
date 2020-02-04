@@ -2,7 +2,7 @@
 
 namespace XXSimoXX\StatsForUpdateManager;
 
-if (!defined('ABSPATH')){
+if (!defined('ABSPATH')) {
 	die('-1');
 };
 

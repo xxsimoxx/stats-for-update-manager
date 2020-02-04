@@ -10,7 +10,7 @@
 
 namespace XXSimoXX\StatsForUpdateManager;
 
-if (!defined('ABSPATH')){
+if (!defined('ABSPATH')) {
 	die('-1');
 };
 
@@ -76,7 +76,7 @@ class Statistics{
 		}
 		
 		// Use option from command line or default for days.
-		if (!is_numeric($timing=\WP_CLI\Utils\get_flag_value($assoc_args, 'days'))){
+		if (!is_numeric($timing=\WP_CLI\Utils\get_flag_value($assoc_args, 'days'))) {
 			$timing = $sfum_instance->db_unactive_entry;
 		} else {
 			$timing = 'INTERVAL '.$timing.' DAY';
@@ -96,20 +96,20 @@ class Statistics{
 		$field_list='ID,title,active,identifier,status';
 		
 		// Handle --date.
-		if($date_format=\WP_CLI\Utils\get_flag_value($assoc_args, 'date')){
+		if($date_format=\WP_CLI\Utils\get_flag_value($assoc_args, 'date')) {
 			$field_list='date,'.$field_list;
 		}
 			
 		// Join db results with CPT informations.
 		foreach ($results as $key=>&$result) {
-			if (!isset($cpt[$result['identifier']])){
+			if (!isset($cpt[$result['identifier']])) {
 				unset($results[$key]);
 				continue;
 			}
 			$result['ID'] = $cpt[$result['identifier']];
 			$result['title']= get_the_title($cpt[$result['identifier']]);
 			$result['status']= get_post_status($cpt[$result['identifier']]);
-			if($date_format !== null){
+			if($date_format !== null) {
 				$result['date']=date($date_format);
 			}
 		}
@@ -147,7 +147,7 @@ class Statistics{
 	public function purge($args, $assoc_args) {
 	
 		// Ask for confirmation if --yes not given.
-		if(!\WP_CLI\Utils\get_flag_value($assoc_args, 'yes', false)){
+		if(!\WP_CLI\Utils\get_flag_value($assoc_args, 'yes', false)) {
 			\WP_CLI::warning('This will delete ALL the logs.');
 		}
 		\WP_CLI::confirm('Are you sure?', $assoc_args);
@@ -155,7 +155,7 @@ class Statistics{
 		// Truncate the table.
 		global $wpdb;
 		$wpdb->suppress_errors();
-		if(!$wpdb->query('TRUNCATE TABLE '.$wpdb->prefix.DB_TABLE_NAME)){
+		if(!$wpdb->query('TRUNCATE TABLE '.$wpdb->prefix.DB_TABLE_NAME)) {
 			// Failed, bail and exit.
 			\WP_CLI::error('Can\'t delete logs.', true);
 		}
@@ -194,7 +194,7 @@ class Statistics{
 		$deleted=$wpdb->delete($wpdb->prefix.DB_TABLE_NAME, $where);
 
 		// Bail if nothing deleted.
-		if(!$deleted>0){
+		if(!$deleted>0) {
 			\WP_CLI::error('Can\'t find "'.$args[0].'".', true);
 		}
 				
