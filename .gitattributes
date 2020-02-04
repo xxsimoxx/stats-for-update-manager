@@ -1,2 +1,9 @@
 .github export-ignore
 .gitattributes export-ignore
+
+* text=auto
+
+*.php text
+*.txt text
+*.css text
+*.js  text
