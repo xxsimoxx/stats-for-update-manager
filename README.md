@@ -157,7 +157,7 @@ All the data is removed at plugin uninstall.
 
 **To help us know the number of active installations of this plugin, we collect and store anonymized data when the plugin check in for updates. The date and unique plugin identifier are stored as plain text and the requesting URL is stored as a non-reversible hashed value. This data is stored for up to 28 days.**
 
-To skip Stats for Update Manager from logging, the plugin have to ask for updates defining, in the body of the request done to Update Manager, `$body['sfum']='no-log'`.
+To skip Stats for Update Manager from logging, the plugin have to ask for updates defining, in the body of the request done by UpdateClient, `$body['sfum']='no-log'`.
 
 ## Screenshot
 ![Main page](images/screenshot-1.png)
