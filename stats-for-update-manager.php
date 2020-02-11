@@ -289,42 +289,45 @@ class StatsForUpdateManager{
 			return;
 		}
 
-		// Get needed data.
+		// Plugins
+
 		$um_posts = $this->get_cpt();
 		global $wpdb;
 		$active = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug');
 
-		// Display statistics.
-
-		// Exit if query returned 0 results.
-		if (count($active) === 0) {
-			echo '<p>'.esc_html__('No active installations.', 'stats-for-update-manager').'<p>';
-			$this->render_page_debug();
-			return;
-		}
-
-		// Sort results.
-		usort($active, function($a, $b) {
-			$c = $b->total - $a->total;
-			if ($c !== 0) {
-				return $c;
+		if (count($active) !== 0) {
+			// Sort results.
+			usort($active, function($a, $b) {
+				$c = $b->total - $a->total;
+				if ($c !== 0) {
+					return $c;
+				}
+				return strcasecmp($a->slug, $b->slug);
+			});
+			
+			//Display results.
+			echo '<h2><span class="dashicons dashicons-admin-plugins"></span>'.esc_html__('Plugins').'</h2>';
+			echo '<div><ul class="sfum-list">';
+			foreach ($active as $value) {
+				// If there is a request for a plugin not served by UM don't display.
+				if (isset($um_posts[$value->slug])) {
+					$title = '<a href="'.admin_url('post.php?post='.$um_posts[$value->slug].'&action=edit').'">'.get_the_title($um_posts[$value->slug]).'</a>';
+					/* Translators: %1 is plugin name, %2 is the number of active installations */
+					printf('<li>'.esc_html(_n('%1$s has %2$d active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
+				}
 			}
-			return strcasecmp($a->slug, $b->slug);
-		});
-
-		echo '<div><ul class="sfum-list">';
-		foreach ($active as $value) {
-			// If there is a request for a plugin not served by UM don't display.
-			if (isset($um_posts[$value->slug])) {
-				$title = '<a href="'.admin_url('post.php?post='.$um_posts[$value->slug].'&action=edit').'">'.get_the_title($um_posts[$value->slug]).'</a>';
-				/* Translators: %1 is plugin name, %2 is the number of active installations */
-				printf('<li>'.esc_html(_n('%1$s has %2$d active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
-			}
+			echo '</ul></div>';
 		}
-		echo '</ul></div>';
+		
+		// Placeholder
+		echo '<h2><span class="dashicons dashicons-admin-appearance"></span>'.esc_html__('Themes').'</h2>';
 
 		// Display the debug section.
 		$this->render_page_debug();
+	}
+
+	private function render_page_plugins($active) {
+
 	}
 
 	// Render the debug section of the page.
