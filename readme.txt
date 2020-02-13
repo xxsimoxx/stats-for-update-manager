@@ -127,6 +127,8 @@ function all_my_sites($sha) {
 
 **`sfum_old_after`** let's you configure the number of days before a plugin installations is considered stale and will be removed from the database.
 
+*Note that filtering `sfum_inactive_after` to 0 will erase your database when the daily maintenence cronjob is executed.*
+
 Example:
 ```php
 // An entry is old after 2 days and will be removed after 7
@@ -162,8 +164,6 @@ function no_log_please($list) {
 }
 
 ```
-
-*Note that filtering `sfum_inactive_after` to 0 will erase your database when the daily maintenence cronjob is executed.*
 
 # REST API
 
