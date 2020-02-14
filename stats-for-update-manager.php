@@ -109,7 +109,7 @@ class StatsForUpdateManager{
 	}
 
 	// Trigger a warning. Helpful in developement.
-	private function test($x) {
+	private function warn($x) {
 		 trigger_error(print_r($x, TRUE), E_USER_WARNING);
 	}				
 
@@ -324,10 +324,6 @@ class StatsForUpdateManager{
 
 		// Display the debug section.
 		$this->render_page_debug();
-	}
-
-	private function render_page_plugins($active) {
-
 	}
 
 	// Render the debug section of the page.
