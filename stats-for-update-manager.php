@@ -250,7 +250,7 @@ class StatsForUpdateManager{
 	// Check that the url is in the correct form.
 	private function is_safe_url($url) {
 		// We don't care too much here because it's hashed early.
-		return isset($url) && is_string($url);
+		return isset($url) && is_string($url) && (bool) preg_match('/^http(s)?:\/\//', $url);;
 	}
 
 	// Register Statistics submenu.
