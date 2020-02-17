@@ -51,6 +51,8 @@ class StatsForUpdateManager{
 	
 	// String to keep the screen.
 	private $screen = '';
+	
+	private $um_version = '';
 
 	public function __construct() {
 
@@ -59,6 +61,8 @@ class StatsForUpdateManager{
 			add_action('admin_notices', [$this, 'um_missing']);
 		} else {
 			$this->um_running = true;
+			$plugin_data = get_plugin_data( WP_PLUGIN_DIR.'/'.UM_SLUG);
+			$this->um_version = $plugin_data['Version'];	
 		}
 
 		// Load text domain.
@@ -256,8 +260,19 @@ class StatsForUpdateManager{
 	// Register Statistics submenu.
 	public function create_menu() {
 		if (current_user_can('manage_options')) {
-			// If Update Manager is not there, go under "tools" menu.
-			$parent_slug = $this->um_running ? 'edit.php?post_type='.UM_CPT : 'tools.php';
+			if ($this->um_running) {
+				if (version_compare($this->um_version, '1.9999.0', '>')){
+					// Correct menu for Update Manager 2.0.0+.
+					$parent_slug = UM_PAGE;
+				} else {
+					// Keep compatibility with UM <2.0.0
+					$parent_slug = 'edit.php?post_type='.UM_CPT;
+				}
+			} else {
+				// If Update Manager is not there, go under "tools" menu.
+				$parent_slug = 'tools.php';
+			}
+			
 			$menu_title  = $this->um_running ? esc_html_x('Statistics', 'Menu Title', 'stats-for-update-manager') : esc_html_x('Statistics for Update Manager', 'Menu Title with UM deactivated', 'stats-for-update-manager');
 			$this->screen = add_submenu_page(
 				$parent_slug,
@@ -360,7 +375,14 @@ class StatsForUpdateManager{
 			array_unshift($links, $link);
 			return $links;
 		}
-		$link = '<a href="'.admin_url('edit.php?post_type='.UM_CPT.'&page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar"></i></a>';
+		
+		if (version_compare($this->um_version, '1.9999.0', '>')){
+			$link = '<a href="'.admin_url('admin.php?page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar"></i></a>';
+		} else {
+			// Keep compatibility with UM <2.0.0
+			$link = '<a href="'.admin_url('edit.php?post_type='.UM_CPT.'&page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar"></i></a>';
+		}
+
 		array_unshift($links, $link);
 		return $links;
 	}
