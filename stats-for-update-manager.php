@@ -185,7 +185,7 @@ class StatsForUpdateManager{
 			return $data;
 		}
 		$posts = get_posts([
-			'post_type' => UM_CPT,
+			'post_type' => UM_CPT_PLUGINS,
 			'post_status' => ['publish', 'pending' ,'draft'],
 			'numberposts' => -1
 			]);
@@ -200,6 +200,14 @@ class StatsForUpdateManager{
 	// $query have to be always returned unchanged.
 	public function log_request($query) {
 	
+		// For now deal only with plugins.
+		if (!in_array($query['update'], ['plugin_information', 'query_plugins'])) {
+			// Let's fill my log to discover how themes are.
+			$this->warn($query);
+			// Don't break Update Manager.
+			return $query;			
+		}
+		
 		// Parse options from request.
 		if (isset($query['sfum'])) {
 			$this->options = explode(',', $query['sfum']);
@@ -212,7 +220,7 @@ class StatsForUpdateManager{
 		}
 		
 		// If the input is corrupted, don't log.
-		if(!$this->is_safe_slug($query["plugin"]) || !$this->is_safe_url($query["site_url"])) {
+		if(!$this->is_safe_plugin_slug($query["plugin"]) || !$this->is_safe_url($query["site_url"])) {
 			// Don't break Update Manager.
 			return $query;
 		}
@@ -246,9 +254,14 @@ class StatsForUpdateManager{
 	}
 
 	// Check that the slug is in the correct form.
-	private function is_safe_slug($slug) {
+	private function is_safe_plugin_slug($slug) {
 		// Is defined, looks like a good slug and is not too long.
 		return isset($slug) && (bool) preg_match('/^[a-zA-Z0-9\-\_]*\/[a-zA-Z0-9\-\_]*\.php$/', $slug) && (strlen($slug) <= 100);
+	}
+
+	private function is_safe_theme_slug($slug) {
+		// Is defined, looks like a good slug and is not too long.
+		return isset($slug) && (bool) preg_match('/^[a-zA-Z0-9\-\_]*$/', $slug) && (strlen($slug) <= 100);
 	}
 
 	// Check that the url is in the correct form.
@@ -266,14 +279,14 @@ class StatsForUpdateManager{
 					$parent_slug = UM_PAGE;
 				} else {
 					// Keep compatibility with UM <2.0.0
-					$parent_slug = 'edit.php?post_type='.UM_CPT;
+					$parent_slug = 'edit.php?post_type='.UM_CPT_PLUGINS;
 				}
 			} else {
 				// If Update Manager is not there, go under "tools" menu.
 				$parent_slug = 'tools.php';
 			}
 			
-			$menu_title  = $this->um_running ? esc_html_x('Statistics', 'Menu Title', 'stats-for-update-manager') : esc_html_x('Statistics for Update Manager', 'Menu Title with UM deactivated', 'stats-for-update-manager');
+			$menu_title = $this->um_running ? esc_html_x('Statistics', 'Menu Title', 'stats-for-update-manager') : esc_html_x('Statistics for Update Manager', 'Menu Title with UM deactivated', 'stats-for-update-manager');
 			$this->screen = add_submenu_page(
 				$parent_slug,
 				esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager'),
@@ -380,7 +393,7 @@ class StatsForUpdateManager{
 			$link = '<a href="'.admin_url('admin.php?page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar"></i></a>';
 		} else {
 			// Keep compatibility with UM <2.0.0
-			$link = '<a href="'.admin_url('edit.php?post_type='.UM_CPT.'&page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar"></i></a>';
+			$link = '<a href="'.admin_url('edit.php?post_type='.UM_CPT_PLUGINS.'&page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar"></i></a>';
 		}
 
 		array_unshift($links, $link);

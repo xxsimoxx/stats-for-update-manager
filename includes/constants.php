@@ -35,8 +35,11 @@ const UM_CLASS = '\CodePotent\UpdateManager\UpdateManager';
 // Update Manager hook.
 const UM_HOOK = 'codepotent_update_manager_filter_request';
 
-// Update Manager custom post type name.
-const UM_CPT = 'plugin_endpoint';
+// Update Manager custom post type name for plugins.
+const UM_CPT_PLUGINS = 'plugin_endpoint';
+
+// Update Manager custom post type name for themes.
+const UM_CPT_THEMES = 'theme_endpoint';
 
 // Update Manager custom post type name.
 const UM_PAGE = 'update-manager';
