@@ -2,13 +2,13 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/xxsimoxx/stats-for-update-manager)
 ![GitHub All Releases](https://img.shields.io/github/downloads/xxsimoxx/stats-for-update-manager/total)
 
-# Stats for Update Manager
+![Stats for Update Manager](images/logo-for-readme.png)
 
 ## Discover how many sites are using your plugins and themes!
 
 This is a companion plugin for [**Update Manager**](https://codepotent.com/classicpress/plugins/) from [CodePotent](https://codepotent.com/).
 
-With Stats for Update Manager you can count active installations of your plugins that serve updates with Update Manager.
+With Stats for Update Manager you can count active installations of your plugins and themes that serve updates with Update Manager.
 
 You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 
