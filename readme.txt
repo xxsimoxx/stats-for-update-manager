@@ -1,6 +1,6 @@
 === Stats for Update Manager ===
 Plugin Name:        Stats for Update Manager
-Description:        With Stats for Update Manager you can count active installations of your plugins.
+Description:        With Stats for Update Manager you can count active installations of your plugins and themes.
 Version:            1.1.0
 Text Domain:        stats-for-update-manager
 Domain Path:        /languages
@@ -14,19 +14,19 @@ Download link:      https://github.com/xxsimoxx/stats-for-update-manager/release
 License:            GPLv2
 License URI:        https://www.gnu.org/licenses/gpl-2.0.html
 
-With Stats for Update Manager you can count active installations of your plugins.
+With Stats for Update Manager you can count active installations of your plugins and themes.
 
 == Description ==
 
-# Discover how many sites are using your plugins!
+# Discover how many sites are using your plugins and themes!
 
-With Stats for Update Manager you can count active installations of your plugins.
+With Stats for Update Manager you can count active installations of your plugins and themes.
 
 This is a companion plugin for [**Update Manager**](https://codepotent.com/classicpress/plugins/) from [CodePotent](https://codepotent.com/).
 
 You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 
-Plugins that queried Update Manager at least once in the last week are considered active. When a plugin have not queried Update Manager in the last 4 week it's removed from the database table. See FAQ section to tweak.
+Plugins and themes that queried Update Manager at least once in the last week are considered active. When a plugin/theme have not queried Update Manager in the last 4 week it's removed from the database table. See FAQ section to tweak.
 
 It also add the number of active installations in the plugin details. See FAQ section to tweak.
 
@@ -39,19 +39,19 @@ It supports WP-CLI. See the help typing:
 
 This plugin is intended to be used by *developers*.
 
-This plugin stores data about plugins update requests in a table.
+This plugin stores data about plugins/themes update requests in a table.
 You can configure how much time this data is kept using `sfum_old_after` filter (defaults to 4 weeks).
 
 The table structure contains:
 * URL of the site asking for updates, sha512 hashed
-* plugin checked
+* plugin/theme checked
 * timestamp of the last check
 
-**Is up to you to decide if and to inform your plugin users that this data is kept.**
+**Is up to you to decide if and to inform your plugin/theme users that this data is kept.**
 
 **To help us know the number of active installations of this plugin, we collect and store anonymized data when the plugin check in for updates. The date and unique plugin identifier are stored as plain text and the requesting URL is stored as a non-reversible hashed value. This data is stored for up to 28 days.**
 
-To skip Stats for Update Manager from logging, the plugin have to ask for updates defining, in the body of the request done by UpdateClient, `$body['sfum']='no-log'`.
+To skip Stats for Update Manager from logging, the plugin/theme have to ask for updates defining, in the body of the request done by UpdateClient, `$body['sfum']='no-log'`.
 
 == Frequently asked questions ==
 
@@ -59,17 +59,17 @@ To skip Stats for Update Manager from logging, the plugin have to ask for update
 
 ### [sfum-installs]
 
-The above shortcode returns an integer depicting the total number of all installations (of all plugins) across the web. Developers can use it in a sentence:
+The above shortcode returns an integer depicting the total number of all installations (of all plugins and themes) across the web. Developers can use it in a sentence:
 > Our plugins have [_n_] active installations!
 
 ### [sfum-installs id="my-plugin-folder/my-plugin-file.php"]
 
-Building on the previous example, you can also provide a plugin id. This shortcode returns an integer depicting the total number of installs for the plugin with the given `identifier`. Developers can use it in a sentence:
+Building on the previous example, you can also provide a plugin or theme id. This shortcode returns an integer depicting the total number of installs for the plugin with the given `identifier`. Developers can use it in a sentence:
 > My Awesome Plugin has [_n_] active installations!
 
 ### [sfum-domains]
 
-This shortcode returns an integer depicting the number of unique domains using all of the developer's plugins. Developers can use it in a sentence: 
+This shortcode returns an integer depicting the number of unique domains using all of the developer's plugins and themes. Developers can use it in a sentence: 
 
 > Code Potent is running on [_n_] sites!
 
@@ -158,7 +158,8 @@ add_filter('sfum_exclude', 'no_log_please');
 function no_log_please($list) {
 	$excluded = [
 		'please-dont/log-me.php',
-		'excluded-plugin/excluded-plugin.php'
+		'excluded-plugin/excluded-plugin.php',
+		'my-beautiful-theme'
 	];
 	return $excluded;
 }
@@ -177,6 +178,7 @@ define( 'SFUM_ENABLE_REST', true );
 
 == Changelog ==
 = 1.1.0 =
+* Added statistics for plugins: support for Update Manager 2.0.0
 * Added basic REST API support
 * Better WP-CLI comments
 

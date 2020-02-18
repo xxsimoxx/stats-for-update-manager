@@ -166,13 +166,13 @@ class Statistics{
 	}
 
 	/**
-	* Delete plugin from logs.
+	* Delete a plugin/theme from logs.
 	*
 	* ## PARAMETER
 	*
 	*
 	* <identifier>
-    * : The identifier of the plugin you want to remove logs.
+    * : The identifier of the plugin/theme you want to remove logs.
 	*
 	* @when after_wp_load
 	*/

@@ -370,13 +370,13 @@ class StatsForUpdateManager{
 
 			//Display results.
 			if ($plugin_output !== '') {
-				echo '<h2><span class="dashicons dashicons-admin-plugins"></span>'.esc_html__('Plugins').'</h2>';
+				echo '<h2><span class="dashicons dashicons-admin-plugins"></span>'.esc_html__('Plugins', 'stats-for-update-manager').'</h2>';
 				echo '<div><ul class="sfum-list">';
 				echo $plugin_output;
 				echo '</ul></div>';
 			}
 			if ($theme_output !== '') {
-				echo '<h2><span class="dashicons dashicons-admin-appearance"></span>'.esc_html__('Themes').'</h2>';
+				echo '<h2><span class="dashicons dashicons-admin-appearance"></span>'.esc_html__('Themes', 'stats-for-update-manager').'</h2>';
 				echo '<div><ul class="sfum-list">';
 				echo $theme_output;
 				echo '</ul></div>';
@@ -490,12 +490,12 @@ class StatsForUpdateManager{
 	public function privacy() {
 		$content = sprintf(
 			esc_html__('
-				This plugin stores data about plugins update requests in a table.
+				This plugin stores data about plugins/themes update requests in a table.
 
 				The table structure contains:
 				%1$s
 				%2$sURL of the site asking for updates, sha512 hashed%3$s
-				%4$splugin checked%5$s
+				%4$splugin/theme checked%5$s
 				%6$stimestamp of the last check%7$s
 				%8$s
 				This data is kept %9$sXX%10$s days.
