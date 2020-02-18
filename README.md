@@ -1,6 +1,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/xxsimoxx/stats-for-update-manager/badge)](https://www.codefactor.io/repository/github/xxsimoxx/stats-for-update-manager)
 ![GitHub language count](https://img.shields.io/github/languages/count/xxsimoxx/stats-for-update-manager)
 ![GitHub All Releases](https://img.shields.io/github/downloads/xxsimoxx/stats-for-update-manager/total)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/xxsimoxx/stats-for-update-manager?label=Download%20latest&sort=semver)](https://github.com/xxsimoxx/stats-for-update-manager/releases/latest)
 
 ![Stats for Update Manager](images/logo-for-readme.png)
 
