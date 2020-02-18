@@ -184,12 +184,21 @@ class StatsForUpdateManager{
 		if (!$this->um_running) {
 			return $data;
 		}
-		$posts = get_posts([
+		$plugins = get_posts([
 			'post_type' => UM_CPT_PLUGINS,
 			'post_status' => ['publish', 'pending' ,'draft'],
 			'numberposts' => -1
 			]);
-		foreach($posts as $post) {
+		$themes = get_posts([
+			'post_type' => UM_CPT_THEMES,
+			'post_status' => ['publish', 'pending' ,'draft'],
+			'numberposts' => -1
+			]);
+		foreach($plugins as $post) {
+			$meta = get_post_meta($post->ID, 'id', true);
+			$data[$meta] = $post->ID;
+		}
+		foreach($themes as $post) {
 			$meta = get_post_meta($post->ID, 'id', true);
 			$data[$meta] = $post->ID;
 		}
@@ -269,6 +278,14 @@ class StatsForUpdateManager{
 		// We don't care too much here because it's hashed early.
 		return isset($url) && is_string($url) && (bool) preg_match('/^http(s)?:\/\//', $url);;
 	}
+	
+	private function is_theme($id) {
+		return get_post_type($id)===UM_CPT_THEMES;
+	}
+	
+	private function is_plugin($id) {
+		return get_post_type($id)===UM_CPT_PLUGINS;
+	}
 
 	// Register Statistics submenu.
 	public function create_menu() {
@@ -317,12 +334,13 @@ class StatsForUpdateManager{
 			return;
 		}
 
-		// Plugins
-
 		$um_posts = $this->get_cpt();
 		global $wpdb;
 		$active = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug');
 
+		$plugin_output="";
+		$theme_output="";
+		
 		if (count($active) !== 0) {
 			// Sort results.
 			usort($active, function($a, $b) {
@@ -332,24 +350,38 @@ class StatsForUpdateManager{
 				}
 				return strcasecmp($a->slug, $b->slug);
 			});
-			
-			//Display results.
-			echo '<h2><span class="dashicons dashicons-admin-plugins"></span>'.esc_html__('Plugins').'</h2>';
-			echo '<div><ul class="sfum-list">';
+
 			foreach ($active as $value) {
 				// If there is a request for a plugin not served by UM don't display.
 				if (isset($um_posts[$value->slug])) {
 					$title = '<a href="'.admin_url('post.php?post='.$um_posts[$value->slug].'&action=edit').'">'.get_the_title($um_posts[$value->slug]).'</a>';
-					/* Translators: %1 is plugin name, %2 is the number of active installations */
-					printf('<li>'.esc_html(_n('%1$s has %2$d active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
+					if($this->is_theme($um_posts[$value->slug])){
+						/* Translators: %1 is plugin name, %2 is the number of active installations */
+						$theme_output .= sprintf('<li>'.esc_html(_n('%1$s has %2$d active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
+					}
+					if($this->is_plugin($um_posts[$value->slug])){
+						/* Translators: %1 is plugin name, %2 is the number of active installations */
+						$plugin_output .= sprintf('<li>'.esc_html(_n('%1$s has %2$d active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
+					}
 				}
 			}
-			echo '</ul></div>';
+
+			//Display results.
+			if ($plugin_output !== '') {
+				echo '<h2><span class="dashicons dashicons-admin-plugins"></span>'.esc_html__('Plugins').'</h2>';
+				echo '<div><ul class="sfum-list">';
+				echo $plugin_output;
+				echo '</ul></div>';
+			}
+			if ($theme_output !== '') {
+				echo '<h2><span class="dashicons dashicons-admin-appearance"></span>'.esc_html__('Themes').'</h2>';
+				echo '<div><ul class="sfum-list">';
+				echo $theme_output;
+				echo '</ul></div>';
+			}
+			
 		}
 		
-		// Placeholder
-		echo '<h2><span class="dashicons dashicons-admin-appearance"></span>'.esc_html__('Themes').'</h2>';
-
 		// Display the debug section.
 		$this->render_page_debug();
 	}

@@ -93,7 +93,7 @@ class Statistics{
 		$cpt = $sfum_instance->get_cpt();
 		
 		// Define fields
-		$field_list='ID,title,active,identifier,status';
+		$field_list='ID,title,active,identifier,status,endpoint';
 		
 		// Handle --date.
 		if($date_format=\WP_CLI\Utils\get_flag_value($assoc_args, 'date')) {
@@ -109,6 +109,7 @@ class Statistics{
 			$result['ID'] = $cpt[$result['identifier']];
 			$result['title']= get_the_title($cpt[$result['identifier']]);
 			$result['status']= get_post_status($cpt[$result['identifier']]);
+			$result['endpoint']=get_post_type($cpt[$result['identifier']]);
 			if($date_format !== null) {
 				$result['date']=date($date_format);
 			}
