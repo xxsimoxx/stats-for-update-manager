@@ -33,7 +33,9 @@ const UM_SLUG = 'codepotent-update-manager/codepotent-update-manager.php';
 const UM_CLASS = '\CodePotent\UpdateManager\UpdateManager';
 
 // Update Manager hook.
-const UM_HOOK = 'codepotent_update_manager_filter_request';
+const UM_HOOK_DEPRECATED = 'codepotent_update_manager_filter_request';
+const UM_HOOK_PLUGINS = 'codepotent_update_manager_filter_plugin_request';
+const UM_HOOK_THEMES = 'codepotent_update_manager_filter_theme_request';
 
 // Update Manager custom post type name for plugins.
 const UM_CPT_PLUGINS = 'plugin_endpoint';

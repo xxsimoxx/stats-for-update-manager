@@ -70,7 +70,10 @@ class StatsForUpdateManager{
 		add_action('plugins_loaded', [$this, 'text_domain']);
 
 		// Hook to Update Manager filter request.
-		add_filter(UM_HOOK, [$this, 'log_request'], 1000);
+		add_filter(UM_HOOK_PLUGINS, [$this, 'log_request'], 1000);
+		add_filter(UM_HOOK_THEMES, [$this, 'log_request'], 1000);
+		// Keep compatible with Update Manager 1.X
+		add_filter(UM_HOOK_DEPRECATED, [$this, 'log_request'], 1000);
 
 		// On init apply filters to set the number of days for an entry
 		// to be considered inactive or have to be removed from db.
@@ -210,14 +213,12 @@ class StatsForUpdateManager{
 	// $query have to be always returned unchanged.
 	public function log_request($query) {
 	
-		// For now deal only with plugins.
-		if (!in_array($query['update'], ['plugin_information', 'query_plugins'])) {
-			// Let's fill my log to discover how themes are.
-			$this->warn($query);
-			// Don't break Update Manager.
-			return $query;			
+		// Bad url, don't log.
+		if(!$this->is_safe_url($query["site_url"])) {
+			// Don't log and don't break Update Manager.
+			return $query;
 		}
-		
+
 		// Parse options from request.
 		if (isset($query['sfum'])) {
 			$this->options = explode(',', $query['sfum']);
@@ -225,30 +226,46 @@ class StatsForUpdateManager{
 		
 		// Allow opt-out.
 		if(in_array('no-log', $this->options)) {
-			// Don't break Update Manager.
+			// Don't log and don't break Update Manager.
 			return $query;
 		}
 		
-		// If the input is corrupted, don't log.
-		if(!$this->is_safe_plugin_slug($query["plugin"]) || !$this->is_safe_url($query["site_url"])) {
-			// Don't break Update Manager.
-			return $query;
+		// Check that we are dealing with a valid update type.
+		if (isset($query['update']) && !in_array($query['update'], ['plugin_information', 'query_plugins', 'query_themes'])) {
+			return $query;			
 		}
-		
+
+		// Check what we are dealing with.
+		if ($query['update']==='query_themes'){
+			// We are dealing with a theme.
+			if(!$this->is_safe_theme_slug($query["theme"])) {
+				// Don't log and don't break Update Manager.
+				return $query;
+			}
+			$identifier=$query['theme'];
+		} else {
+			// We are dealing with a plugin.
+			if(!$this->is_safe_plugin_slug($query["plugin"])) {
+				// Don't log and don't break Update Manager.
+				return $query;
+			}
+			$identifier=$query['plugin'];
+		}
+			
 		// Prevent specific(s) plugin to be logged.
-		if(in_array($query["plugin"], apply_filters('sfum_exclude', []))) {
-			// Don't break Update Manager.
+		if(in_array($identifier, apply_filters('sfum_exclude', []))) {
+			// Don't log and don't break Update Manager.
 			return $query;
 		}
 
 		global $wpdb;
 		$where = [
 			'site' => hash('sha512', $query["site_url"]),
-			'slug' => $query["plugin"],
+			'slug' => $identifier,
 			];
 		$data      = [
 			'site' => hash('sha512', $query["site_url"]),
-			'slug' => $query["plugin"],
+			'slug' => $identifier,
 			'last' => current_time('mysql', 1)
 			];
 
