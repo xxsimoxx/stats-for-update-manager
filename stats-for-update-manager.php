@@ -420,7 +420,7 @@ class StatsForUpdateManager{
   		echo '<div class="collapsible-content"><div class="content-inner">';
   		echo '<h2>'.esc_html__('Latest updates', 'stats-for-update-manager').'</h2>';
 		echo '<pre>';
-		printf('%-32s %-21s %s<br>', __("FIRST 30 CHAR OF THE HASH", 'stats-for-update-manager'), __("DATE", 'stats-for-update-manager'), __("PLUGIN", 'stats-for-update-manager'));
+		printf('%-32s %-21s %s<br>', __("FIRST 30 CHAR OF THE HASH", 'stats-for-update-manager'), __("DATE", 'stats-for-update-manager'), __("PLUGIN/THEME", 'stats-for-update-manager'));
 		foreach ($last as $value) {
 		/* translators: %1 is plugin slug, %2 is the number of active installations */
 			printf('%-32s %-21s %s', substr($value->site, 0, 30), date('Y/m/d H:i:s', strtotime($value->last)), $value->slug);
