@@ -258,13 +258,15 @@ class StatsForUpdateManager{
 			return $query;
 		}
 
+		$hashed=hash('sha512', $query["site_url"]);
+
 		global $wpdb;
 		$where = [
-			'site' => hash('sha512', $query["site_url"]),
+			'site' => $hashed,
 			'slug' => $identifier,
 			];
 		$data      = [
-			'site' => hash('sha512', $query["site_url"]),
+			'site' => $hashed,
 			'slug' => $identifier,
 			'last' => current_time('mysql', 1)
 			];
