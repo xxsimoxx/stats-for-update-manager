@@ -18,7 +18,7 @@ It supports WP-CLI. See the help typing:
 * `wp help statistics purge`
 * `wp help statistics delete`
 
-## When a plugin is in that count
+## When a plugin/theme is in that count
 
 Plugins and themes that queried Update Manager at least once in the last week are considered active.  When a plugin/theme have not queried Update Manager in the last 4 week it's removed from the database table. See [filters](#filters) section to tweak.
 
@@ -128,8 +128,11 @@ The above shortcode returns an integer depicting the total number of all install
 
 ### [sfum-installs id="my-plugin-folder/my-plugin-file.php"]
 
-Building on the previous example, you can also provide a plugin or theme id. This shortcode returns an integer depicting the total number of installs for the plugin with the given `identifier`. Developers can use it in a sentence:
+Building on the previous example, you can also provide a plugin or theme id. This shortcode returns an integer depicting the total number of installs for the plugin or theme with the given `identifier`. Developers can use it in a sentence:
+
 > My Awesome Plugin has [_n_] active installations!
+
+> My Amazing Theme has [_n_] active installations!
 
 ### [sfum-domains]
 
@@ -149,17 +152,17 @@ define( 'SFUM_ENABLE_REST', true );
 
 ## GDPR / privacy
 
-This plugin stores data about plugin updates in a table. 
+This plugin stores data about plugin/theme updates in a table. 
 You can configure how much time this data is kept using `sfum_old_after` filter (defaults to 4 weeks).
 All the data is removed at plugin uninstall.
 
 - URL of the site asking for updates, sha512 hashed
-- plugin checked
+- plugin/theme checked
 - timestamp of the last check
 
 **Is up to you to decide if and to inform your plugin/theme users that this data is kept.**
 
-**To help us know the number of active installations of this plugin, we collect and store anonymized data when the plugin check in for updates. The date and unique plugin identifier are stored as plain text and the requesting URL is stored as a non-reversible hashed value. This data is stored for up to 28 days.**
+**To help us know the number of active installations of this (Stats for Update Manager) plugin, we collect and store anonymized data when the plugin check in for updates. The date and unique plugin identifier are stored as plain text and the requesting URL is stored as a non-reversible hashed value. This data is stored for up to 28 days.**
 
 To skip Stats for Update Manager from logging, the plugin/theme have to ask for updates defining, in the body of the request done by UpdateClient, `$body['sfum']='no-log'`.
 
