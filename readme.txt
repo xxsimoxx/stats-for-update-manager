@@ -1,7 +1,7 @@
 === Stats for Update Manager ===
 Plugin Name:        Stats for Update Manager
 Description:        With Stats for Update Manager you can count active installations of your plugins and themes.
-Version:            1.1.0
+Version:            1.1.0-rc1
 Text Domain:        stats-for-update-manager
 Domain Path:        /languages
 Requires PHP:       5.6
@@ -178,7 +178,7 @@ define( 'SFUM_ENABLE_REST', true );
 *Note that the value of active installation is affected by the [filter](#filters) `sfum_active_installations`.*
 
 == Changelog ==
-= 1.1.0 =
+= 1.1.0-rc1 =
 * Added statistics for themes: support for Update Manager 2.0.0
 * Added basic REST API support
 * Better WP-CLI comments
