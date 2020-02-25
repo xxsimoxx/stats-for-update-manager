@@ -12,7 +12,7 @@
  * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Full
  * text of the license is available at https://www.gnu.org/licenses/gpl-2.0.txt.
  * -----------------------------------------------------------------------------
- * Copyright © 2019 - CodePotent
+ * Copyright © 2020, Code Potent
  * -----------------------------------------------------------------------------
  */
 
@@ -76,7 +76,7 @@ class Shortcodes {
 
 		// Bring database object into scope.
 		global $wpdb;
-		
+
 		// Bring StatsForUpdateManager class into scope.
 		global $sfum_instance;
 
@@ -106,7 +106,7 @@ class Shortcodes {
 		}
 
 		// Return.
-		
+
 		return $total_installs;
 
 	}
@@ -131,7 +131,7 @@ class Shortcodes {
 
 		// Bring StatsForUpdateManager class into scope.
 		global $sfum_instance;
-		
+
 		// Initialization.
 		$total_installs = 0;
 

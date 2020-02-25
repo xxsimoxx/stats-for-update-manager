@@ -23,7 +23,7 @@ msgid "https://software.gieffeedizioni.it"
 msgstr ""
 
 #. Description of the plugin
-msgid "Statistics for Update Manager by CodePotent."
+msgid "Statistics for Update Manager by Code Potent."
 msgstr ""
 
 #. Author of the plugin

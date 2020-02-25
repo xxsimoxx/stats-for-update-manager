@@ -109,7 +109,7 @@ msgid "Statistics for Update Manager"
 msgstr ""
 
 #. Description of the plugin
-msgid "Statistics for Update Manager by CodePotent."
+msgid "Statistics for Update Manager by Code Potent."
 msgstr ""
 
 #. Plugin Name of the plugin
