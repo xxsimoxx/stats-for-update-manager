@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Stats for Update Manager plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Stats for Update Manager 1.1.0\n"
+"Project-Id-Version: Stats for Update Manager 1.1.0-rc1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/stats-for-update-manager\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-02-21T08:34:39+00:00\n"
+"POT-Creation-Date: 2020-02-25T12:50:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: stats-for-update-manager\n"
@@ -39,77 +39,77 @@ msgstr ""
 msgid "<b>Stats for Update Manager</b> is pretty unuseful without <a href=\"%1$s\" target=\"_blank\">Update Manager</a>."
 msgstr ""
 
-#: stats-for-update-manager.php:312
+#: stats-for-update-manager.php:314
 msgctxt "Menu Title"
 msgid "Statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:323
+#: stats-for-update-manager.php:325
 msgctxt "Menu Title with UM deactivated"
 msgid "Statistics for Update Manager"
 msgstr ""
 
-#: stats-for-update-manager.php:328
-#: stats-for-update-manager.php:349
+#: stats-for-update-manager.php:330
+#: stats-for-update-manager.php:351
 msgctxt "Page Title"
 msgid "Statistics for Update Manager"
 msgstr ""
 
-#: stats-for-update-manager.php:348
+#: stats-for-update-manager.php:350
 msgid "Active installations"
 msgstr ""
 
 #. Translators: %1 is plugin name, %2 is the number of active installations
-#: stats-for-update-manager.php:379
-#: stats-for-update-manager.php:383
+#: stats-for-update-manager.php:381
+#: stats-for-update-manager.php:385
 msgid "%1$s has %2$d active installation."
 msgid_plural "%1$s has %2$d active installations."
 msgstr[0] ""
 msgstr[1] ""
 
-#: stats-for-update-manager.php:390
+#: stats-for-update-manager.php:392
 msgid "Plugins"
 msgstr ""
 
-#: stats-for-update-manager.php:396
+#: stats-for-update-manager.php:398
 msgid "Themes"
 msgstr ""
 
-#: stats-for-update-manager.php:414
+#: stats-for-update-manager.php:416
 msgid "No database entries."
 msgstr ""
 
-#: stats-for-update-manager.php:419
+#: stats-for-update-manager.php:421
 msgid "Debug information"
 msgstr ""
 
-#: stats-for-update-manager.php:421
+#: stats-for-update-manager.php:423
 msgid "Latest updates"
 msgstr ""
 
-#: stats-for-update-manager.php:423
+#: stats-for-update-manager.php:425
 msgid "FIRST 30 CHAR OF THE HASH"
 msgstr ""
 
-#: stats-for-update-manager.php:423
+#: stats-for-update-manager.php:425
 msgid "DATE"
 msgstr ""
 
-#: stats-for-update-manager.php:423
+#: stats-for-update-manager.php:425
 msgid "PLUGIN/THEME"
 msgstr ""
 
-#: stats-for-update-manager.php:438
-#: stats-for-update-manager.php:444
-#: stats-for-update-manager.php:447
+#: stats-for-update-manager.php:440
+#: stats-for-update-manager.php:446
+#: stats-for-update-manager.php:449
 msgid "Update Manager statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:438
+#: stats-for-update-manager.php:440
 msgid "Debug"
 msgstr ""
 
-#: stats-for-update-manager.php:509
+#: stats-for-update-manager.php:511
 msgid ""
 "\n"
 "\t\t\t\tThis plugin stores data about plugins/themes update requests in a table.\n"
@@ -122,10 +122,10 @@ msgid ""
 "\t\t\t\t%8$s\n"
 "\t\t\t\tThis data is kept %9$sXX%10$s days.\n"
 "\n"
-"\t\t\t\t%11$sTo help us know the number of active installations of this plugin, \n"
-"\t\t\t\twe collect and store anonymized data when the plugin check in for \n"
-"\t\t\t\tupdates. The date and unique plugin identifier are stored as plain \n"
-"\t\t\t\ttext and the requesting URL is stored as a non-reversible hashed \n"
+"\t\t\t\t%11$sTo help us know the number of active installations of this plugin,\n"
+"\t\t\t\twe collect and store anonymized data when the plugin check in for\n"
+"\t\t\t\tupdates. The date and unique plugin identifier are stored as plain\n"
+"\t\t\t\ttext and the requesting URL is stored as a non-reversible hashed\n"
 "\t\t\t\tvalue. This data is stored for up to 28 days.%12$s\n"
 "\t\t\t\t"
 msgstr ""

@@ -519,10 +519,10 @@ class StatsForUpdateManager{
 				%8$s
 				This data is kept %9$sXX%10$s days.
 
-				%11$sTo help us know the number of active installations of this plugin, 
-				we collect and store anonymized data when the plugin check in for 
-				updates. The date and unique plugin identifier are stored as plain 
-				text and the requesting URL is stored as a non-reversible hashed 
+				%11$sTo help us know the number of active installations of this plugin,
+				we collect and store anonymized data when the plugin check in for
+				updates. The date and unique plugin identifier are stored as plain
+				text and the requesting URL is stored as a non-reversible hashed
 				value. This data is stored for up to 28 days.%12$s
 				',
 				'stats-for-update-manager'
