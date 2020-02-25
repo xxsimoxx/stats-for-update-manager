@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
- * Description: Statistics for Update Manager by CodePotent.
+ * Description: Statistics for Update Manager by Code Potent.
  * Version: 1.1.0
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -45,10 +45,10 @@ class StatsForUpdateManager{
 
 	// Array to keep statistics for plugin details.
 	public $stat_array = [];
-	
+
 	// Array to keep options found in the request.
 	private $options = [];
-	
+
 	// String to keep the screen.
 	private $screen = '';
 
@@ -76,7 +76,7 @@ class StatsForUpdateManager{
 
 		// Register privacy policy.
 		add_action('admin_init', [$this, 'privacy']);
-		
+
 		// Add menu for statistics.
 		add_action('admin_menu', [$this, 'create_menu'], 100);
 		add_action('admin_enqueue_scripts', [$this, 'backend_css']);
@@ -94,7 +94,7 @@ class StatsForUpdateManager{
 		if (defined( 'WP_CLI' ) && WP_CLI) {
 			\WP_CLI::add_command('statistics', '\XXSimoXX\StatsForUpdateManager\Statistics');
 		}
-		
+
 		// Fire REST API class. It have to be enabled defining SFUM_ENABLE_REST = true.
 		if (defined('\SFUM_ENABLE_REST') && \SFUM_ENABLE_REST===true) {
 			require_once('classes/CustomEndPoint.class.php');
@@ -111,7 +111,7 @@ class StatsForUpdateManager{
 	// Trigger a warning. Helpful in developement.
 	private function test($x) {
 		 trigger_error(print_r($x, TRUE), E_USER_WARNING);
-	}				
+	}
 
 	// Apply filters to set the number of days for an entry to be considered inactive or have to be removed from db.
 	public function apply_timing_filters() {
@@ -195,24 +195,24 @@ class StatsForUpdateManager{
 	// Log requests to the db.
 	// $query have to be always returned unchanged.
 	public function log_request($query) {
-	
+
 		// Parse options from request.
 		if (isset($query['sfum'])) {
 			$this->options = explode(',', $query['sfum']);
 		}
-		
+
 		// Allow opt-out.
 		if(in_array('no-log', $this->options)) {
 			// Don't break Update Manager.
 			return $query;
 		}
-		
+
 		// If the input is corrupted, don't log.
 		if(!$this->is_safe_slug($query["plugin"]) || !$this->is_safe_url($query["site_url"])) {
 			// Don't break Update Manager.
 			return $query;
 		}
-		
+
 		// Prevent specific(s) plugin to be logged.
 		if(in_array($query["plugin"], apply_filters('sfum_exclude', []))) {
 			// Don't break Update Manager.
@@ -237,7 +237,7 @@ class StatsForUpdateManager{
 			$wpdb->insert($wpdb->prefix.DB_TABLE_NAME, $data);
 		}
 
-		// Return unchanged. 
+		// Return unchanged.
 		return $query;
 	}
 
@@ -278,12 +278,12 @@ class StatsForUpdateManager{
 	}
 
 	// Render statistics page.
-	public function render_page() {	
+	public function render_page() {
 		echo '<div class="sfum-title">';
 		echo '<div class="sfum-title-logo"><a href="'.XXSIMOXX_LINK.'" target="_blank"><img src="'.plugin_dir_url(__FILE__).'images/icon.svg"></a></div>';
 		echo '<div class="sfum-title-text"><h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
 		echo '<h2>'.esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager').'</h2></div></div>';
-		
+
 		if (!$this->um_running) {
 			$this->render_page_debug();
 			return;
@@ -417,7 +417,7 @@ class StatsForUpdateManager{
 		// Delete options.
 		delete_option('sfum_db_ver');
 	}
-	
+
 	// Register privacy policy.
 	public function privacy() {
 		$content = sprintf(
@@ -432,10 +432,10 @@ class StatsForUpdateManager{
 				%8$s
 				This data is kept %9$sXX%10$s days.
 
-				%11$sTo help us know the number of active installations of this plugin, 
-				we collect and store anonymized data when the plugin check in for 
-				updates. The date and unique plugin identifier are stored as plain 
-				text and the requesting URL is stored as a non-reversible hashed 
+				%11$sTo help us know the number of active installations of this plugin,
+				we collect and store anonymized data when the plugin check in for
+				updates. The date and unique plugin identifier are stored as plain
+				text and the requesting URL is stored as a non-reversible hashed
 				value. This data is stored for up to 28 days.%12$s
 				',
 				'stats-for-update-manager'
