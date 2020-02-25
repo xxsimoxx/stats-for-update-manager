@@ -27,10 +27,21 @@ const XXSIMOXX_LINK = 'https://github.com/xxsimoxx/stats-for-update-manager';
 const UM_LINK = 'https://codepotent.com/classicpress/plugins/update-manager/';
 
 // Update Manager class.
+const UM_SLUG = 'codepotent-update-manager/codepotent-update-manager.php';
+
+// Update Manager class.
 const UM_CLASS = '\CodePotent\UpdateManager\UpdateManager';
 
 // Update Manager hook.
-const UM_HOOK = 'codepotent_update_manager_filter_request';
+const UM_HOOK_DEPRECATED = 'codepotent_update_manager_filter_request';
+const UM_HOOK_PLUGINS = 'codepotent_update_manager_filter_plugin_request';
+const UM_HOOK_THEMES = 'codepotent_update_manager_filter_theme_request';
+
+// Update Manager custom post type name for plugins.
+const UM_CPT_PLUGINS = 'plugin_endpoint';
+
+// Update Manager custom post type name for themes.
+const UM_CPT_THEMES = 'theme_endpoint';
 
 // Update Manager custom post type name.
-const UM_CPT = 'plugin_endpoint';
+const UM_PAGE = 'update-manager';

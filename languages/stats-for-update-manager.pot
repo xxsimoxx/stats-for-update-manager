@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Stats for Update Manager plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Stats for Update Manager 1.0.0\n"
+"Project-Id-Version: Stats for Update Manager 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/stats-for-update-manager\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-01-20T14:39:45+01:00\n"
+"POT-Creation-Date: 2020-02-21T08:34:39+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: stats-for-update-manager\n"
@@ -35,83 +35,89 @@ msgid "https://www.gieffeedizioni.it"
 msgstr ""
 
 #. translators: 1 is the link to Update Manager homepage
-#: stats-for-update-manager.php:167
+#: stats-for-update-manager.php:181
 msgid "<b>Stats for Update Manager</b> is pretty unuseful without <a href=\"%1$s\" target=\"_blank\">Update Manager</a>."
 msgstr ""
 
-#: stats-for-update-manager.php:255
+#: stats-for-update-manager.php:312
 msgctxt "Menu Title"
 msgid "Statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:255
+#: stats-for-update-manager.php:323
 msgctxt "Menu Title with UM deactivated"
 msgid "Statistics for Update Manager"
 msgstr ""
 
-#: stats-for-update-manager.php:258
-#: stats-for-update-manager.php:280
+#: stats-for-update-manager.php:328
+#: stats-for-update-manager.php:349
 msgctxt "Page Title"
 msgid "Statistics for Update Manager"
 msgstr ""
 
-#: stats-for-update-manager.php:279
+#: stats-for-update-manager.php:348
 msgid "Active installations"
 msgstr ""
 
-#: stats-for-update-manager.php:296
-msgid "No active installations."
-msgstr ""
-
 #. Translators: %1 is plugin name, %2 is the number of active installations
-#: stats-for-update-manager.php:316
+#: stats-for-update-manager.php:379
+#: stats-for-update-manager.php:383
 msgid "%1$s has %2$d active installation."
 msgid_plural "%1$s has %2$d active installations."
 msgstr[0] ""
 msgstr[1] ""
 
-#: stats-for-update-manager.php:331
+#: stats-for-update-manager.php:390
+msgid "Plugins"
+msgstr ""
+
+#: stats-for-update-manager.php:396
+msgid "Themes"
+msgstr ""
+
+#: stats-for-update-manager.php:414
 msgid "No database entries."
 msgstr ""
 
-#: stats-for-update-manager.php:336
+#: stats-for-update-manager.php:419
 msgid "Debug information"
 msgstr ""
 
-#: stats-for-update-manager.php:338
+#: stats-for-update-manager.php:421
 msgid "Latest updates"
 msgstr ""
 
-#: stats-for-update-manager.php:340
+#: stats-for-update-manager.php:423
 msgid "FIRST 30 CHAR OF THE HASH"
 msgstr ""
 
-#: stats-for-update-manager.php:340
+#: stats-for-update-manager.php:423
 msgid "DATE"
 msgstr ""
 
-#: stats-for-update-manager.php:340
-msgid "PLUGIN"
+#: stats-for-update-manager.php:423
+msgid "PLUGIN/THEME"
 msgstr ""
 
-#: stats-for-update-manager.php:355
-#: stats-for-update-manager.php:359
+#: stats-for-update-manager.php:438
+#: stats-for-update-manager.php:444
+#: stats-for-update-manager.php:447
 msgid "Update Manager statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:355
+#: stats-for-update-manager.php:438
 msgid "Debug"
 msgstr ""
 
-#: stats-for-update-manager.php:419
+#: stats-for-update-manager.php:509
 msgid ""
 "\n"
-"\t\t\t\tThis plugin stores data about plugins update requests in a table.\n"
+"\t\t\t\tThis plugin stores data about plugins/themes update requests in a table.\n"
 "\n"
 "\t\t\t\tThe table structure contains:\n"
 "\t\t\t\t%1$s\n"
 "\t\t\t\t%2$sURL of the site asking for updates, sha512 hashed%3$s\n"
-"\t\t\t\t%4$splugin checked%5$s\n"
+"\t\t\t\t%4$splugin/theme checked%5$s\n"
 "\t\t\t\t%6$stimestamp of the last check%7$s\n"
 "\t\t\t\t%8$s\n"
 "\t\t\t\tThis data is kept %9$sXX%10$s days.\n"
