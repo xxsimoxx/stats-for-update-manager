@@ -22,7 +22,7 @@ With Stats for Update Manager you can count active installations of your plugins
 
 With Stats for Update Manager you can count active installations of your plugins and themes.
 
-This is a companion plugin for [**Update Manager**](https://codepotent.com/classicpress/plugins/) from [CodePotent](https://codepotent.com/).
+This is a companion plugin for [**Update Manager**](https://codepotent.com/classicpress/plugins/) from [Code Potent](https://codepotent.com/).
 
 You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 

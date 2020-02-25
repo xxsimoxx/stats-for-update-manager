@@ -7,7 +7,7 @@
 
 ## Discover how many sites are using your plugins and themes!
 
-This is a companion plugin for [**Update Manager**](https://codepotent.com/classicpress/plugins/) from [CodePotent](https://codepotent.com/).
+This is a companion plugin for [**Update Manager**](https://codepotent.com/classicpress/plugins/) from [Code Potent](https://codepotent.com/).
 
 With Stats for Update Manager you can count active installations of your plugins and themes that serve updates with Update Manager.
 
