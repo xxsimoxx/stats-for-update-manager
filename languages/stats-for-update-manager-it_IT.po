@@ -136,8 +136,8 @@ msgid "Statistics for Update Manager"
 msgstr "Statistiche per Update Manager"
 
 #. Description of the plugin
-msgid "Statistics for Update Manager by CodePotent."
-msgstr "Statistiche per Update Manager di CodePotent."
+msgid "Statistics for Update Manager by Code Potent."
+msgstr "Statistiche per Update Manager di Code Potent."
 
 #. Plugin Name of the plugin
 msgid "Stats for Update Manager"
