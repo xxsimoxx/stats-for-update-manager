@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
- * Description: Statistics for Update Manager by CodePotent.
+ * Description: Statistics for Update Manager by Code Potent.
  * Version: 1.1.0-rc1
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -45,10 +45,10 @@ class StatsForUpdateManager{
 
 	// Array to keep statistics for plugin details.
 	public $stat_array = [];
-	
+
 	// Array to keep options found in the request.
 	private $options = [];
-	
+
 	// String to keep the screen.
 	private $screen = '';
 	
@@ -84,7 +84,7 @@ class StatsForUpdateManager{
 
 		// Register privacy policy.
 		add_action('admin_init', [$this, 'privacy']);
-		
+
 		// Add menu for statistics.
 		add_action('admin_menu', [$this, 'create_menu'], 100);
 		add_action('admin_enqueue_scripts', [$this, 'backend_css']);
@@ -102,7 +102,7 @@ class StatsForUpdateManager{
 		if (defined( 'WP_CLI' ) && WP_CLI) {
 			\WP_CLI::add_command('statistics', '\XXSimoXX\StatsForUpdateManager\Statistics');
 		}
-		
+
 		// Fire REST API class. It have to be enabled defining SFUM_ENABLE_REST = true.
 		if (defined('\SFUM_ENABLE_REST') && \SFUM_ENABLE_REST===true) {
 			require_once('classes/CustomEndPoint.class.php');
@@ -119,7 +119,7 @@ class StatsForUpdateManager{
 	// Trigger a warning. Helpful in developement.
 	private function warn($x) {
 		 trigger_error(print_r($x, TRUE), E_USER_WARNING);
-	}				
+	}
 
 	// Apply filters to set the number of days for an entry to be considered inactive or have to be removed from db.
 	public function apply_timing_filters() {
@@ -212,7 +212,7 @@ class StatsForUpdateManager{
 	// Log requests to the db.
 	// $query have to be always returned unchanged.
 	public function log_request($query) {
-	
+
 		// Bad url, don't log.
 		if(!$this->is_safe_url($query["site_url"])) {
 			// Don't log and don't break Update Manager.
@@ -223,13 +223,13 @@ class StatsForUpdateManager{
 		if (isset($query['sfum'])) {
 			$this->options = explode(',', $query['sfum']);
 		}
-		
+
 		// Allow opt-out.
 		if(in_array('no-log', $this->options)) {
 			// Don't log and don't break Update Manager.
 			return $query;
 		}
-		
+
 		// Check that we are dealing with a valid update type.
 		if (isset($query['update']) && !in_array($query['update'], ['plugin_information', 'query_plugins', 'query_themes'])) {
 			return $query;			
@@ -251,7 +251,7 @@ class StatsForUpdateManager{
 			}
 			$identifier=$query['plugin'];
 		}
-			
+
 		// Prevent specific(s) plugin to be logged.
 		if(in_array($identifier, apply_filters('sfum_exclude', []))) {
 			// Don't log and don't break Update Manager.
@@ -278,7 +278,7 @@ class StatsForUpdateManager{
 			$wpdb->insert($wpdb->prefix.DB_TABLE_NAME, $data);
 		}
 
-		// Return unchanged. 
+		// Return unchanged.
 		return $query;
 	}
 
@@ -298,11 +298,11 @@ class StatsForUpdateManager{
 		// We don't care too much here because it's hashed early.
 		return isset($url) && is_string($url) && (bool) preg_match('/^http(s)?:\/\//', $url);;
 	}
-	
+
 	private function is_theme($id) {
 		return get_post_type($id)===UM_CPT_THEMES;
 	}
-	
+
 	private function is_plugin($id) {
 		return get_post_type($id)===UM_CPT_PLUGINS;
 	}
@@ -324,7 +324,7 @@ class StatsForUpdateManager{
 				$parent_slug = 'tools.php';
 				$menu_title = esc_html_x('Statistics for Update Manager', 'Menu Title with UM deactivated', 'stats-for-update-manager');
 			}
-			
+
 			$this->screen = add_submenu_page(
 				$parent_slug,
 				esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager'),
@@ -344,12 +344,12 @@ class StatsForUpdateManager{
 	}
 
 	// Render statistics page.
-	public function render_page() {	
+	public function render_page() {
 		echo '<div class="sfum-title">';
 		echo '<div class="sfum-title-logo"><a href="'.XXSIMOXX_LINK.'" target="_blank"><img src="'.plugin_dir_url(__FILE__).'images/icon.svg"></a></div>';
 		echo '<div class="sfum-title-text"><h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
 		echo '<h2>'.esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager').'</h2></div></div>';
-		
+
 		if (!$this->um_running) {
 			$this->render_page_debug();
 			return;
@@ -361,7 +361,7 @@ class StatsForUpdateManager{
 
 		$plugin_output="";
 		$theme_output="";
-		
+
 		if (count($active) !== 0) {
 			// Sort results.
 			usort($active, function($a, $b) {
@@ -419,8 +419,8 @@ class StatsForUpdateManager{
 		// Display debug information.
 		echo '<div class="wrap-collabsible"><input id="collapsible" class="toggle" type="checkbox">';
 		echo '<label for="collapsible" class="lbl-toggle">'.esc_html__('Debug information', 'stats-for-update-manager').'</label>';
-  		echo '<div class="collapsible-content"><div class="content-inner">';
-  		echo '<h2>'.esc_html__('Latest updates', 'stats-for-update-manager').'</h2>';
+		echo '<div class="collapsible-content"><div class="content-inner">';
+		echo '<h2>'.esc_html__('Latest updates', 'stats-for-update-manager').'</h2>';
 		echo '<pre>';
 		printf('%-32s %-21s %s<br>', __("FIRST 30 CHAR OF THE HASH", 'stats-for-update-manager'), __("DATE", 'stats-for-update-manager'), __("PLUGIN/THEME", 'stats-for-update-manager'));
 		foreach ($last as $value) {
@@ -441,7 +441,7 @@ class StatsForUpdateManager{
 			array_unshift($links, $link);
 			return $links;
 		}
-		
+
 		if (version_compare($this->um_version, '1.9999.0', '>')){
 			$link = '<a href="'.admin_url('admin.php?page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar"></i></a>';
 		} else {
@@ -504,7 +504,7 @@ class StatsForUpdateManager{
 		// Delete options.
 		delete_option('sfum_db_ver');
 	}
-	
+
 	// Register privacy policy.
 	public function privacy() {
 		$content = sprintf(
