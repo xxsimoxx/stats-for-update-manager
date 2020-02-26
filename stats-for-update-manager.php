@@ -51,7 +51,7 @@ class StatsForUpdateManager{
 
 	// String to keep the screen.
 	private $screen = '';
-	
+
 	// String to keep Update Manager version.
 	private $um_version = '';
 
@@ -63,7 +63,7 @@ class StatsForUpdateManager{
 		} else {
 			$this->um_running = true;
 			$plugin_data = get_plugin_data(WP_PLUGIN_DIR.'/'.UM_SLUG);
-			$this->um_version = $plugin_data['Version'];	
+			$this->um_version = $plugin_data['Version'];
 		}
 
 		// Load text domain.
@@ -188,21 +188,12 @@ class StatsForUpdateManager{
 		if (!$this->um_running) {
 			return $data;
 		}
-		$plugins = get_posts([
-			'post_type' => UM_CPT_PLUGINS,
+		$posts = get_posts([
+			'post_type' => [UM_CPT_PLUGINS, UM_CPT_THEMES],
 			'post_status' => ['publish', 'pending' ,'draft'],
 			'numberposts' => -1
 			]);
-		$themes = get_posts([
-			'post_type' => UM_CPT_THEMES,
-			'post_status' => ['publish', 'pending' ,'draft'],
-			'numberposts' => -1
-			]);
-		foreach($plugins as $post) {
-			$meta = get_post_meta($post->ID, 'id', true);
-			$data[$meta] = $post->ID;
-		}
-		foreach($themes as $post) {
+		foreach($posts as $post) {
 			$meta = get_post_meta($post->ID, 'id', true);
 			$data[$meta] = $post->ID;
 		}
@@ -232,7 +223,7 @@ class StatsForUpdateManager{
 
 		// Check that we are dealing with a valid update type.
 		if (isset($query['update']) && !in_array($query['update'], ['plugin_information', 'query_plugins', 'query_themes'])) {
-			return $query;			
+			return $query;
 		}
 
 		// Check what we are dealing with.
@@ -401,9 +392,9 @@ class StatsForUpdateManager{
 				echo $theme_output;
 				echo '</ul></div>';
 			}
-			
+
 		}
-		
+
 		// Display the debug section.
 		$this->render_page_debug();
 		// Close the wrap div.
