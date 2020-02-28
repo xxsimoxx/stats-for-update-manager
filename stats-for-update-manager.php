@@ -222,12 +222,12 @@ class StatsForUpdateManager{
 		}
 
 		// Check that we are dealing with a valid update type.
-		if (isset($query['update']) && !in_array($query['update'], ['plugin_information', 'query_plugins', 'query_themes'])) {
+		if (isset($query['update']) && !in_array($query['update'], ['plugin_information', 'query_plugins', 'query_themes', 'theme_information'])) {
 			return $query;
 		}
 
 		// Check what we are dealing with.
-		if ($query['update']==='query_themes'){
+		if (in_array($query['update'], ['query_themes', 'theme_information'])){
 			// We are dealing with a theme.
 			if(!$this->is_safe_theme_slug($query["theme"])) {
 				// Don't log and don't break Update Manager.
