@@ -181,6 +181,7 @@ define( 'SFUM_ENABLE_REST', true );
 = 1.1.0-rc1 =
 * Added statistics for themes: support for Update Manager 2.0.0
 * Added basic REST API support
+* Updated UpdateClient.class.php
 * Better WP-CLI comments
 
 = 1.0.0 =
