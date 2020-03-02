@@ -10,7 +10,7 @@ Tested:             4.9.99
 Author:             Gieffe edizioni
 Author URI:         https://www.gieffeedizioni.it
 Plugin URI:         https://software.gieffeedizioni.it
-Download link:      https://github.com/xxsimoxx/stats-for-update-manager/releases/download/v1.1.0-rc1/stats-for-update-manager.zip
+Download link:      https://github.com/xxsimoxx/stats-for-update-manager/releases/download/v1.1.0/stats-for-update-manager.zip
 License:            GPLv2
 License URI:        https://www.gnu.org/licenses/gpl-2.0.html
 
