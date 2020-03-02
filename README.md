@@ -56,6 +56,8 @@ Or simply disable it all
 Note: the real number is cached for 6 hours.
 
 ### Recognize your own sites in debug
+_Note that debug information is displayed only if Update Manager is missing or `WP_DEBUG` is set to true_.
+
 **`sfum_my_sites`** let's you recognize your own sites. They will be marked with an * in the debug informations.
 With this filter you can populate an array of sha512-hashed urls.
 Example:

@@ -1,7 +1,7 @@
 === Stats for Update Manager ===
 Plugin Name:        Stats for Update Manager
 Description:        With Stats for Update Manager you can count active installations of your plugins and themes.
-Version:            1.1.0-rc1
+Version:            1.1.0
 Text Domain:        stats-for-update-manager
 Domain Path:        /languages
 Requires PHP:       5.6
@@ -101,6 +101,7 @@ Or simply disable it all
 Note: the real number is cached for 6 hours.
 
 ### Recognize your own sites in debug
+_Note that debug information is displayed only if Update Manager is missing or `WP_DEBUG` is set to true_.
 
 `sfum_my_sites` let's you recognize your own sites. They will be marked with an * in the debug informations.
 With this filter you can populate an array of sha512-hashed urls.
@@ -178,6 +179,9 @@ define( 'SFUM_ENABLE_REST', true );
 *Note that the value of active installation is affected by the [filter](#filters) `sfum_active_installations`.*
 
 == Changelog ==
+= 1.1.0 =
+* Debug info only shown when WP_DEBUG is true
+
 = 1.1.0-rc1 =
 * Added statistics for themes: support for Update Manager 2.0.0
 * Added basic REST API support
