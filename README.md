@@ -14,7 +14,7 @@ With Stats for Update Manager you can count active installations of your plugins
 You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 
 It supports WP-CLI. See the help typing:
-* `wp help statistics show` 
+* `wp help statistics show`
 * `wp help statistics purge`
 * `wp help statistics delete`
 
@@ -70,11 +70,11 @@ function all_my_sites($sha) {
 		'https://my-first-site.dog',
 		'https://www.my-second-site.dog'
 		];
-	
+
 	$myhashes = array_map(function($value){
 		return hash('sha512', $value);
 	}, $mysites);
-	
+
 	return $myhashes;
 }
 ```
@@ -100,7 +100,7 @@ function return_seven($days) {
 ```
 *Note that filtering `sfum_old_after` to 0 will erase your database when the daily maintenence cronjob is executed.*
 
-### Prevent specific(s) plugin(s)//theme(s) to be logged
+### Prevent specific(s) plugin(s)/theme(s) to be logged
 
 **`sfum_exclude`** let's you configure an array of identifier that are excluded from logging.
 
@@ -121,7 +121,7 @@ function no_log_please($list) {
 }
 ```
 
-## Shortcodes 
+## Shortcodes
 
 ### [sfum-installs]
 
@@ -138,7 +138,7 @@ Building on the previous example, you can also provide a plugin or theme id. Thi
 
 ### [sfum-domains]
 
-This shortcode returns an integer depicting the number of unique domains using all of the developer's plugins. Developers can use it in a sentence: 
+This shortcode returns an integer depicting the number of unique domains using all of the developer's plugins. Developers can use it in a sentence:
 
 > Code Potent is running on [_n_] sites!
 
@@ -154,7 +154,7 @@ define( 'SFUM_ENABLE_REST', true );
 
 ## GDPR / privacy
 
-This plugin stores data about plugin/theme updates in a table. 
+This plugin stores data about plugin/theme updates in a table.
 You can configure how much time this data is kept using `sfum_old_after` filter (defaults to 4 weeks).
 All the data is removed at plugin uninstall.
 
