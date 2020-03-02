@@ -395,8 +395,11 @@ class StatsForUpdateManager{
 
 		}
 
-		// Display the debug section.
-		$this->render_page_debug();
+		// Display the debug section only fi UM not running (see above)
+		// or WP_DEBUG is active.
+		if(defined('WP_DEBUG')&&WP_DEBUG===true) {
+			$this->render_page_debug();
+		}
 		// Close the wrap div.
 		echo "</div>";
 	}
