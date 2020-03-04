@@ -3,15 +3,17 @@
 }
 
 .sfum-title-logo img {
-	height: 100px;
+	height: 110px;
 	padding:20px 20px 20px 0;
-	transition: all 0.5s ease-in;
+	transition: all .2s ease-in;
+	filter: drop-shadow( 4px 4px 4px rgba(0,0,0,.5) );
 }
 
 .sfum-title-logo img:hover {
-	transform: rotate(15deg) scale(1.1,1.1);
+	transform: rotate(10deg) scale(.9,.9);
 	transform-origin: center;
-	transition: all 1s ease-out;
+	transition: all .4s ease-out;
+	filter: drop-shadow( 1px 1px 1px rgba(0,0,0,.8) );
 }
 
 .sfum-title-logo {

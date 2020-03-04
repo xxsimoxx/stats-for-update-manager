@@ -330,7 +330,7 @@ class StatsForUpdateManager{
 	// Enqueue CSS only in the page.
 	public function backend_css($hook) {
 		if ($hook === $this->screen) {
-			wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'css/sfum-backend.css', [], '1.0.0');
+			wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'css/sfum-backend.css', [], '1.1.0');
 		}
 	}
 
@@ -338,7 +338,7 @@ class StatsForUpdateManager{
 	public function render_page() {
 		echo '<div class="wrap">';
 		echo '<div class="sfum-title">';
-		echo '<div class="sfum-title-logo"><a href="'.XXSIMOXX_LINK.'" target="_blank"><img src="'.plugin_dir_url(__FILE__).'images/icon.svg"></a></div>';
+		echo '<div class="sfum-title-logo"><a href="'.XXSIMOXX_LINK.'" target="_blank" title="'.XXSIMOXX_LINK.'"><img src="'.plugin_dir_url(__FILE__).'images/icon.svg"></a></div>';
 		echo '<div class="sfum-title-text"><h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
 		echo '<h2>'.esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager').'</h2></div></div>';
 
