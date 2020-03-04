@@ -118,7 +118,7 @@ class StatsForUpdateManager{
 
 	// Trigger a warning. Helpful in developement.
 	private function warn($x) {
-		 trigger_error(print_r($x, TRUE), E_USER_WARNING);
+		 trigger_error(print_r($x, true), E_USER_WARNING);
 	}
 
 	// Apply filters to set the number of days for an entry to be considered inactive or have to be removed from db.
@@ -287,7 +287,7 @@ class StatsForUpdateManager{
 	// Check that the url is in the correct form.
 	private function is_safe_url($url) {
 		// We don't care too much here because it's hashed early.
-		return isset($url) && is_string($url) && (bool) preg_match('/^http(s)?:\/\//', $url);;
+		return isset($url) && is_string($url) && (bool) preg_match('/^http(s)?:\/\//', $url);
 	}
 
 	private function is_theme($id) {

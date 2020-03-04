@@ -23,12 +23,12 @@
  */
 
 /**
- * 
- * Note: this is not the original file. 
+ *
+ * Note: this is not the original file.
  * It's modified to remove text domain.
  *
  */
- 
+
 
 // EDIT: Make this unique. Example: YourDevName\YourPluginName;
 namespace XXSimoXX\StatsForUpdateManager\UpdateClient;

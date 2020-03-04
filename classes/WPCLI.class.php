@@ -24,7 +24,7 @@ global $sfum_instance;
 *
 *     wp statistics show [--days=<integer>] [--format=<format>] [--fields=<fields>] [--date=<date-format>]
 *     wp statistics delete <identifier>
-*     wp statistics purge [--yes] 
+*     wp statistics purge [--yes]
 *
 * @when after_wp_load
 */
@@ -54,11 +54,11 @@ class Statistics{
 	* ---
 	*
 	* [--fields=<fields>]
-    * : Limit the output to specific object fields (comma separated list).
+	* : Limit the output to specific object fields (comma separated list).
 	*
 	* [--date=<date-format>]
-    * : Add current date to results in the specified format.
-    *
+	* : Add current date to results in the specified format.
+	*
 	* ## EXAMPLES
 	*
 	*     wp statistics show --days=1 --date='d/m/Y'
@@ -66,40 +66,40 @@ class Statistics{
 	* @when after_wp_load
 	*/
 	public function show($args, $assoc_args) {
-	
+
 		// Bring StatsForUpdateManager class into scope.
 		global $sfum_instance;
-		
+
 		// Check for UM running.
 		if (!$sfum_instance->um_running) {
 			return \WP_CLI::error('Update Manager is not running.');
 		}
-		
+
 		// Use option from command line or default for days.
 		if (!is_numeric($timing=\WP_CLI\Utils\get_flag_value($assoc_args, 'days'))) {
 			$timing = $sfum_instance->db_unactive_entry;
 		} else {
 			$timing = 'INTERVAL '.$timing.' DAY';
 		}
-		
+
 		// Query database.
 		global $wpdb;
 		$results = $wpdb->get_results('SELECT slug as "identifier", count(*) as "active" FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$timing.' group by slug', 'ARRAY_A');
 		if (count($results) === 0){
 			return \WP_CLI::error('No active plugins found.');
 		}
-		
+
 		// Get CPT.
 		$cpt = $sfum_instance->get_cpt();
-		
+
 		// Define fields
 		$field_list='ID,title,active,identifier,status,endpoint';
-		
+
 		// Handle --date.
 		if($date_format=\WP_CLI\Utils\get_flag_value($assoc_args, 'date')) {
 			$field_list='date,'.$field_list;
 		}
-			
+
 		// Join db results with CPT informations.
 		foreach ($results as $key=>&$result) {
 			if (!isset($cpt[$result['identifier']])) {
@@ -114,7 +114,7 @@ class Statistics{
 				$result['date']=date($date_format);
 			}
 		}
-		
+
 		// Sort results.
 		usort($results, function($a, $b) {
 			$c = $b['active'] - $a['active'];
@@ -131,7 +131,7 @@ class Statistics{
 			\WP_CLI\Utils\get_flag_value($assoc_args, 'fields', $field_list)
 		);
 	}
-	
+
 	/**
 	* Purge (empty) the log table.
 	*
@@ -141,18 +141,18 @@ class Statistics{
 	*
 	*
 	* [--yes]
-    * : Skip confirmation.
+	* : Skip confirmation.
 	*
 	* @when after_wp_load
 	*/
 	public function purge($args, $assoc_args) {
-	
+
 		// Ask for confirmation if --yes not given.
 		if(!\WP_CLI\Utils\get_flag_value($assoc_args, 'yes', false)) {
 			\WP_CLI::warning('This will delete ALL the logs.');
 		}
 		\WP_CLI::confirm('Are you sure?', $assoc_args);
-		
+
 		// Truncate the table.
 		global $wpdb;
 		$wpdb->suppress_errors();
@@ -160,7 +160,7 @@ class Statistics{
 			// Failed, bail and exit.
 			\WP_CLI::error('Can\'t delete logs.', true);
 		}
-		
+
 		// Success.
 		\WP_CLI::success('Table is empty now.');
 	}
@@ -172,7 +172,7 @@ class Statistics{
 	*
 	*
 	* <identifier>
-    * : The identifier of the plugin/theme you want to remove logs.
+	* : The identifier of the plugin/theme you want to remove logs.
 	*
 	* @when after_wp_load
 	*/
@@ -180,7 +180,7 @@ class Statistics{
 
 		// Bring StatsForUpdateManager class into scope.
 		global $sfum_instance;
-		
+
 		// Get CPT.
 		$cpt = $sfum_instance->get_cpt();
 
@@ -188,7 +188,7 @@ class Statistics{
 		if(!array_key_exists($args[0], $cpt)){
 			\WP_CLI::error('Can\'t find "'.$args[0].'".', true);
 		}
-		
+
 		// Delete from DB.
 		$where = ['slug'=>$args[0]];
 		global $wpdb;
@@ -198,10 +198,10 @@ class Statistics{
 		if(!$deleted>0) {
 			\WP_CLI::error('Can\'t find "'.$args[0].'".', true);
 		}
-				
+
 		// Success.
 		\WP_CLI::success('"'.$args[0].'" deleted.');
 
 	}
-	
+
 }
