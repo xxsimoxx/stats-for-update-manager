@@ -381,13 +381,13 @@ class StatsForUpdateManager{
 
 			//Display results.
 			if ($plugin_output !== '') {
-				echo '<h2><span class="dashicons dashicons-admin-plugins"></span>'.esc_html__('Plugins', 'stats-for-update-manager').'</h2>';
+				echo '<h2><span class="dashicons dashicons-admin-plugins"></span> '.esc_html__('Plugins', 'stats-for-update-manager').'</h2>';
 				echo '<div><ul class="sfum-list">';
 				echo $plugin_output;
 				echo '</ul></div>';
 			}
 			if ($theme_output !== '') {
-				echo '<h2><span class="dashicons dashicons-admin-appearance"></span>'.esc_html__('Themes', 'stats-for-update-manager').'</h2>';
+				echo '<h2><span class="dashicons dashicons-admin-appearance"></span> '.esc_html__('Themes', 'stats-for-update-manager').'</h2>';
 				echo '<div><ul class="sfum-list">';
 				echo $theme_output;
 				echo '</ul></div>';
