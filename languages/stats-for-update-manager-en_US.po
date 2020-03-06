@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Stats for Update Manager 1.0.0-rc1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/stats-for-update-"
 "manager\n"
-"POT-Creation-Date: 2020-03-06T14:13:36+00:00\n"
+"POT-Creation-Date: 2020-03-06T14:42:56+00:00\n"
 "PO-Revision-Date: 2019-12-26 16:51+0100\n"
 "Last-Translator: root <simone@gieffeedizioni.it>\n"
 "Language-Team: Italian\n"
@@ -91,6 +91,10 @@ msgstr ""
 msgid "PLUGIN/THEME"
 msgstr ""
 
+#: stats-for-update-manager.php:391
+msgid "Plugin"
+msgstr ""
+
 #: stats-for-update-manager.php:308
 msgctxt "Menu Title"
 msgid "Statistics"
@@ -112,6 +116,10 @@ msgstr ""
 
 #. Plugin Name of the plugin
 msgid "Stats for Update Manager"
+msgstr ""
+
+#: stats-for-update-manager.php:391
+msgid "Theme"
 msgstr ""
 
 #: classes/ListTable.class.php:33
