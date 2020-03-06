@@ -30,6 +30,9 @@ require_once('classes/Shortcodes.class.php');
 // WP-CLI extensions.
 require_once('classes/WPCLI.class.php');
 
+// List table.
+require_once('classes/ListTable.class.php');
+
 class StatsForUpdateManager{
 
 	// Initialize variables
@@ -329,79 +332,67 @@ class StatsForUpdateManager{
 
 	// Enqueue CSS only in the page.
 	public function backend_css($hook) {
-		if ($hook === $this->screen) {
+		if ($hook === $this->screen && defined('WP_DEBUG') && WP_DEBUG===true) {
 			wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'css/sfum-backend.css', [], '1.1.0');
 		}
 	}
 
 	// Render statistics page.
 	public function render_page() {
-		echo '<div class="wrap">';
-		echo '<div class="sfum-title">';
-		echo '<div class="sfum-title-logo"><a href="'.XXSIMOXX_LINK.'" target="_blank" title="'.XXSIMOXX_LINK.'"><img src="'.plugin_dir_url(__FILE__).'images/icon.svg"></a></div>';
-		echo '<div class="sfum-title-text"><h1>'.esc_html__('Active installations', 'stats-for-update-manager').'</h1>';
-		echo '<h2>'.esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager').'</h2></div></div>';
 
-		if (!$this->um_running) {
+		// Title.
+		echo '<div class="wrap">';
+		echo '<h1>'.esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager').'</h1>';
+		echo '<h2>'.esc_html__('Active installations', 'stats-for-update-manager').'</h2>';
+
+		// Render list table.
+		$statistics = $this->get_statistics();
+		$myListTable = new SFUM_List_Table();
+		$myListTable->load_items($statistics);
+		$myListTable->prepare_items();
+		$myListTable->display();
+
+		// Show debug information if WP_DEBUG is true.
+		if(defined('WP_DEBUG')&&WP_DEBUG===true) {
 			$this->render_page_debug();
-			return;
 		}
 
+		echo '</div>';
+
+	}
+
+	// Get an array of statistics that can be passed to SFUM_List_Table.
+	private function get_statistics() {
+		$items=[];
+
+		// UM not running: return an empty array.
+		if (!$this->um_running) {
+			return $items;
+		}
+
+		// Get CPTs and query database for statistics.
 		$um_posts = $this->get_cpt();
 		global $wpdb;
 		$active = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug');
 
-		$plugin_output="";
-		$theme_output="";
+		// Loop through results and build an array.
+		foreach ($active as $value) {
 
-		if (count($active) !== 0) {
-			// Sort results.
-			usort($active, function($a, $b) {
-				$c = $b->total - $a->total;
-				if ($c !== 0) {
-					return $c;
-				}
-				return strcasecmp($a->slug, $b->slug);
-			});
-
-			foreach ($active as $value) {
-				// If there is a request for a plugin not served by UM don't display.
-				if (isset($um_posts[$value->slug])) {
-					$title = '<a href="'.admin_url('post.php?post='.$um_posts[$value->slug].'&action=edit').'">'.get_the_title($um_posts[$value->slug]).'</a>';
-					if($this->is_theme($um_posts[$value->slug])){
-						/* Translators: %1 is plugin name, %2 is the number of active installations */
-						$theme_output .= sprintf('<li>'.esc_html(_n('%1$s has %2$d active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
-					}
-					if($this->is_plugin($um_posts[$value->slug])){
-						/* Translators: %1 is plugin name, %2 is the number of active installations */
-						$plugin_output .= sprintf('<li>'.esc_html(_n('%1$s has %2$d active installation.', '%1$s has %2$d active installations.', $value->total, 'stats-for-update-manager')).'</li>' , $title, $value->total);
-					}
-				}
+			// Not in Update manager... skip
+			if (!isset($um_posts[$value->slug])) {
+				continue;
 			}
 
-			//Display results.
-			if ($plugin_output !== '') {
-				echo '<h2><span class="dashicons dashicons-admin-plugins"></span> '.esc_html__('Plugins', 'stats-for-update-manager').'</h2>';
-				echo '<div><ul class="sfum-list">';
-				echo $plugin_output;
-				echo '</ul></div>';
-			}
-			if ($theme_output !== '') {
-				echo '<h2><span class="dashicons dashicons-admin-appearance"></span> '.esc_html__('Themes', 'stats-for-update-manager').'</h2>';
-				echo '<div><ul class="sfum-list">';
-				echo $theme_output;
-				echo '</ul></div>';
-			}
-
+			$items[] = [
+				'identifier' => $value->slug,
+				'name'       => get_the_title($um_posts[$value->slug]),
+				'id'         => $um_posts[$value->slug],
+				'count'      => $value->total,
+				'type'       => $this->is_theme($um_posts[$value->slug]) ? 'theme' : 'plugin',
+			];
 		}
 
-		// Display the debug section only fi UM not running (see above)
-		// or WP_DEBUG is active.
-		if(defined('WP_DEBUG')&&WP_DEBUG===true) {
-			$this->render_page_debug();
-		}
-		// Close the wrap div.
-		echo "</div>";
+		return $items;
 	}
 
 	// Render the debug section of the page.
