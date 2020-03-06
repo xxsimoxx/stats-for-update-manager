@@ -330,7 +330,7 @@ class StatsForUpdateManager{
 		}
 	}
 
-	// Enqueue CSS only in the page.
+	// Enqueue CSS for debug section only in the page and only if WP_DEBUG is true. 
 	public function backend_css($hook) {
 		if ($hook === $this->screen && defined('WP_DEBUG') && WP_DEBUG===true) {
 			wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'css/sfum-backend.css', [], '1.1.0');
@@ -347,10 +347,10 @@ class StatsForUpdateManager{
 
 		// Render list table.
 		$statistics = $this->get_statistics();
-		$myListTable = new SFUM_List_Table();
-		$myListTable->load_items($statistics);
-		$myListTable->prepare_items();
-		$myListTable->display();
+		$ListTable = new SFUM_List_Table();
+		$ListTable->load_items($statistics);
+		$ListTable->prepare_items();
+		$ListTable->display();
 
 		// Show debug information if WP_DEBUG is true.
 		if(defined('WP_DEBUG')&&WP_DEBUG===true) {
@@ -365,7 +365,7 @@ class StatsForUpdateManager{
 	private function get_statistics() {
 		$items=[];
 
-		// UM not running: return an empty array.
+		// UM not running: return the empty array.
 		if (!$this->um_running) {
 			return $items;
 		}
