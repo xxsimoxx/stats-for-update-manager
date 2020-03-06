@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Stats for Update Manager 1.0.0-rc1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/stats-for-update-"
 "manager\n"
-"POT-Creation-Date: 2020-02-25T12:50:46+00:00\n"
+"POT-Creation-Date: 2020-03-06T14:13:36+00:00\n"
 "PO-Revision-Date: 2019-12-26 16:51+0100\n"
 "Last-Translator: root <simone@gieffeedizioni.it>\n"
 "Language-Team: Italian\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Domain: stats-for-update-manager\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: stats-for-update-manager.php:511
+#: stats-for-update-manager.php:499
 msgid ""
 "\n"
 "\t\t\t\tThis plugin stores data about plugins/themes update requests in a "
@@ -64,15 +64,8 @@ msgstr ""
 "\t\t\t\tQuesti dati sono conservati fino a 28 giorni.%12$s\n"
 "\t\t\t\t"
 
-#. Translators: %1 is plugin name, %2 is the number of active installations
-#: stats-for-update-manager.php:381 stats-for-update-manager.php:385
-msgid "%1$s has %2$d active installation."
-msgid_plural "%1$s has %2$d active installations."
-msgstr[0] "%1$s ha %2$d installazione attiva."
-msgstr[1] "%1$s ha %2$d installazioni attive."
-
 #. translators: 1 is the link to Update Manager homepage
-#: stats-for-update-manager.php:181
+#: stats-for-update-manager.php:184
 msgid ""
 "<b>Stats for Update Manager</b> is pretty unuseful without <a href=\"%1$s\" "
 "target=\"_blank\">Update Manager</a>."
@@ -80,23 +73,27 @@ msgstr ""
 "<b>Statistiche per Update Manager</b> è abbastanza inutile senza <a href="
 "\"%1$s\" target=\"_blank\">Update Manager</a>."
 
-#: stats-for-update-manager.php:350
+#: classes/ListTable.class.php:32 stats-for-update-manager.php:346
 msgid "Active installations"
 msgstr "Installazioni attive"
 
-#: stats-for-update-manager.php:425
+#: stats-for-update-manager.php:413
 msgid "DATE"
 msgstr "DATA"
 
-#: stats-for-update-manager.php:440
+#: stats-for-update-manager.php:428
 msgid "Debug"
 msgstr "Controlla"
 
-#: stats-for-update-manager.php:421
+#: stats-for-update-manager.php:409
 msgid "Debug information"
 msgstr "Informazioni di debug"
 
-#: stats-for-update-manager.php:425
+#: classes/ListTable.class.php:64
+msgid "Edit"
+msgstr "Modifica"
+
+#: stats-for-update-manager.php:413
 msgid "FIRST 30 CHAR OF THE HASH"
 msgstr "PRIMI 30 CARATTERI DELL'HASH"
 
@@ -104,33 +101,33 @@ msgstr "PRIMI 30 CARATTERI DELL'HASH"
 msgid "Gieffe edizioni srl"
 msgstr ""
 
-#: stats-for-update-manager.php:423
+#: stats-for-update-manager.php:411
 msgid "Latest updates"
 msgstr "Ultimi aggiornamenti"
 
-#: stats-for-update-manager.php:416
-msgid "No database entries."
-msgstr "Database vuoto"
+#: classes/ListTable.class.php:29
+msgid "Name"
+msgstr "Nome"
 
-#: stats-for-update-manager.php:425
+#: stats-for-update-manager.php:404
+msgid "No database entries."
+msgstr "Database vuoto."
+
+#: stats-for-update-manager.php:413
 msgid "PLUGIN/THEME"
 msgstr "PLUGIN/TEMA"
 
-#: stats-for-update-manager.php:392
-msgid "Plugins"
-msgstr "Plugins"
-
-#: stats-for-update-manager.php:314
+#: stats-for-update-manager.php:308
 msgctxt "Menu Title"
 msgid "Statistics"
 msgstr "Statistiche"
 
-#: stats-for-update-manager.php:325
+#: stats-for-update-manager.php:319
 msgctxt "Menu Title with UM deactivated"
 msgid "Statistics for Update Manager"
 msgstr "Statistiche per Update Manager"
 
-#: stats-for-update-manager.php:330 stats-for-update-manager.php:351
+#: stats-for-update-manager.php:324 stats-for-update-manager.php:345
 msgctxt "Page Title"
 msgid "Statistics for Update Manager"
 msgstr "Statistiche per Update Manager"
@@ -143,12 +140,12 @@ msgstr "Statistiche per Update Manager di Code Potent."
 msgid "Stats for Update Manager"
 msgstr "Statistiche per Update Manager"
 
-#: stats-for-update-manager.php:398
-msgid "Themes"
-msgstr "Temi"
+#: classes/ListTable.class.php:33
+msgid "Type"
+msgstr "Tipo"
 
-#: stats-for-update-manager.php:440 stats-for-update-manager.php:446
-#: stats-for-update-manager.php:449
+#: stats-for-update-manager.php:428 stats-for-update-manager.php:434
+#: stats-for-update-manager.php:437
 msgid "Update Manager statistics"
 msgstr "Statistiche per Update Manager"
 
