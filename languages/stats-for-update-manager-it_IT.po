@@ -142,7 +142,7 @@ msgstr "Statistiche per Update Manager di Code Potent."
 
 #. Plugin Name of the plugin
 msgid "Stats for Update Manager"
-msgstr "Statistiche per Update Manager"
+msgstr "Stats for Update Manager"
 
 #: stats-for-update-manager.php:390
 msgid "Theme"
