@@ -31,7 +31,7 @@ class SFUM_List_Table extends \WP_List_Table {
 			'name'       => esc_html__('Name', 'stats-for-update-manager'),
 			'identifier' => 'Identifier',
 			'id'         => 'Id',
-			'count'      => esc_html__('Active installations', 'stats-for-update-manager'),
+			'count'      => esc_html__('Active Installations', 'stats-for-update-manager'),
 			'type'       => esc_html__('Type', 'stats-for-update-manager'),
 		];
 		return $columns;
@@ -82,6 +82,7 @@ class SFUM_List_Table extends \WP_List_Table {
 		return sprintf('%1$s %2$s', $name, $this->row_actions($actions));
 	}
 
+/*
 	// Force right align on non-mobile.
 	function column_count($item) {
 		if(wp_is_mobile()) {
@@ -92,6 +93,7 @@ class SFUM_List_Table extends \WP_List_Table {
 		$padded = str_replace(' ', '&nbsp;', $padded);
 		return '<pre><strong>'.$padded.'</strong></pre>';
 	}
+*/
 
 	// Load list items, as we want this to be passed from another class.
 	function load_items($statistics) {

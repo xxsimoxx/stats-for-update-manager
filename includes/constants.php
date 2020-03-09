@@ -23,6 +23,9 @@ const DB_REVISION = 1;
 // Link to my plugins on GitHub.
 const XXSIMOXX_LINK = 'https://github.com/xxsimoxx/stats-for-update-manager';
 
+// Menu Slug.
+const MENU_SLUG = 'update-manager-statistics';
+
 // Link to Update Manager homepage.
 const UM_LINK = 'https://codepotent.com/classicpress/plugins/update-manager/';
 

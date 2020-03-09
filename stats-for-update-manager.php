@@ -175,7 +175,7 @@ class StatsForUpdateManager{
 			return;
 		}
 		$screen = get_current_screen();
-		if ( $screen->id !== 'tools_page_sfum_statistics') {
+		if ( $screen->id !== 'tools_page_'.MENU_SLUG) {
 			return;
 		}
 
@@ -324,7 +324,7 @@ class StatsForUpdateManager{
 				esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager'),
 				$menu_title,
 				'manage_options',
-				'sfum_statistics',
+				MENU_SLUG,
 				[$this, 'render_page']
 			);
 		}
@@ -342,8 +342,7 @@ class StatsForUpdateManager{
 
 		// Title.
 		echo '<div class="wrap">';
-		echo '<h1>'.esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager').'</h1>';
-		echo '<h2>'.esc_html__('Active installations', 'stats-for-update-manager').'</h2>';
+		echo '<h1>'.esc_html_x('Update Manager - Statistics', 'Page Title', 'stats-for-update-manager').'</h1>';
 
 		// Render list table.
 		$statistics = $this->get_statistics();
@@ -425,16 +424,16 @@ class StatsForUpdateManager{
 	// Add link to statistic page in plugins page.
 	public function pal($links) {
 		if(!$this->um_running) {
-			$link = '<a href="'.admin_url('tools.php?page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'">'.esc_html__('Debug', 'stats-for-update-manager').' <i class="dashicon dashicons-warning" style="font: 16px dashicons;vertical-align: text-bottom;"></i> </a>';
+			$link = '<a href="'.admin_url('tools.php?page='.MENU_SLUG).'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'">'.esc_html__('Debug', 'stats-for-update-manager').' <i class="dashicon dashicons-warning" style="font: 16px dashicons;vertical-align: text-bottom;"></i> </a>';
 			array_unshift($links, $link);
 			return $links;
 		}
 
 		if (version_compare($this->um_version, '1.9999.0', '>')){
-			$link = '<a href="'.admin_url('admin.php?page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar" style="font: 16px dashicons;vertical-align: text-bottom;"></i></a>';
+			$link = '<a href="'.admin_url('admin.php?page='.MENU_SLUG).'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar" style="font: 16px dashicons;vertical-align: text-bottom;"></i></a>';
 		} else {
 			// Keep compatibility with UM <2.0.0
-			$link = '<a href="'.admin_url('edit.php?post_type='.UM_CPT_PLUGINS.'&page=sfum_statistics').'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar" style="font: 16px dashicons;vertical-align: text-bottom;"></i></a>';
+			$link = '<a href="'.admin_url('edit.php?post_type='.UM_CPT_PLUGINS.'&page='.MENU_SLUG).'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar" style="font: 16px dashicons;vertical-align: text-bottom;"></i></a>';
 		}
 
 		array_unshift($links, $link);
