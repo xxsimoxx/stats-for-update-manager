@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-03-09T07:40:36+00:00\n"
+"POT-Creation-Date: 2020-03-09T16:19:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: stats-for-update-manager\n"
@@ -51,73 +51,73 @@ msgid "Edit"
 msgstr ""
 
 #. translators: 1 is the link to Update Manager homepage
-#: stats-for-update-manager.php:184
+#: stats-for-update-manager.php:187
 msgid "<b>Stats for Update Manager</b> is pretty unuseful without <a href=\"%1$s\" target=\"_blank\">Update Manager</a>."
 msgstr ""
 
-#: stats-for-update-manager.php:308
+#: stats-for-update-manager.php:311
 msgctxt "Menu Title"
 msgid "Statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:319
+#: stats-for-update-manager.php:322
 msgctxt "Menu Title with UM deactivated"
 msgid "Statistics for Update Manager"
 msgstr ""
 
-#: stats-for-update-manager.php:324
+#: stats-for-update-manager.php:327
 msgctxt "Page Title"
 msgid "Statistics for Update Manager"
 msgstr ""
 
-#: stats-for-update-manager.php:345
+#: stats-for-update-manager.php:348
 msgctxt "Page Title"
-msgid "Update Manager - Statistics"
+msgid "Update Manager &#8211; Statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:390
+#: stats-for-update-manager.php:393
 msgid "Theme"
 msgstr ""
 
-#: stats-for-update-manager.php:390
+#: stats-for-update-manager.php:393
 msgid "Plugin"
 msgstr ""
 
-#: stats-for-update-manager.php:403
+#: stats-for-update-manager.php:406
 msgid "No database entries."
 msgstr ""
 
-#: stats-for-update-manager.php:408
+#: stats-for-update-manager.php:411
 msgid "Debug information"
 msgstr ""
 
-#: stats-for-update-manager.php:410
+#: stats-for-update-manager.php:413
 msgid "Latest updates"
 msgstr ""
 
-#: stats-for-update-manager.php:412
+#: stats-for-update-manager.php:415
 msgid "FIRST 30 CHAR OF THE HASH"
 msgstr ""
 
-#: stats-for-update-manager.php:412
+#: stats-for-update-manager.php:415
 msgid "DATE"
 msgstr ""
 
-#: stats-for-update-manager.php:412
+#: stats-for-update-manager.php:415
 msgid "PLUGIN/THEME"
 msgstr ""
 
-#: stats-for-update-manager.php:427
-#: stats-for-update-manager.php:433
+#: stats-for-update-manager.php:430
 #: stats-for-update-manager.php:436
+#: stats-for-update-manager.php:439
 msgid "Update Manager statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:427
+#: stats-for-update-manager.php:430
 msgid "Debug"
 msgstr ""
 
-#: stats-for-update-manager.php:498
+#: stats-for-update-manager.php:513
 msgid ""
 "\n"
 "\t\t\t\tThis plugin stores data about plugins/themes update requests in a table.\n"

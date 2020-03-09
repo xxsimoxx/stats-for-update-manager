@@ -345,7 +345,7 @@ class StatsForUpdateManager{
 
 		// Title.
 		echo '<div class="wrap">';
-		echo '<h1 class="wp-heading-inline" style="margin-bottom:10px;">'.esc_html_x('Update Manager - Statistics', 'Page Title', 'stats-for-update-manager').'</h1>';
+		echo '<h1 class="wp-heading-inline" style="margin-bottom:10px;">'.esc_html_x('Update Manager &#8211; Statistics', 'Page Title', 'stats-for-update-manager').'</h1>';
 
 		// Render list table.
 		$statistics = $this->get_statistics();
