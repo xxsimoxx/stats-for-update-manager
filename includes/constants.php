@@ -20,8 +20,11 @@ const DEFAULT_OLD_DAYS = 28;
 // Database schema version (for future use).
 const DB_REVISION = 1;
 
-// Link to my plugins on GitHub.
-const XXSIMOXX_LINK = 'https://github.com/xxsimoxx/stats-for-update-manager';
+// GitHub plugin page.
+const GITHUB_PAGE = 'https://github.com/xxsimoxx/stats-for-update-manager';
+
+// Link to Gieffe software page.
+const SW_PAGE = 'https://software.gieffeedizioni.it';
 
 // Menu Slug.
 const MENU_SLUG = 'update-manager-statistics';

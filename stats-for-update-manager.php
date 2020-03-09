@@ -95,6 +95,9 @@ class StatsForUpdateManager{
 		// Add a button that links to statistics in plugins page.
 		add_filter('plugin_action_links_'.plugin_basename(__FILE__), [$this, 'pal']);
 
+		// Replace footer text with plugin name and version info.
+		add_filter('admin_footer_text', [$this, 'filter_footer_text'], PHP_INT_MAX);
+
 		// Add a cron to clean table.
 		add_action('sfum_clean_table', [$this, 'clean_table']);
 		if (!wp_next_scheduled('sfum_clean_table')) {
@@ -438,6 +441,18 @@ class StatsForUpdateManager{
 
 		array_unshift($links, $link);
 		return $links;
+	}
+
+	public function filter_footer_text($text) {
+
+		$screen = get_current_screen();
+
+		if ($screen->id === $this->screen) {
+				$text = '<a href="'.GITHUB_PAGE.'/" title="Stats for Update Manager" target="_blank">Stats for Update Manager</a> &#8212; by <a href="'.SW_PAGE.'" title="Gieffe edizioni" target="_blank">Gieffe edizioni</a>';
+		}
+
+		return $text;
+
 	}
 
 	// Delete old entries.
