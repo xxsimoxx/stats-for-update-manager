@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Stats for Update Manager 1.0.0-rc1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/stats-for-update-"
 "manager\n"
-"POT-Creation-Date: 2020-03-06T14:42:56+00:00\n"
+"POT-Creation-Date: 2020-03-09T07:40:36+00:00\n"
 "PO-Revision-Date: 2019-12-26 16:51+0100\n"
 "Last-Translator: root <simone@gieffeedizioni.it>\n"
 "Language-Team: Italian\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Domain: stats-for-update-manager\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: stats-for-update-manager.php:499
+#: stats-for-update-manager.php:498
 msgid ""
 "\n"
 "\t\t\t\tThis plugin stores data about plugins/themes update requests in a "
@@ -47,27 +47,27 @@ msgid ""
 "target=\"_blank\">Update Manager</a>."
 msgstr ""
 
-#: classes/ListTable.class.php:32 stats-for-update-manager.php:346
-msgid "Active installations"
+#: classes/ListTable.class.php:34
+msgid "Active Installations"
 msgstr ""
 
-#: stats-for-update-manager.php:413
+#: stats-for-update-manager.php:412
 msgid "DATE"
 msgstr ""
 
-#: stats-for-update-manager.php:428
+#: stats-for-update-manager.php:427
 msgid "Debug"
 msgstr ""
 
-#: stats-for-update-manager.php:409
+#: stats-for-update-manager.php:408
 msgid "Debug information"
 msgstr ""
 
-#: classes/ListTable.class.php:64
+#: classes/ListTable.class.php:79
 msgid "Edit"
 msgstr ""
 
-#: stats-for-update-manager.php:413
+#: stats-for-update-manager.php:412
 msgid "FIRST 30 CHAR OF THE HASH"
 msgstr ""
 
@@ -75,23 +75,23 @@ msgstr ""
 msgid "Gieffe edizioni srl"
 msgstr ""
 
-#: stats-for-update-manager.php:411
+#: stats-for-update-manager.php:410
 msgid "Latest updates"
 msgstr ""
 
-#: classes/ListTable.class.php:29
+#: classes/ListTable.class.php:31
 msgid "Name"
 msgstr ""
 
-#: stats-for-update-manager.php:404
+#: stats-for-update-manager.php:403
 msgid "No database entries."
 msgstr ""
 
-#: stats-for-update-manager.php:413
+#: stats-for-update-manager.php:412
 msgid "PLUGIN/THEME"
 msgstr ""
 
-#: stats-for-update-manager.php:391
+#: stats-for-update-manager.php:390
 msgid "Plugin"
 msgstr ""
 
@@ -105,7 +105,7 @@ msgctxt "Menu Title with UM deactivated"
 msgid "Statistics for Update Manager"
 msgstr ""
 
-#: stats-for-update-manager.php:324 stats-for-update-manager.php:345
+#: stats-for-update-manager.php:324
 msgctxt "Page Title"
 msgid "Statistics for Update Manager"
 msgstr ""
@@ -118,16 +118,21 @@ msgstr ""
 msgid "Stats for Update Manager"
 msgstr ""
 
-#: stats-for-update-manager.php:391
+#: stats-for-update-manager.php:390
 msgid "Theme"
 msgstr ""
 
-#: classes/ListTable.class.php:33
+#: classes/ListTable.class.php:35
 msgid "Type"
 msgstr ""
 
-#: stats-for-update-manager.php:428 stats-for-update-manager.php:434
-#: stats-for-update-manager.php:437
+#: stats-for-update-manager.php:345
+msgctxt "Page Title"
+msgid "Update Manager - Statistics"
+msgstr ""
+
+#: stats-for-update-manager.php:427 stats-for-update-manager.php:433
+#: stats-for-update-manager.php:436
 msgid "Update Manager statistics"
 msgstr ""
 

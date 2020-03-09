@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-03-06T14:42:56+00:00\n"
+"POT-Creation-Date: 2020-03-09T07:40:36+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: stats-for-update-manager\n"
@@ -34,20 +34,19 @@ msgstr ""
 msgid "https://www.gieffeedizioni.it"
 msgstr ""
 
-#: classes/ListTable.class.php:29
+#: classes/ListTable.class.php:31
 msgid "Name"
 msgstr ""
 
-#: classes/ListTable.class.php:32
-#: stats-for-update-manager.php:346
-msgid "Active installations"
+#: classes/ListTable.class.php:34
+msgid "Active Installations"
 msgstr ""
 
-#: classes/ListTable.class.php:33
+#: classes/ListTable.class.php:35
 msgid "Type"
 msgstr ""
 
-#: classes/ListTable.class.php:64
+#: classes/ListTable.class.php:79
 msgid "Edit"
 msgstr ""
 
@@ -67,54 +66,58 @@ msgid "Statistics for Update Manager"
 msgstr ""
 
 #: stats-for-update-manager.php:324
-#: stats-for-update-manager.php:345
 msgctxt "Page Title"
 msgid "Statistics for Update Manager"
 msgstr ""
 
-#: stats-for-update-manager.php:391
+#: stats-for-update-manager.php:345
+msgctxt "Page Title"
+msgid "Update Manager - Statistics"
+msgstr ""
+
+#: stats-for-update-manager.php:390
 msgid "Theme"
 msgstr ""
 
-#: stats-for-update-manager.php:391
+#: stats-for-update-manager.php:390
 msgid "Plugin"
 msgstr ""
 
-#: stats-for-update-manager.php:404
+#: stats-for-update-manager.php:403
 msgid "No database entries."
 msgstr ""
 
-#: stats-for-update-manager.php:409
+#: stats-for-update-manager.php:408
 msgid "Debug information"
 msgstr ""
 
-#: stats-for-update-manager.php:411
+#: stats-for-update-manager.php:410
 msgid "Latest updates"
 msgstr ""
 
-#: stats-for-update-manager.php:413
+#: stats-for-update-manager.php:412
 msgid "FIRST 30 CHAR OF THE HASH"
 msgstr ""
 
-#: stats-for-update-manager.php:413
+#: stats-for-update-manager.php:412
 msgid "DATE"
 msgstr ""
 
-#: stats-for-update-manager.php:413
+#: stats-for-update-manager.php:412
 msgid "PLUGIN/THEME"
 msgstr ""
 
-#: stats-for-update-manager.php:428
-#: stats-for-update-manager.php:434
-#: stats-for-update-manager.php:437
+#: stats-for-update-manager.php:427
+#: stats-for-update-manager.php:433
+#: stats-for-update-manager.php:436
 msgid "Update Manager statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:428
+#: stats-for-update-manager.php:427
 msgid "Debug"
 msgstr ""
 
-#: stats-for-update-manager.php:499
+#: stats-for-update-manager.php:498
 msgid ""
 "\n"
 "\t\t\t\tThis plugin stores data about plugins/themes update requests in a table.\n"
