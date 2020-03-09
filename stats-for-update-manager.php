@@ -330,7 +330,7 @@ class StatsForUpdateManager{
 		}
 	}
 
-	// Enqueue CSS for debug section only in the page and only if WP_DEBUG is true. 
+	// Enqueue CSS for debug section only in the page and only if WP_DEBUG is true.
 	public function backend_css($hook) {
 		if ($hook === $this->screen && defined('WP_DEBUG') && WP_DEBUG===true) {
 			wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'css/sfum-backend.css', [], '1.1.0');
@@ -342,7 +342,7 @@ class StatsForUpdateManager{
 
 		// Title.
 		echo '<div class="wrap">';
-		echo '<h1>'.esc_html_x('Update Manager - Statistics', 'Page Title', 'stats-for-update-manager').'</h1>';
+		echo '<h1 class="wp-heading-inline" style="margin-bottom:10px;">'.esc_html_x('Update Manager - Statistics', 'Page Title', 'stats-for-update-manager').'</h1>';
 
 		// Render list table.
 		$statistics = $this->get_statistics();

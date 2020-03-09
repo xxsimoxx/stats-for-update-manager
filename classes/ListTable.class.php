@@ -47,10 +47,10 @@ class SFUM_List_Table extends \WP_List_Table {
 		return $sortable_columns;
 	}
 
-	// Output hidden columns.	
+	// Output hidden columns.
 	function get_hidden_columns() {
 		$hidden_columns = [
-			'identifier', 
+			'identifier',
 			'id',
 		];
 		return $hidden_columns;
