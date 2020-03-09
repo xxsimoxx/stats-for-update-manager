@@ -448,7 +448,7 @@ class StatsForUpdateManager{
 		$screen = get_current_screen();
 
 		if ($screen->id === $this->screen) {
-				$text = '<a href="'.GITHUB_PAGE.'/" title="Stats for Update Manager" target="_blank">Stats for Update Manager</a> &#8212; by <a href="'.SW_PAGE.'" title="Gieffe edizioni" target="_blank">Gieffe edizioni</a>';
+				$text = '<a href="'.GITHUB_PAGE.'/" title="Stats for Update Manager" target="_blank">Stats for Update Manager</a> &#8211; by <a href="'.SW_PAGE.'" title="Gieffe edizioni" target="_blank">Gieffe edizioni</a>';
 		}
 
 		return $text;
