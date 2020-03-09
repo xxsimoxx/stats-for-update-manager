@@ -82,19 +82,6 @@ class SFUM_List_Table extends \WP_List_Table {
 		return sprintf('%1$s %2$s', $name, $this->row_actions($actions));
 	}
 
-/*
-	// Force right align on non-mobile.
-	function column_count($item) {
-		if(wp_is_mobile()) {
-			return $item['count'];
-		}
-		$padded = '              '.$item['count'];
-		$padded = substr($padded, -10);
-		$padded = str_replace(' ', '&nbsp;', $padded);
-		return '<pre><strong>'.$padded.'</strong></pre>';
-	}
-*/
-
 	// Load list items, as we want this to be passed from another class.
 	function load_items($statistics) {
 		$this->data = $statistics;
