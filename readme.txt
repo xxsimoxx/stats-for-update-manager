@@ -101,7 +101,7 @@ Or simply disable it all
 Note: the real number is cached for 6 hours.
 
 ### Recognize your own sites in debug
-_Note that debug information is displayed only if Update Manager is missing or `WP_DEBUG` is set to true_.
+_Note that debug information is displayed only if `WP_DEBUG` is set to true_.
 
 `sfum_my_sites` let's you recognize your own sites. They will be marked with an * in the debug informations.
 With this filter you can populate an array of sha512-hashed urls.
@@ -181,6 +181,7 @@ define( 'SFUM_ENABLE_REST', true );
 == Changelog ==
 = 1.1.0 =
 * Debug info only shown when WP_DEBUG is true
+* GUI closer to Update Manager look
 
 = 1.1.0-rc1 =
 * Added statistics for themes: support for Update Manager 2.0.0
