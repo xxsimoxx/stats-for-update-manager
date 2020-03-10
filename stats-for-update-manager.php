@@ -73,7 +73,7 @@ class StatsForUpdateManager{
 		// Get Update Manager version
 		$plugin_data = get_plugin_data(WP_PLUGIN_DIR.'/'.UM_SLUG);
 		$this->um_version = $plugin_data['Version'];
-			
+
 		// Load text domain.
 		add_action('plugins_loaded', [$this, 'text_domain']);
 
@@ -302,7 +302,7 @@ class StatsForUpdateManager{
 
 	// Register Statistics submenu.
 	public function create_menu() {
-	
+
 		if (current_user_can('manage_options')) {
 			if (version_compare($this->um_version, '1.9999.0', '>')){
 				// Correct menu for Update Manager 2.0.0-rcX+.
@@ -321,7 +321,7 @@ class StatsForUpdateManager{
 				[$this, 'render_page']
 			);
 		}
-		
+
 	}
 
 	// Enqueue CSS for debug section only in the page and only if WP_DEBUG is true.
@@ -468,7 +468,7 @@ class StatsForUpdateManager{
 
 		// Register database version for a future use.
 		update_option('sfum_db_ver', DB_REVISION);
-		
+
 		// Set a transient to check if we are activating without UM.
 		set_transient('sfum_is_activating', "1", 60);
 	}
@@ -490,7 +490,7 @@ class StatsForUpdateManager{
 		// Delete options.
 		delete_option('sfum_db_ver');
 	}
-	
+
 	public function auto_deactivate() {
 		deactivate_plugins(plugin_basename(__FILE__));
 		if ( isset( $_GET['activate'] ) ) {
