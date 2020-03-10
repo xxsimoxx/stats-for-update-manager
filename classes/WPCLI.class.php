@@ -70,11 +70,6 @@ class Statistics{
 		// Bring StatsForUpdateManager class into scope.
 		global $sfum_instance;
 
-		// Check for UM running.
-		if (!$sfum_instance->um_running) {
-			return \WP_CLI::error('Update Manager is not running.');
-		}
-
 		// Use option from command line or default for days.
 		if (!is_numeric($timing=\WP_CLI\Utils\get_flag_value($assoc_args, 'days'))) {
 			$timing = $sfum_instance->db_unactive_entry;

@@ -43,9 +43,6 @@ class StatsForUpdateManager{
 	// Time (in SQL format) for the record to be deleted.
 	public $db_old_entry = '';
 
-	// Is Update Manager running?
-	public $um_running = false;
-
 	// Array to keep statistics for plugin details.
 	public $stat_array = [];
 
@@ -70,12 +67,10 @@ class StatsForUpdateManager{
 			add_action('admin_notices', [$this, 'um_missing']);
 			add_action('admin_init', [$this, 'auto_deactivate']);
 			return;
-		} else {
-			delete_transient('sfum_is_activating');
 		}
+		delete_transient('sfum_is_activating');
 
 		// Get Update Manager version
-		$this->um_running = true;
 		$plugin_data = get_plugin_data(WP_PLUGIN_DIR.'/'.UM_SLUG);
 		$this->um_version = $plugin_data['Version'];
 			
@@ -198,9 +193,7 @@ class StatsForUpdateManager{
 	// Get associative array to resolve Endpoint Identifier/Post ID.
 	public function get_cpt() {
 		$data = [];
-		if (!$this->um_running) {
-			return $data;
-		}
+
 		$posts = get_posts([
 			'post_type' => [UM_CPT_PLUGINS, UM_CPT_THEMES],
 			'post_status' => ['publish', 'pending' ,'draft'],
@@ -309,31 +302,26 @@ class StatsForUpdateManager{
 
 	// Register Statistics submenu.
 	public function create_menu() {
+	
 		if (current_user_can('manage_options')) {
-			if ($this->um_running) {
-				$menu_title = esc_html_x('Statistics', 'Menu Title', 'stats-for-update-manager');
-				if (version_compare($this->um_version, '1.9999.0', '>')){
-					// Correct menu for Update Manager 2.0.0-rcX+.
-					$parent_slug = UM_PAGE;
-				} else {
-					// Keep compatibility with UM <2.0.0
-					$parent_slug = 'edit.php?post_type='.UM_CPT_PLUGINS;
-				}
+			if (version_compare($this->um_version, '1.9999.0', '>')){
+				// Correct menu for Update Manager 2.0.0-rcX+.
+				$parent_slug = UM_PAGE;
 			} else {
-				// If Update Manager is not there, go under "tools" menu.
-				$parent_slug = 'tools.php';
-				$menu_title = esc_html_x('Statistics for Update Manager', 'Menu Title with UM deactivated', 'stats-for-update-manager');
+				// Keep compatibility with UM <2.0.0
+				$parent_slug = 'edit.php?post_type='.UM_CPT_PLUGINS;
 			}
 
 			$this->screen = add_submenu_page(
 				$parent_slug,
 				esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager'),
-				$menu_title,
+				esc_html_x('Statistics', 'Menu Title', 'stats-for-update-manager'),
 				'manage_options',
 				MENU_SLUG,
 				[$this, 'render_page']
 			);
 		}
+		
 	}
 
 	// Enqueue CSS for debug section only in the page and only if WP_DEBUG is true.
@@ -358,7 +346,7 @@ class StatsForUpdateManager{
 		$ListTable->display();
 
 		// Show debug information if WP_DEBUG is true.
-		if(defined('WP_DEBUG')&&WP_DEBUG===true) {
+		if(defined('WP_DEBUG') && WP_DEBUG===true) {
 			$this->render_page_debug();
 		}
 
@@ -369,11 +357,6 @@ class StatsForUpdateManager{
 	// Get an array of statistics that can be passed to SFUM_List_Table.
 	private function get_statistics() {
 		$items=[];
-
-		// UM not running: return the empty array.
-		if (!$this->um_running) {
-			return $items;
-		}
 
 		// Get CPTs and query database for statistics.
 		$um_posts = $this->get_cpt();
@@ -429,12 +412,6 @@ class StatsForUpdateManager{
 
 	// Add link to statistic page in plugins page.
 	public function pal($links) {
-		if(!$this->um_running) {
-			$link = '<a href="'.admin_url('tools.php?page='.MENU_SLUG).'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'">'.esc_html__('Debug', 'stats-for-update-manager').' <i class="dashicon dashicons-warning" style="font: 16px dashicons;vertical-align: text-bottom;"></i> </a>';
-			array_unshift($links, $link);
-			return $links;
-		}
-
 		if (version_compare($this->um_version, '1.9999.0', '>')){
 			$link = '<a href="'.admin_url('admin.php?page='.MENU_SLUG).'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar" style="font: 16px dashicons;vertical-align: text-bottom;"></i></a>';
 		} else {
@@ -446,6 +423,7 @@ class StatsForUpdateManager{
 		return $links;
 	}
 
+	// Draft to add footer text.
 	public function filter_footer_text($text) {
 
 		$screen = get_current_screen();
