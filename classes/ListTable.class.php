@@ -117,6 +117,7 @@ class SFUM_List_Table extends \WP_List_Table {
 		return $list;
 	}
 
+	// Retrieve the number of themes.
 	function get_theme_count() {
 		$count = 0;
 		foreach($this->data as $val) {
@@ -127,6 +128,7 @@ class SFUM_List_Table extends \WP_List_Table {
 		return $count;
 	}
 
+	// Parse request to understand what to filter for.
 	function get_filtertype() {
 		// Sanitize filtertype and default to all
 		if (empty($_GET['filtertype']) || !in_array($_GET['filtertype'], ['all', 'plugins', 'themes'], true)) {
@@ -142,7 +144,7 @@ class SFUM_List_Table extends \WP_List_Table {
 		$hidden   = $this->get_hidden_columns();
 		$sortable = $this->get_sortable_columns();
 		$this->_column_headers = [$columns, $hidden, $sortable];
-		$data=$this->filter_data($this->data);
+		$data = $this->filter_data($this->data);
 		usort($data, [&$this, 'reorder']);
 		$this->items = $data;
 	}
