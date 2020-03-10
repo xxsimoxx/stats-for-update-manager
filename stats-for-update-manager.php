@@ -60,15 +60,25 @@ class StatsForUpdateManager{
 
 	public function __construct() {
 
+		// Activation, deactivation and uninstall.
+		register_activation_hook(__FILE__, [$this, 'activate']);
+		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
+		register_uninstall_hook(__FILE__, [__CLASS__, 'uninstall']);
+
 		// Check for Update Manager running.
 		if (!class_exists(UM_CLASS)) {
 			add_action('admin_notices', [$this, 'um_missing']);
+			add_action('admin_init', [$this, 'auto_deactivate']);
+			return;
 		} else {
-			$this->um_running = true;
-			$plugin_data = get_plugin_data(WP_PLUGIN_DIR.'/'.UM_SLUG);
-			$this->um_version = $plugin_data['Version'];
+			delete_transient('sfum_is_activating');
 		}
 
+		// Get Update Manager version
+		$this->um_running = true;
+		$plugin_data = get_plugin_data(WP_PLUGIN_DIR.'/'.UM_SLUG);
+		$this->um_version = $plugin_data['Version'];
+			
 		// Load text domain.
 		add_action('plugins_loaded', [$this, 'text_domain']);
 
@@ -114,11 +124,6 @@ class StatsForUpdateManager{
 			require_once('classes/CustomEndPoint.class.php');
 			new CustomEndPoint;
 		}
-
-		// Activation, deactivation and uninstall.
-		register_activation_hook(__FILE__, [$this, 'activate']);
-		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
-		register_uninstall_hook(__FILE__, [__CLASS__, 'uninstall']);
 
 	}
 
@@ -172,20 +177,22 @@ class StatsForUpdateManager{
 		}
 	}
 
-	// Notice for Update Manager missing.
-	public function um_missing() {
-		if (!current_user_can('manage_options') || (defined('WP_CLI') && WP_CLI)) {
-			return;
-		}
-		$screen = get_current_screen();
-		if ( $screen->id !== 'tools_page_'.MENU_SLUG) {
-			return;
-		}
+	// Error for Update Manager missing.
+	public static function um_missing() {
 
-		echo '<div class="notice notice-warning"><p>';
+		echo '<div class="notice notice-error is-dismissible"><p>';
 		/* translators: 1 is the link to Update Manager homepage */
-		printf(__('<b>Stats for Update Manager</b> is pretty unuseful without <a href="%1$s" target="_blank">Update Manager</a>.', 'stats-for-update-manager'), UM_LINK);
+		printf(__('<b>Stats for Update Manager</b> requires <a href="%1$s" target="_blank">Update Manager</a>.', 'stats-for-update-manager'), UM_LINK);
+
+		// Different messages if already activated or trying to.
+		if (get_transient('sfum_is_activating') === "1") {
+			delete_transient('sfum_is_activating');
+			_e(' Stats for Update Manager <b>can\'t be activated</b>.', 'stats-for-update-manager');
+		} else {
+			_e(' Stats for Update Manager has been <b>deactivated</b>.', 'stats-for-update-manager');
+		}
 		echo '</p></div>';
+
 	}
 
 	// Get associative array to resolve Endpoint Identifier/Post ID.
@@ -483,6 +490,9 @@ class StatsForUpdateManager{
 
 		// Register database version for a future use.
 		update_option('sfum_db_ver', DB_REVISION);
+		
+		// Set a transient to check if we are activating without UM.
+		set_transient('sfum_is_activating', "1", 60);
 	}
 
 	// Deactivation hook.
@@ -501,6 +511,13 @@ class StatsForUpdateManager{
 		$wpdb->query($sql);
 		// Delete options.
 		delete_option('sfum_db_ver');
+	}
+	
+	public function auto_deactivate() {
+		deactivate_plugins(plugin_basename(__FILE__));
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
+		}
 	}
 
 	// Register privacy policy.
