@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Stats for Update Manager 1.0.0-rc1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/stats-for-update-"
 "manager\n"
-"POT-Creation-Date: 2020-03-09T16:19:08+00:00\n"
+"POT-Creation-Date: 2020-03-10T14:35:00+00:00\n"
 "PO-Revision-Date: 2019-12-26 16:51+0100\n"
 "Last-Translator: root <simone@gieffeedizioni.it>\n"
 "Language-Team: Italian\n"
@@ -17,7 +17,7 @@ msgstr ""
 "X-Domain: stats-for-update-manager\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: stats-for-update-manager.php:513
+#: stats-for-update-manager.php:504
 msgid ""
 "\n"
 "\t\t\t\tThis plugin stores data about plugins/themes update requests in a "
@@ -40,34 +40,42 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 
-#. translators: 1 is the link to Update Manager homepage
-#: stats-for-update-manager.php:187
-msgid ""
-"<b>Stats for Update Manager</b> is pretty unuseful without <a href=\"%1$s\" "
-"target=\"_blank\">Update Manager</a>."
+#: stats-for-update-manager.php:185
+msgid " Stats for Update Manager <b>can't be activated</b>."
 msgstr ""
 
-#: classes/ListTable.class.php:34
+#: stats-for-update-manager.php:187
+msgid " Stats for Update Manager has been <b>deactivated</b>."
+msgstr ""
+
+#. translators: 1 is the link to Update Manager homepage
+#: stats-for-update-manager.php:180
+msgid ""
+"<b>Stats for Update Manager</b> requires <a href=\"%1$s\" target=\"_blank"
+"\">Update Manager</a>."
+msgstr ""
+
+#: classes/ListTable.class.php:37
 msgid "Active Installations"
 msgstr ""
 
-#: stats-for-update-manager.php:415
+#: classes/ListTable.class.php:94
+msgid "All"
+msgstr ""
+
+#: stats-for-update-manager.php:401
 msgid "DATE"
 msgstr ""
 
-#: stats-for-update-manager.php:430
-msgid "Debug"
-msgstr ""
-
-#: stats-for-update-manager.php:411
+#: stats-for-update-manager.php:397
 msgid "Debug information"
 msgstr ""
 
-#: classes/ListTable.class.php:79
+#: classes/ListTable.class.php:82
 msgid "Edit"
 msgstr ""
 
-#: stats-for-update-manager.php:415
+#: stats-for-update-manager.php:401
 msgid "FIRST 30 CHAR OF THE HASH"
 msgstr ""
 
@@ -75,37 +83,36 @@ msgstr ""
 msgid "Gieffe edizioni srl"
 msgstr ""
 
-#: stats-for-update-manager.php:413
+#: stats-for-update-manager.php:399
 msgid "Latest updates"
 msgstr ""
 
-#: classes/ListTable.class.php:31
+#: classes/ListTable.class.php:34
 msgid "Name"
 msgstr ""
 
-#: stats-for-update-manager.php:406
+#: stats-for-update-manager.php:392
 msgid "No database entries."
 msgstr ""
 
-#: stats-for-update-manager.php:415
+#: stats-for-update-manager.php:401
 msgid "PLUGIN/THEME"
 msgstr ""
 
-#: stats-for-update-manager.php:393
+#: stats-for-update-manager.php:379
 msgid "Plugin"
 msgstr ""
 
-#: stats-for-update-manager.php:311
+#: classes/ListTable.class.php:95
+msgid "Plugins"
+msgstr ""
+
+#: stats-for-update-manager.php:318
 msgctxt "Menu Title"
 msgid "Statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:322
-msgctxt "Menu Title with UM deactivated"
-msgid "Statistics for Update Manager"
-msgstr ""
-
-#: stats-for-update-manager.php:327
+#: stats-for-update-manager.php:317
 msgctxt "Page Title"
 msgid "Statistics for Update Manager"
 msgstr ""
@@ -118,21 +125,24 @@ msgstr ""
 msgid "Stats for Update Manager"
 msgstr ""
 
-#: stats-for-update-manager.php:393
+#: stats-for-update-manager.php:379
 msgid "Theme"
 msgstr ""
 
-#: classes/ListTable.class.php:35
+#: classes/ListTable.class.php:96
+msgid "Themes"
+msgstr ""
+
+#: classes/ListTable.class.php:38
 msgid "Type"
 msgstr ""
 
-#: stats-for-update-manager.php:348
+#: stats-for-update-manager.php:339
 msgctxt "Page Title"
 msgid "Update Manager &#8211; Statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:430 stats-for-update-manager.php:436
-#: stats-for-update-manager.php:439
+#: stats-for-update-manager.php:416 stats-for-update-manager.php:419
 msgid "Update Manager statistics"
 msgstr ""
 
