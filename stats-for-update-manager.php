@@ -300,10 +300,6 @@ class StatsForUpdateManager{
 		return get_post_type($id)===UM_CPT_THEMES;
 	}
 
-	private function is_plugin($id) {
-		return get_post_type($id)===UM_CPT_PLUGINS;
-	}
-
 	// Register Statistics submenu.
 	public function create_menu() {
 		if (current_user_can('manage_options')) {
