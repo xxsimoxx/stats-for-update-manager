@@ -563,7 +563,15 @@ class UpdateClient {
 	 * @return array|array|mixed Data for the plugin or theme.
 	 */
 	private function get_component_data($action, $component='') {
-
+	
+		// Get data, if stored.
+		$data = get_transient('stats_for_update_manager_component_'.$action.'_'.$component);
+		
+		// If we have it, return.
+		if (!empty($data)) {
+			return $data;
+		}		
+		
 		// Localize the platform version.
 		global $cp_version;
 
@@ -659,6 +667,9 @@ class UpdateClient {
 
 		// Get the response body; decode it as an array.
 		$data = json_decode(trim(wp_remote_retrieve_body($raw_response)), true);
+
+		// A transient ensures the query is not run more than every 10 minutes.
+		set_transient('stats_for_update_manager_component_'.$action.'_'.$component, (is_array($data) ? $data : []), MINUTE_IN_SECONDS * 10);
 
 		// Return the reponse body.
 		return is_array($data) ? $data : [];
