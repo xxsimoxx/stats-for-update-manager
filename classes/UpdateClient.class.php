@@ -76,6 +76,14 @@ class UpdateClient {
 	 * it again.
 	 */
 	private $cp_latest_version = '4.9.99';
+	
+	/**
+	 * Cached component data
+	 *
+	 * As pre_set_site_transient_update_plugins is called twice by ClassicPress,
+	 * saving this value will cut an extra HTTP call to the update server.
+	 */
+	private $component_data = '';
 
 	/**
 	 * Constructor.
@@ -564,12 +572,9 @@ class UpdateClient {
 	 */
 	private function get_component_data($action, $component='') {
 	
-		// Get data, if stored.
-		$data = get_transient('stats_for_update_manager_component_'.$action.'_'.$component);
-		
-		// If we have it, return.
-		if (!empty($data)) {
-			return $data;
+		// If we have already this value return it.
+		if (!empty($this->component_data)) {
+			return $this->component_data;
 		}		
 		
 		// Localize the platform version.
@@ -668,11 +673,11 @@ class UpdateClient {
 		// Get the response body; decode it as an array.
 		$data = json_decode(trim(wp_remote_retrieve_body($raw_response)), true);
 
-		// A transient ensures the query is not run more than every 10 minutes.
-		set_transient('stats_for_update_manager_component_'.$action.'_'.$component, (is_array($data) ? $data : []), MINUTE_IN_SECONDS * 10);
+		// Save $data for the next time the function will be called.
+		$this->component_data = is_array($data) ? $data : [];
 
 		// Return the reponse body.
-		return is_array($data) ? $data : [];
+		return $this->component_data;
 
 	}
 
