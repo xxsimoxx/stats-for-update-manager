@@ -100,8 +100,8 @@ class StatsForUpdateManager{
 		// Add a button that links to statistics in plugins page.
 		add_filter('plugin_action_links_'.plugin_basename(__FILE__), [$this, 'pal']);
 
-		// Replace footer text with plugin name and version info.
-		add_filter('admin_footer_text', [$this, 'filter_footer_text'], PHP_INT_MAX);
+		// Add credits to footer.
+		add_filter(UM_HOOK_FOOTER.MENU_SLUG, [$this, 'filter_footer_text'], 100);
 
 		// Add a cron to clean table.
 		add_action('sfum_clean_table', [$this, 'clean_table']);
@@ -423,17 +423,10 @@ class StatsForUpdateManager{
 		return $links;
 	}
 
-	// Draft to add footer text.
+	// Add footer text.
 	public function filter_footer_text($text) {
-
-		$screen = get_current_screen();
-
-		if ($screen->id === $this->screen) {
-				$text = '<a href="'.GITHUB_PAGE.'/" title="Stats for Update Manager" target="_blank">Stats for Update Manager</a> &#8211; by <a href="'.SW_PAGE.'" title="Gieffe edizioni" target="_blank">Gieffe edizioni</a>';
-		}
-
+		$text = '<a href="'.GITHUB_PAGE.'/" title="Stats for Update Manager">Stats for Update Manager</a> &#8211; by <a href="'.SW_PAGE.'" title="Gieffe edizioni">Gieffe edizioni</a>';
 		return $text;
-
 	}
 
 	// Delete old entries.
