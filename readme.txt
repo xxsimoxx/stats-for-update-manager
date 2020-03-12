@@ -26,6 +26,8 @@ This is a companion plugin for [**Update Manager**](https://codepotent.com/class
 
 You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 
+It's compatible with Update Manager versions 1.x and 2.x.
+
 Plugins and themes that queried Update Manager at least once in the last week are considered active. When a plugin/theme have not queried Update Manager in the last 4 week it's removed from the database table. See FAQ section to tweak.
 
 It also add the number of active installations in the plugin details. See FAQ section to tweak.
