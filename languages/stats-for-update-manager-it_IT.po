@@ -87,7 +87,7 @@ msgstr "Installazioni Attive"
 
 #: classes/ListTable.class.php:94
 msgid "All"
-msgstr ""
+msgstr "Tutto"
 
 #: stats-for-update-manager.php:401
 msgid "DATE"
