@@ -413,11 +413,13 @@ class StatsForUpdateManager{
 	// Add link to statistic page in plugins page.
 	public function pal($links) {
 		if (version_compare($this->um_version, '1.9999.0', '>')){
-			$link = '<a href="'.admin_url('admin.php?page='.MENU_SLUG).'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar" style="font: 16px dashicons;vertical-align: text-bottom;"></i></a>';
+			$destination = admin_url('admin.php?page='.MENU_SLUG);
 		} else {
 			// Keep compatibility with UM <2.0.0
-			$link = '<a href="'.admin_url('edit.php?post_type='.UM_CPT_PLUGINS.'&page='.MENU_SLUG).'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar" style="font: 16px dashicons;vertical-align: text-bottom;"></i></a>';
+			$destination = admin_url('edit.php?post_type='.UM_CPT_PLUGINS.'&page='.MENU_SLUG);
 		}
+
+		$link = '<a href="'.$destination.'" title="'.esc_html__('Update Manager statistics', 'stats-for-update-manager').'"><i class="dashicon dashicons-chart-bar" style="font: 16px dashicons;vertical-align: text-bottom;"></i></a>';
 
 		array_unshift($links, $link);
 		return $links;
@@ -425,7 +427,8 @@ class StatsForUpdateManager{
 
 	// Add footer text.
 	public function filter_footer_text($text) {
-		$text = '<a href="'.GITHUB_PAGE.'/" title="Stats for Update Manager">Stats for Update Manager</a> &#8211; by <a href="'.SW_PAGE.'" title="Gieffe edizioni">Gieffe edizioni</a>';
+		$text = '<a href="'.GITHUB_PAGE.'/" title="Stats for Update Manager">Stats for Update Manager</a> '.VERSION;
+		$text .= ' &#8211; by <a href="'.SW_PAGE.'" title="Gieffe edizioni">Gieffe edizioni</a>';
 		return $text;
 	}
 
