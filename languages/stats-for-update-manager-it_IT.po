@@ -53,7 +53,7 @@ msgstr ""
 "\t\t\t\tQuesti dati sono conservati %9$sXX%10$s giorni.\n"
 "\n"
 "\t\t\t\t%11$sPer aiutarci a conoscere il numero di installazioni attive "
-"diquesto plugin, \n"
+"di questo plugin, \n"
 "\t\t\t\traccogliamo e conserviamo i dati quando il plugin controlla "
 "lapresenza di \n"
 "\t\t\t\taggiornamenti. Data ed identificativo del plugin sono conservati "
@@ -131,7 +131,7 @@ msgstr "Plugin"
 
 #: classes/ListTable.class.php:95
 msgid "Plugins"
-msgstr "Plugins"
+msgstr "Plugin"
 
 #: stats-for-update-manager.php:318
 msgctxt "Menu Title"
