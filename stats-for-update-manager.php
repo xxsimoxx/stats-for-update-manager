@@ -3,7 +3,7 @@
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: Statistics for Update Manager by Code Potent.
- * Version: 1.1.0-rc2
+ * Version: 1.1.0
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -70,7 +70,7 @@ class StatsForUpdateManager{
 		}
 		delete_transient('sfum_is_activating');
 
-		// Get Update Manager version
+		// Get Update Manager version.
 		$plugin_data = get_plugin_data(WP_PLUGIN_DIR.'/'.UM_SLUG);
 		$this->um_version = $plugin_data['Version'];
 
