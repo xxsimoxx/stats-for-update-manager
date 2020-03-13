@@ -22,14 +22,6 @@
  * -----------------------------------------------------------------------------
  */
 
-/**
- *
- * Note: this is not the original file.
- * It's modified to remove text domain.
- *
- */
-
-
 // EDIT: Make this unique. Example: YourDevName\YourPluginName;
 namespace XXSimoXX\StatsForUpdateManager\UpdateClient;
 
@@ -76,7 +68,7 @@ class UpdateClient {
 	 * it again.
 	 */
 	private $cp_latest_version = '4.9.99';
-	
+
 	/**
 	 * Cached component data
 	 *
@@ -571,12 +563,12 @@ class UpdateClient {
 	 * @return array|array|mixed Data for the plugin or theme.
 	 */
 	private function get_component_data($action, $component='') {
-	
-		// If we have already this value return it.
+
+		// If component data exists, no need to requery; return that data.
 		if (!empty($this->component_data)) {
 			return $this->component_data;
-		}		
-		
+		}
+
 		// Localize the platform version.
 		global $cp_version;
 
@@ -673,7 +665,7 @@ class UpdateClient {
 		// Get the response body; decode it as an array.
 		$data = json_decode(trim(wp_remote_retrieve_body($raw_response)), true);
 
-		// Save $data for the next time the function will be called.
+		// Set retrieved data to the object for reuse elsewhere.
 		$this->component_data = is_array($data) ? $data : [];
 
 		// Return the reponse body.
