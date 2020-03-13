@@ -171,4 +171,4 @@ All the data is removed at plugin uninstall.
 To skip Stats for Update Manager from logging, the plugin/theme have to ask for updates defining, in the body of the request done by UpdateClient, `$body['sfum']='no-log'`.
 
 ## Screenshot
-![Main page](images/screenshot-1.png)
+![Main page](images/screenshot-1.jpg)
