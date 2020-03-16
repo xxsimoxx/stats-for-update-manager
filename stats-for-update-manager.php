@@ -375,7 +375,7 @@ class StatsForUpdateManager{
 				'identifier' => $value->slug,
 				'name'       => get_the_title($um_posts[$value->slug]),
 				'id'         => $um_posts[$value->slug],
-				'count'      => $value->total,
+				'count'      => (int)$value->total,
 				'type'       => $this->is_theme($um_posts[$value->slug]) ? esc_html__('Theme', 'stats-for-update-manager') : esc_html__('Plugin', 'stats-for-update-manager'),
 			];
 		}
