@@ -60,13 +60,18 @@ class SFUM_List_Table extends \WP_List_Table {
 	}
 
 	// Callable to be used with usort.
-	function reorder( $a, $b ) {
+	function reorder($a, $b) {
 		// If no orderby or wrong orderby, default to plugin or theme name.
 		$orderby = (!empty($_GET['orderby']) && in_array($_GET['orderby'], ['name', 'count', 'type'], true)) ? $_GET['orderby'] : 'name';
 		// If no order or wrong order, default to asc.
 		$order = (!empty($_GET['order']) && $_GET['order'] !== 'asc') ? 'desc' : 'asc';
 
-		$result = strcasecmp( $a[$orderby], $b[$orderby] );
+		// Properly order numeric values.
+		if (is_int($a[$orderby])) {
+			$result = $a[$orderby]-$b[$orderby];
+		} else {
+			$result = strcasecmp($a[$orderby], $b[$orderby]);
+		}
 
 		return ( $order === 'asc' ) ? $result : -$result;
 	}
