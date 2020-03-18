@@ -1,7 +1,7 @@
 === Stats for Update Manager ===
 Plugin Name:        Stats for Update Manager
 Description:        With Stats for Update Manager you can count active installations of your plugins and themes.
-Version:            1.1.1
+Version:            1.1.2
 Text Domain:        stats-for-update-manager
 Domain Path:        /languages
 Requires PHP:       5.6
@@ -10,7 +10,7 @@ Tested:             4.9.99
 Author:             Gieffe edizioni
 Author URI:         https://www.gieffeedizioni.it
 Plugin URI:         https://software.gieffeedizioni.it
-Download link:      https://github.com/xxsimoxx/stats-for-update-manager/releases/download/v1.1.1/stats-for-update-manager-1.1.1.zip
+Download link:      https://github.com/xxsimoxx/stats-for-update-manager/releases/download/v1.1.2/stats-for-update-manager-1.1.2.zip
 License:            GPLv2
 License URI:        https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -181,6 +181,9 @@ define( 'SFUM_ENABLE_REST', true );
 *Note that the value of active installation is affected by the [filter](#filters) `sfum_active_installations`.*
 
 == Changelog ==
+= 1.1.2 =
+* Prevent duplicate database query
+
 = 1.1.1 =
 * Fixed "Active installation" column that was not ordering properly
 

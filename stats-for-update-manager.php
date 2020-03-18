@@ -3,7 +3,7 @@
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: Statistics for Update Manager by Code Potent.
- * Version: 1.1.1
+ * Version: 1.1.2
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -300,7 +300,7 @@ class StatsForUpdateManager{
 			'last' => current_time('mysql', 1)
 			];
 
-		if (!$wpdb->update( $wpdb->prefix.DB_TABLE_NAME, $data, $where)) {
+		if (!$wpdb->update($wpdb->prefix.DB_TABLE_NAME, $data, $where)) {
 			$wpdb->insert($wpdb->prefix.DB_TABLE_NAME, $data);
 		}
 

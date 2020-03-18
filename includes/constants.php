@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
 // Define constants.
 
 // Plugin version.
-const VERSION = '1.1.1';
+const VERSION = '1.1.2';
 
 // DB table name without prefix.
 const DB_TABLE_NAME = 'sfum_logs';
