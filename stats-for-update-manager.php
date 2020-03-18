@@ -55,6 +55,9 @@ class StatsForUpdateManager{
 	// String to keep Update Manager version.
 	private $um_version = '';
 
+	// Keep last called identifier.
+	private $lastseen = [];
+
 	public function __construct() {
 
 		// Activation, deactivation and uninstall.
@@ -206,12 +209,61 @@ class StatsForUpdateManager{
 		return $data;
 	}
 
+	// Parse a request. Return false if not valid.
+	// Otherwise return identifier.
+	private function get_identifier($query) {
+
+		// Not an update.
+		if (!isset($query['update'])) {
+			// Don't log and don't break Update Manager.
+			return false;
+		}
+
+		// Check what we are dealing with.
+		if (in_array($query['update'], ['query_themes', 'theme_information'])) {
+			// We are dealing with a theme.
+			if(!$this->is_safe_theme_slug($query['theme'])) {
+				return false;
+			}
+			$identifier=$query['theme'];
+		}
+
+		if (in_array($query['update'], ['plugin_information', 'query_plugins'])) {
+			// We are dealing with a plugin.
+			if(!$this->is_safe_plugin_slug($query['plugin'])) {
+				return false;
+			}
+			$identifier=$query['plugin'];
+		}
+
+		// At this point $identifier should be set.
+		if (!isset($identifier)) {
+			return false;
+		}
+
+		return $identifier;
+
+	}
+
 	// Log requests to the db.
 	// $query have to be always returned unchanged.
 	public function log_request($query) {
 
+		// Get identifier and bail if it's not good.
+		if(($identifier = $this->get_identifier($query)) === false) {
+			// Don't log and don't break Update Manager.
+			return $query;
+		}
+
+		// Exit if it's called twice.
+		if(in_array($identifier, $this->lastseen, true)) {
+			// Don't log and don't break Update Manager.
+			return $query;
+		}
+		$this->lastseen[] = $identifier;
+
 		// Bad url, don't log.
-		if(!$this->is_safe_url($query["site_url"])) {
+		if(!$this->is_safe_url($query['site_url'])) {
 			// Don't log and don't break Update Manager.
 			return $query;
 		}
@@ -227,51 +279,28 @@ class StatsForUpdateManager{
 			return $query;
 		}
 
-		// Check that we are dealing with a valid update type.
-		if (isset($query['update']) && !in_array($query['update'], ['plugin_information', 'query_plugins', 'query_themes', 'theme_information'])) {
-			return $query;
-		}
-
-		// Check what we are dealing with.
-		if (in_array($query['update'], ['query_themes', 'theme_information'])){
-			// We are dealing with a theme.
-			if(!$this->is_safe_theme_slug($query["theme"])) {
-				// Don't log and don't break Update Manager.
-				return $query;
-			}
-			$identifier=$query['theme'];
-		} else {
-			// We are dealing with a plugin.
-			if(!$this->is_safe_plugin_slug($query["plugin"])) {
-				// Don't log and don't break Update Manager.
-				return $query;
-			}
-			$identifier=$query['plugin'];
-		}
-
 		// Prevent specific(s) plugin to be logged.
 		if(in_array($identifier, apply_filters('sfum_exclude', []))) {
 			// Don't log and don't break Update Manager.
 			return $query;
 		}
 
-		$hashed=hash('sha512', $query["site_url"]);
+		$hashed=hash('sha512', $query['site_url']);
 
 		global $wpdb;
+
 		$where = [
 			'site' => $hashed,
 			'slug' => $identifier,
 			];
-		$data      = [
+
+		$data = [
 			'site' => $hashed,
 			'slug' => $identifier,
 			'last' => current_time('mysql', 1)
 			];
 
 		if (!$wpdb->update( $wpdb->prefix.DB_TABLE_NAME, $data, $where)) {
-			// Ensure that if the log_request is called twice in the same second
-			// we don't get a SQL error
-			$wpdb->delete($wpdb->prefix.DB_TABLE_NAME, $where);
 			$wpdb->insert($wpdb->prefix.DB_TABLE_NAME, $data);
 		}
 
