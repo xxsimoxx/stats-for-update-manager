@@ -88,7 +88,8 @@ class Shortcodes {
 
 		// Id passed in? Refine and prepare the query.
 		if (!empty($atts['id'])) {
-			$sql = $wpdb->prepare('SELECT count(slug)
+			$sql = $wpdb->prepare(
+							'SELECT count(slug)
 							FROM '.$wpdb->prefix.DB_TABLE_NAME.'
 							WHERE slug
 							LIKE "%s"

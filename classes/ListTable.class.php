@@ -10,13 +10,13 @@
 
 namespace XXSimoXX\StatsForUpdateManager;
 
-if (!defined('ABSPATH')){
+if (!defined('ABSPATH')) {
 	die('-1');
 };
 
 
 if (!class_exists('WP_List_Table')) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once(ABSPATH.'wp-admin/includes/class-wp-list-table.php');
 }
 
 // Class for display statistics page.
@@ -68,7 +68,7 @@ class SFUM_List_Table extends \WP_List_Table {
 
 		// Properly order numeric values.
 		if (is_int($a[$orderby])) {
-			$result = $a[$orderby]-$b[$orderby];
+			$result = $a[$orderby] - $b[$orderby];
 		} else {
 			$result = strcasecmp($a[$orderby], $b[$orderby]);
 		}
@@ -94,11 +94,11 @@ class SFUM_List_Table extends \WP_List_Table {
 	function extra_tablenav($which) {
 		$theme_count = $this->get_theme_count();
 		$all_count = count($this->data);
-		$plugin_count = $all_count-$theme_count;
+		$plugin_count = $all_count - $theme_count;
 		echo '<ul class="subsubsub">';
-		echo '<li><a '.($this->filtertype==='all'?'class="current"':'').' href="'.home_url(add_query_arg('filtertype', 'all')).'">'.esc_html__('All', 'stats-for-update-manager').'<span class="count"> ('.$all_count.')</span></a> |</li>';
-		echo '<li><a '.($this->filtertype==='plugins'?'class="current"':'').' href="'.home_url(add_query_arg('filtertype', 'plugins')).'">'.esc_html__('Plugins', 'stats-for-update-manager').'<span class="count"> ('.$plugin_count.')</span></a> |</li>';
-		echo '<li><a '.($this->filtertype==='themes'?'class="current"':'').' href="'.home_url(add_query_arg('filtertype', 'themes')).'">'.esc_html__('Themes', 'stats-for-update-manager').'<span class="count"> ('.$theme_count.')</span></a></li>';
+		echo '<li><a '.($this->filtertype === 'all' ? 'class="current"' : '').' href="'.home_url(add_query_arg('filtertype', 'all')).'">'.esc_html__('All', 'stats-for-update-manager').'<span class="count"> ('.$all_count.')</span></a> |</li>';
+		echo '<li><a '.($this->filtertype === 'plugins' ? 'class="current"' : '').' href="'.home_url(add_query_arg('filtertype', 'plugins')).'">'.esc_html__('Plugins', 'stats-for-update-manager').'<span class="count"> ('.$plugin_count.')</span></a> |</li>';
+		echo '<li><a '.($this->filtertype === 'themes' ? 'class="current"' : '').' href="'.home_url(add_query_arg('filtertype', 'themes')).'">'.esc_html__('Themes', 'stats-for-update-manager').'<span class="count"> ('.$theme_count.')</span></a></li>';
 		echo '</ul>';
 	}
 
@@ -109,12 +109,12 @@ class SFUM_List_Table extends \WP_List_Table {
 
 	// Filter plugin or themes for display.
 	function filter_data($data) {
-		$list=[];
-		foreach($data as $val) {
-			if ($this->filtertype==='plugins' && strpos($val['identifier'],'/')===false) {
+		$list = [];
+		foreach ($data as $val) {
+			if ($this->filtertype === 'plugins' && strpos($val['identifier'], '/') === false) {
 				continue;
 			}
-			if ($this->filtertype==='themes' && !strpos($val['identifier'],'/')===false) {
+			if ($this->filtertype === 'themes' && !strpos($val['identifier'], '/') === false) {
 				continue;
 			}
 			$list[] = $val;
@@ -125,8 +125,8 @@ class SFUM_List_Table extends \WP_List_Table {
 	// Retrieve the number of themes.
 	function get_theme_count() {
 		$count = 0;
-		foreach($this->data as $val) {
-			if (strpos($val['identifier'],'/')===false) {
+		foreach ($this->data as $val) {
+			if (strpos($val['identifier'], '/') === false) {
 				$count++;
 			}
 		}

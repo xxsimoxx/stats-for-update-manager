@@ -113,12 +113,12 @@ class StatsForUpdateManager{
 		}
 
 		// Add "statistics" commands to WP-CLI
-		if (defined( 'WP_CLI' ) && WP_CLI) {
+		if (defined('WP_CLI') && WP_CLI) {
 			\WP_CLI::add_command('statistics', '\XXSimoXX\StatsForUpdateManager\Statistics');
 		}
 
 		// Fire REST API class. It have to be enabled defining SFUM_ENABLE_REST = true.
-		if (defined('\SFUM_ENABLE_REST') && \SFUM_ENABLE_REST===true) {
+		if (defined('\SFUM_ENABLE_REST') && \SFUM_ENABLE_REST === true) {
 			require_once('classes/CustomEndPoint.class.php');
 			new CustomEndPoint;
 		}
@@ -147,16 +147,16 @@ class StatsForUpdateManager{
 	// Populate active installations array.
 	private function active_installations_populate() {
 		// Check if we have already a transient with needed data.
-		if(!($all_stats = get_transient('sfum_all_stats'))) {
+		if (!($all_stats = get_transient('sfum_all_stats'))) {
 			// Build an array in the form 'slug'->count.
 			$all_stats = [];
 			global $wpdb;
 			$results = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug', 'ARRAY_A');
 			foreach ($results as $result) {
-				$all_stats[$result['slug']]=$result['total'];
+				$all_stats[$result['slug']] = $result['total'];
 			}
 			// Save it all for 6 hours.
-			set_transient('sfum_all_stats', $all_stats, 6 * HOUR_IN_SECONDS );
+			set_transient('sfum_all_stats', $all_stats, 6 * HOUR_IN_SECONDS);
 		}
 		return $all_stats;
 	}
@@ -183,7 +183,7 @@ class StatsForUpdateManager{
 		printf(__('<b>Stats for Update Manager</b> requires <a href="%1$s" target="_blank">Update Manager</a>.', 'stats-for-update-manager'), UM_LINK);
 
 		// Different messages if already activated or trying to.
-		if (get_transient('sfum_is_activating') === "1") {
+		if (get_transient('sfum_is_activating') === '1') {
 			delete_transient('sfum_is_activating');
 			_e(' Stats for Update Manager <b>can\'t be activated</b>.', 'stats-for-update-manager');
 		} else {
@@ -197,12 +197,14 @@ class StatsForUpdateManager{
 	public function get_cpt() {
 		$data = [];
 
-		$posts = get_posts([
+		$posts = get_posts(
+			[
 			'post_type' => [UM_CPT_PLUGINS, UM_CPT_THEMES],
 			'post_status' => ['publish', 'pending' ,'draft'],
-			'numberposts' => -1
-			]);
-		foreach($posts as $post) {
+			'numberposts' => -1,
+			]
+		);
+		foreach ($posts as $post) {
 			$meta = get_post_meta($post->ID, 'id', true);
 			$data[$meta] = $post->ID;
 		}
@@ -222,18 +224,18 @@ class StatsForUpdateManager{
 		// Check what we are dealing with.
 		if (in_array($query['update'], ['query_themes', 'theme_information'])) {
 			// We are dealing with a theme.
-			if(!$this->is_safe_theme_slug($query['theme'])) {
+			if (!$this->is_safe_theme_slug($query['theme'])) {
 				return false;
 			}
-			$identifier=$query['theme'];
+			$identifier = $query['theme'];
 		}
 
 		if (in_array($query['update'], ['plugin_information', 'query_plugins'])) {
 			// We are dealing with a plugin.
-			if(!$this->is_safe_plugin_slug($query['plugin'])) {
+			if (!$this->is_safe_plugin_slug($query['plugin'])) {
 				return false;
 			}
-			$identifier=$query['plugin'];
+			$identifier = $query['plugin'];
 		}
 
 		// At this point $identifier should be set.
@@ -250,20 +252,20 @@ class StatsForUpdateManager{
 	public function log_request($query) {
 
 		// Get identifier and bail if it's not good.
-		if(($identifier = $this->get_identifier($query)) === false) {
+		if (($identifier = $this->get_identifier($query)) === false) {
 			// Don't log and don't break Update Manager.
 			return $query;
 		}
 
 		// Exit if it's called twice.
-		if(in_array($identifier, $this->lastseen, true)) {
+		if (in_array($identifier, $this->lastseen, true)) {
 			// Don't log and don't break Update Manager.
 			return $query;
 		}
 		$this->lastseen[] = $identifier;
 
 		// Bad url, don't log.
-		if(!$this->is_safe_url($query['site_url'])) {
+		if (!$this->is_safe_url($query['site_url'])) {
 			// Don't log and don't break Update Manager.
 			return $query;
 		}
@@ -274,18 +276,18 @@ class StatsForUpdateManager{
 		}
 
 		// Allow opt-out.
-		if(in_array('no-log', $this->options)) {
+		if (in_array('no-log', $this->options)) {
 			// Don't log and don't break Update Manager.
 			return $query;
 		}
 
 		// Prevent specific(s) plugin to be logged.
-		if(in_array($identifier, apply_filters('sfum_exclude', []))) {
+		if (in_array($identifier, apply_filters('sfum_exclude', []))) {
 			// Don't log and don't break Update Manager.
 			return $query;
 		}
 
-		$hashed=hash('sha512', $query['site_url']);
+		$hashed = hash('sha512', $query['site_url']);
 
 		global $wpdb;
 
@@ -297,7 +299,7 @@ class StatsForUpdateManager{
 		$data = [
 			'site' => $hashed,
 			'slug' => $identifier,
-			'last' => current_time('mysql', 1)
+			'last' => current_time('mysql', 1),
 			];
 
 		if (!$wpdb->update($wpdb->prefix.DB_TABLE_NAME, $data, $where)) {
@@ -326,14 +328,14 @@ class StatsForUpdateManager{
 	}
 
 	private function is_theme($id) {
-		return get_post_type($id)===UM_CPT_THEMES;
+		return get_post_type($id) === UM_CPT_THEMES;
 	}
 
 	// Register Statistics submenu.
 	public function create_menu() {
 
 		if (current_user_can('manage_options')) {
-			if (version_compare($this->um_version, '1.9999.0', '>')){
+			if (version_compare($this->um_version, '1.9999.0', '>')) {
 				// Correct menu for Update Manager 2.0.0-rcX+.
 				$parent_slug = UM_PAGE;
 			} else {
@@ -355,7 +357,7 @@ class StatsForUpdateManager{
 
 	// Enqueue CSS for debug section only in the page and only if WP_DEBUG is true.
 	public function backend_css($hook) {
-		if ($hook === $this->screen && defined('WP_DEBUG') && WP_DEBUG===true) {
+		if ($hook === $this->screen && defined('WP_DEBUG') && WP_DEBUG === true) {
 			wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'css/sfum-backend.css', [], '1.1.0');
 		}
 	}
@@ -375,7 +377,7 @@ class StatsForUpdateManager{
 		$ListTable->display();
 
 		// Show debug information if WP_DEBUG is true.
-		if(defined('WP_DEBUG') && WP_DEBUG===true) {
+		if (defined('WP_DEBUG') && WP_DEBUG === true) {
 			$this->render_page_debug();
 		}
 
@@ -385,7 +387,7 @@ class StatsForUpdateManager{
 
 	// Get an array of statistics that can be passed to SFUM_List_Table.
 	private function get_statistics() {
-		$items=[];
+		$items = [];
 
 		// Get CPTs and query database for statistics.
 		$um_posts = $this->get_cpt();
@@ -416,7 +418,8 @@ class StatsForUpdateManager{
 	private function render_page_debug() {
 		global $wpdb;
 		$last = $wpdb->get_results(
-			'SELECT slug, site, last FROM '.$wpdb->prefix.DB_TABLE_NAME.' ORDER BY last DESC LIMIT 100' );
+			'SELECT slug, site, last FROM '.$wpdb->prefix.DB_TABLE_NAME.' ORDER BY last DESC LIMIT 100'
+		);
 		if (count($last) === 0) {
 			echo '<p>'.esc_html__('No database entries.', 'stats-for-update-manager').'<p>';
 			return;
@@ -427,21 +430,21 @@ class StatsForUpdateManager{
 		echo '<div class="collapsible-content"><div class="content-inner">';
 		echo '<h2>'.esc_html__('Latest updates', 'stats-for-update-manager').'</h2>';
 		echo '<pre>';
-		printf('%-32s %-21s %s<br>', __("FIRST 30 CHAR OF THE HASH", 'stats-for-update-manager'), __("DATE", 'stats-for-update-manager'), __("PLUGIN/THEME", 'stats-for-update-manager'));
+		printf('%-32s %-21s %s<br>', __('FIRST 30 CHAR OF THE HASH', 'stats-for-update-manager'), __('DATE', 'stats-for-update-manager'), __('PLUGIN/THEME', 'stats-for-update-manager'));
 		foreach ($last as $value) {
 		/* translators: %1 is plugin slug, %2 is the number of active installations */
 			printf('%-32s %-21s %s', substr($value->site, 0, 30), date('Y/m/d H:i:s', strtotime($value->last)), $value->slug);
 			if (in_array($value->site, apply_filters('sfum_my_sites', []))) {
-				echo " *";
+				echo ' *';
 			}
-			echo "<br>";
+			echo '<br>';
 		}
 		echo '</pre></p></div></div></div>';
 	}
 
 	// Add link to statistic page in plugins page.
 	public function pal($links) {
-		if (version_compare($this->um_version, '1.9999.0', '>')){
+		if (version_compare($this->um_version, '1.9999.0', '>')) {
 			$destination = admin_url('admin.php?page='.MENU_SLUG);
 		} else {
 			// Keep compatibility with UM <2.0.0
@@ -487,7 +490,7 @@ class StatsForUpdateManager{
 			)
 			COLLATE {$wpdb_collate}";
 		require_once(ABSPATH.'wp-admin/includes/upgrade.php');
-		dbDelta( $sql );
+		dbDelta($sql);
 
 		// In the future HERE do something interesting with db version.
 
@@ -495,7 +498,7 @@ class StatsForUpdateManager{
 		update_option('sfum_db_ver', DB_REVISION);
 
 		// Set a transient to check if we are activating without UM.
-		set_transient('sfum_is_activating', "1", 60);
+		set_transient('sfum_is_activating', '1', 60);
 	}
 
 	// Deactivation hook.
@@ -510,7 +513,7 @@ class StatsForUpdateManager{
 		// Delete table.
 		global $wpdb;
 		$table_name = $wpdb->prefix.DB_TABLE_NAME;
-		$sql = "DROP TABLE IF EXISTS $table_name;";
+		$sql = 'DROP TABLE IF EXISTS '.$table_name.';';
 		$wpdb->query($sql);
 		// Delete options.
 		delete_option('sfum_db_ver');
@@ -518,15 +521,16 @@ class StatsForUpdateManager{
 
 	public function auto_deactivate() {
 		deactivate_plugins(plugin_basename(__FILE__));
-		if ( isset( $_GET['activate'] ) ) {
-			unset( $_GET['activate'] );
+		if (isset($_GET['activate'])) {
+			unset($_GET['activate']);
 		}
 	}
 
 	// Register privacy policy.
 	public function privacy() {
 		$content = sprintf(
-			esc_html__('
+			esc_html__(
+			'
 				This plugin stores data about plugins/themes update requests in a table.
 
 				The table structure contains:
@@ -560,7 +564,7 @@ class StatsForUpdateManager{
 		);
 
 		$content = wpautop($content, false);
-		wp_add_privacy_policy_content("Stats for Update Manager", $content);
+		wp_add_privacy_policy_content('Stats for Update Manager', $content);
 
 	}
 
