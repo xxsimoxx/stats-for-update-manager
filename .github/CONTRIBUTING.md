@@ -31,12 +31,15 @@ We are not enforcing a precise code standard, but hope your contributes will fol
 
 If you want to get very close to how I standardize my code, look at my
 <details><summary>phpcs checks</summary>
+
 <p>
+
 ```xml
 
+<?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="xxsimoxx-rules">
 	<description>
-		Rules for my HP code.
+		Rules for my PHP code.
 	</description> 
 
 	<rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"/>
@@ -60,10 +63,11 @@ If you want to get very close to how I standardize my code, look at my
 
 	<rule ref="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket" />
 	<rule ref="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket" />
-	
+	<rule ref="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket" />
+		
 	<rule ref="PSR2.ControlStructures.ControlStructureSpacing" />
 	<rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
-
+<rule ref="PEAR.ControlStructures.ControlSignature.Found"/>
 	<rule ref="Squiz.PHP.CommentedOutCode"/>
 	<rule ref="Squiz.PHP.EmbeddedPhp"/>
 	<rule ref="Squiz.PHP.Eval"/>
