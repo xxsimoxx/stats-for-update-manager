@@ -183,6 +183,8 @@ define( 'SFUM_ENABLE_REST', true );
 == Changelog ==
 = 1.1.2 =
 * Prevent duplicate database query
+* Removed unuseful transient
+* Fixed a bug when Stats for Update Manager is loaded before Update Manager
 
 = 1.1.1 =
 * Fixed "Active installation" column that was not ordering properly

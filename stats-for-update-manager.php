@@ -66,12 +66,11 @@ class StatsForUpdateManager{
 		register_uninstall_hook(__FILE__, [__CLASS__, 'uninstall']);
 
 		// Check for Update Manager running.
-		if (!class_exists(UM_CLASS)) {
+		if (!is_plugin_active(UM_SLUG)) {
 			add_action('admin_notices', [$this, 'um_missing']);
 			add_action('admin_init', [$this, 'auto_deactivate']);
 			return;
 		}
-		delete_transient('sfum_is_activating');
 
 		// Get Update Manager version.
 		$plugin_data = get_plugin_data(WP_PLUGIN_DIR.'/'.UM_SLUG);
@@ -177,20 +176,11 @@ class StatsForUpdateManager{
 
 	// Error for Update Manager missing.
 	public static function um_missing() {
-
 		echo '<div class="notice notice-error is-dismissible"><p>';
 		/* translators: 1 is the link to Update Manager homepage */
 		printf(__('<b>Stats for Update Manager</b> requires <a href="%1$s" target="_blank">Update Manager</a>.', 'stats-for-update-manager'), UM_LINK);
-
-		// Different messages if already activated or trying to.
-		if (get_transient('sfum_is_activating') === '1') {
-			delete_transient('sfum_is_activating');
-			_e(' Stats for Update Manager <b>can\'t be activated</b>.', 'stats-for-update-manager');
-		} else {
-			_e(' Stats for Update Manager has been <b>deactivated</b>.', 'stats-for-update-manager');
-		}
+		_e(' Stats for Update Manager <b>is not active</b>.', 'stats-for-update-manager');
 		echo '</p></div>';
-
 	}
 
 	// Get associative array to resolve Endpoint Identifier/Post ID.
@@ -496,9 +486,6 @@ class StatsForUpdateManager{
 
 		// Register database version for a future use.
 		update_option('sfum_db_ver', DB_REVISION);
-
-		// Set a transient to check if we are activating without UM.
-		set_transient('sfum_is_activating', '1', 60);
 	}
 
 	// Deactivation hook.

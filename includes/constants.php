@@ -55,4 +55,5 @@ const UM_CPT_THEMES = 'theme_endpoint';
 // Update Manager custom post type name.
 const UM_PAGE = 'update-manager';
 
+// Update Manager footer filter hook.
 const UM_HOOK_FOOTER = 'codepotent_update_manager_extension_footer_';
