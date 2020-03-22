@@ -292,9 +292,13 @@ class StatsForUpdateManager{
 			'last' => current_time('mysql', 1),
 			];
 
-		if (!$wpdb->update($wpdb->prefix.DB_TABLE_NAME, $data, $where)) {
-			$wpdb->insert($wpdb->prefix.DB_TABLE_NAME, $data);
+		// Update the site/slug last seen time.
+		if ($wpdb->update($wpdb->prefix.DB_TABLE_NAME, $data, $where)) {
+			return $query;
 		}
+
+		// New site/slug... insert.
+		$wpdb->insert($wpdb->prefix.DB_TABLE_NAME, $data);
 
 		// Return unchanged.
 		return $query;
