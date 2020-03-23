@@ -159,6 +159,9 @@ class Statistics{
 			\WP_CLI::error('Can\'t delete logs.', true);
 		}
 
+		// Delete transient that keep statistics.
+		delete_transient('sfum_all_stats');
+
 		// Success.
 		\WP_CLI::success('Table is empty now.');
 	}
@@ -196,6 +199,9 @@ class Statistics{
 		if (!$deleted > 0) {
 			\WP_CLI::error('Can\'t find "'.$args[0].'".', true);
 		}
+
+		// Delete transient that keep statistics.
+		delete_transient('sfum_all_stats');
 
 		// Success.
 		\WP_CLI::success('"'.$args[0].'" deleted.');
