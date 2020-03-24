@@ -24,13 +24,14 @@ We are not enforcing a precise code standard, but hope your contributes will fol
 1. Make your code readable.
 1. Don't deep-nest with conditionals.
 1. Indent using tabs, not spaces.
+1. Prefer strict comparisons.
 1. Keep your code similar to the code you are contributing to.
 1. Don't `eval()`.
 1. JavaScript and CSS must not be minified or obfuscated.
 1. Code must be compatible with ClassicPress from 1.0.0 to the latest release, PHP from 5.6 to 7.4.
 
-If you want to get very close to how I standardize my code, look at my
-<details><summary>phpcs checks</summary>
+If you want to get very close to how I standardize my code, look at my ruleset for `phpcs`.
+<details><summary>ruleset.xml</summary>
 
 <p>
 
@@ -60,15 +61,19 @@ If you want to get very close to how I standardize my code, look at my
 	<rule ref="Generic.Strings.UnnecessaryStringConcat"/>
 	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
 	<rule ref="Generic.ControlStructures.InlineControlStructure"/>
-
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+	<rule ref="Generic.Commenting.Todo.CommentFound">
+		<message>Please review this TODO comment: %s</message>
+		<severity>3</severity>
+	</rule>
+	
 	<rule ref="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket" />
 	<rule ref="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket" />
-	<rule ref="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket" />
-		
+	<rule ref="PEAR.ControlStructures.ControlSignature.Found"/>
+
 	<rule ref="PSR2.ControlStructures.ControlStructureSpacing" />
 	<rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
-<rule ref="PEAR.ControlStructures.ControlSignature.Found"/>
-	<rule ref="Squiz.PHP.CommentedOutCode"/>
+	
 	<rule ref="Squiz.PHP.EmbeddedPhp"/>
 	<rule ref="Squiz.PHP.Eval"/>
 	<rule ref="Squiz.PHP.NonExecutableCode"/>
@@ -97,7 +102,6 @@ If you want to get very close to how I standardize my code, look at my
 	<rule ref="Squiz.Strings.DoubleQuoteUsage.ContainsVar">
 		<severity>0</severity>
 	</rule>
-	<rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing"/>
 	<rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing">
 		<properties>
 			<property name="equalsSpacing" value="1" />
