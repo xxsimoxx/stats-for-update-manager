@@ -35,7 +35,7 @@ require_once('classes/ListTable.class.php');
 
 class StatsForUpdateManager{
 
-	// Initialize variables
+	// Initialize variables.
 
 	// Time (in SQL format) for the plugin to be considered installed.
 	public $db_unactive_entry = '';
@@ -145,18 +145,23 @@ class StatsForUpdateManager{
 
 	// Populate active installations array.
 	private function active_installations_populate() {
+
 		// Check if we have already a transient with needed data.
 		if (!($all_stats = get_transient('sfum_all_stats'))) {
-			// Build an array in the form 'slug'->count.
-			$all_stats = [];
+
 			global $wpdb;
 			$results = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug', 'ARRAY_A');
+
+			// Build an array in the form 'slug'->count.
+			$all_stats = [];
 			foreach ($results as $result) {
 				$all_stats[$result['slug']] = $result['total'];
 			}
+
 			// Save it all for 6 hours.
 			set_transient('sfum_all_stats', $all_stats, 6 * HOUR_IN_SECONDS);
 		}
+
 		return $all_stats;
 	}
 
@@ -185,8 +190,6 @@ class StatsForUpdateManager{
 
 	// Get associative array to resolve Endpoint Identifier/Post ID.
 	public function get_cpt() {
-		$data = [];
-
 		$posts = get_posts(
 			[
 			'post_type' => [UM_CPT_PLUGINS, UM_CPT_THEMES],
@@ -194,6 +197,7 @@ class StatsForUpdateManager{
 			'numberposts' => -1,
 			]
 		);
+		$data = [];
 		foreach ($posts as $post) {
 			$meta = get_post_meta($post->ID, 'id', true);
 			$data[$meta] = $post->ID;
@@ -277,9 +281,8 @@ class StatsForUpdateManager{
 			return $query;
 		}
 
+		// Prepare data.
 		$hashed = hash('sha512', $query['site_url']);
-
-		global $wpdb;
 
 		$where = [
 			'site' => $hashed,
@@ -293,6 +296,7 @@ class StatsForUpdateManager{
 			];
 
 		// Update the site/slug last seen time.
+		global $wpdb;
 		if ($wpdb->update($wpdb->prefix.DB_TABLE_NAME, $data, $where)) {
 			return $query;
 		}
@@ -304,12 +308,13 @@ class StatsForUpdateManager{
 		return $query;
 	}
 
-	// Check that the slug is in the correct form.
+	// Check that the theme slug is in the correct form.
 	private function is_safe_plugin_slug($slug) {
 		// Is defined, looks like a good slug and is not too long.
 		return isset($slug) && (bool) preg_match('/^[a-zA-Z0-9\-\_]*\/[a-zA-Z0-9\-\_]*\.php$/', $slug) && (strlen($slug) <= 100);
 	}
 
+	// Check that the plugin slug is in the correct form.
 	private function is_safe_theme_slug($slug) {
 		// Is defined, looks like a good slug and is not too long.
 		return isset($slug) && (bool) preg_match('/^[a-zA-Z0-9\-\_]*$/', $slug) && (strlen($slug) <= 100);
@@ -321,6 +326,7 @@ class StatsForUpdateManager{
 		return isset($url) && is_string($url) && (bool) preg_match('/^http(s)?:\/\//', $url);
 	}
 
+	// Check that a post ID is for a theme.
 	private function is_theme($id) {
 		return get_post_type($id) === UM_CPT_THEMES;
 	}
@@ -328,24 +334,29 @@ class StatsForUpdateManager{
 	// Register Statistics submenu.
 	public function create_menu() {
 
-		if (current_user_can('manage_options')) {
-			if (version_compare($this->um_version, '1.9999.0', '>')) {
-				// Correct menu for Update Manager 2.0.0-rcX+.
-				$parent_slug = UM_PAGE;
-			} else {
-				// Keep compatibility with UM <2.0.0
-				$parent_slug = 'edit.php?post_type='.UM_CPT_PLUGINS;
-			}
-
-			$this->screen = add_submenu_page(
-				$parent_slug,
-				esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager'),
-				esc_html_x('Statistics', 'Menu Title', 'stats-for-update-manager'),
-				'manage_options',
-				MENU_SLUG,
-				[$this, 'render_page']
-			);
+		// Check permissions.
+		if (!current_user_can('manage_options')) {
+			return;
 		}
+
+		// To be compatible with any UM version determine the right parent menu.
+		if (version_compare($this->um_version, '1.9999.0', '>')) {
+			// Correct menu for Update Manager 2.0.0-rcX+.
+			$parent_slug = UM_PAGE;
+		} else {
+			// Keep compatibility with UM <2.0.0.
+			$parent_slug = 'edit.php?post_type='.UM_CPT_PLUGINS;
+		}
+
+		// Add menu page.
+		$this->screen = add_submenu_page(
+			$parent_slug,
+			esc_html_x('Statistics for Update Manager', 'Page Title', 'stats-for-update-manager'),
+			esc_html_x('Statistics', 'Menu Title', 'stats-for-update-manager'),
+			'manage_options',
+			MENU_SLUG,
+			[$this, 'render_page']
+		);
 
 	}
 
@@ -381,21 +392,25 @@ class StatsForUpdateManager{
 
 	// Get an array of statistics that can be passed to SFUM_List_Table.
 	private function get_statistics() {
+
 		$items = [];
 
-		// Get CPTs and query database for statistics.
+		// Get CPTs.
 		$um_posts = $this->get_cpt();
+
+		// Query database for statistics.
 		global $wpdb;
 		$active = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug');
 
 		// Loop through results and build an array.
 		foreach ($active as $value) {
 
-			// Not in Update manager... skip
+			// Not in Update manager... skip.
 			if (!isset($um_posts[$value->slug])) {
 				continue;
 			}
 
+			// Set values.
 			$items[] = [
 				'identifier' => $value->slug,
 				'name'       => get_the_title($um_posts[$value->slug]),
@@ -403,6 +418,7 @@ class StatsForUpdateManager{
 				'count'      => (int)$value->total,
 				'type'       => $this->is_theme($um_posts[$value->slug]) ? esc_html__('Theme', 'stats-for-update-manager') : esc_html__('Plugin', 'stats-for-update-manager'),
 			];
+
 		}
 
 		return $items;
@@ -471,6 +487,7 @@ class StatsForUpdateManager{
 
 	// Activation hook.
 	public function activate() {
+
 		// Create or update database structure.
 		global $wpdb;
 		$table_name = $wpdb->prefix.DB_TABLE_NAME;
@@ -490,6 +507,7 @@ class StatsForUpdateManager{
 
 		// Register database version for a future use.
 		update_option('sfum_db_ver', DB_REVISION);
+
 	}
 
 	// Deactivation hook.
@@ -501,13 +519,16 @@ class StatsForUpdateManager{
 
 	// Uninstall hook.
 	public static function uninstall() {
+
 		// Delete table.
 		global $wpdb;
 		$table_name = $wpdb->prefix.DB_TABLE_NAME;
 		$sql = 'DROP TABLE IF EXISTS '.$table_name.';';
 		$wpdb->query($sql);
+
 		// Delete options.
 		delete_option('sfum_db_ver');
+
 	}
 
 	public function auto_deactivate() {
