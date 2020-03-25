@@ -313,7 +313,7 @@ class StatsForUpdateManager{
 		if ($insert_status === false) {
 			$error = $wpdb->last_error;
 			if (!preg_match('/^Duplicate entry.*for key \'siteslug\'/', $error)) {
-				$this->warn('Stats for Update Manager insert query error: '.$error);
+				$this->warn('Stats for Update Manager insert query failed: '.$error);
 			}
 		}
 
