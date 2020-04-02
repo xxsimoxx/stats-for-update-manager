@@ -138,7 +138,8 @@ class StatsForUpdateManager{
 	// Fill a stat array and add hooks to show active installations in plugin details.
 	public function active_installations_filters() {
 		$this->stat_array = $this->active_installations_populate();
-		foreach ($this->stat_array as $slug => $count) {
+		$filtered_stats = apply_filters('sfum_active_installations', $this->stat_array);
+		foreach ($filtered_stats as $slug => $count) {
 			add_filter('codepotent_update_manager_'.$slug.'_active_installs', [$this, 'active_installations_filter'], 10, 2);
 		}
 	}
