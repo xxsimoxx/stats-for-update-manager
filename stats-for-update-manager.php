@@ -241,6 +241,11 @@ class StatsForUpdateManager{
 
 	}
 
+	// Fix protocol (change http to https) in url.
+	private function fix_protocol($url) {
+		return preg_replace('/^http(s)?:\/\//', 'https://', $url);
+	}
+
 	// Log requests to the db.
 	// $query have to be always returned unchanged.
 	public function log_request($query) {
@@ -282,7 +287,7 @@ class StatsForUpdateManager{
 		}
 
 		// Prepare data.
-		$hashed = hash('sha512', $query['site_url']);
+		$hashed = hash('sha512', $this->fix_protocol($query['site_url']));
 
 		$where = [
 			'site' => $hashed,
