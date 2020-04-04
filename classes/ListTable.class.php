@@ -84,10 +84,28 @@ class SFUM_List_Table extends \WP_List_Table {
 	// For "Name" column add row action and reformat it.
 	function column_name($item) {
 		$actions = [
-			'edit' => '<a href="'.admin_url('post.php?post='.$item['id'].'&action=edit">'.esc_html__('Edit', 'stats-for-update-manager').'</a>'),
+			'edit'  => '<a href="'.admin_url('post.php?post='.$item['id'].'&action=edit">'.esc_html__('Edit', 'stats-for-update-manager').'</a>'),
+			'delete' => '<a href="'.home_url(add_query_arg(['action' => 'delete', 'id' => $item['id']])).'">'.esc_html__('Reset', 'stats-for-update-manager').'</a>',
+			#'delete' => sprintf('<a href="?page=%s&action=delete&id=%s">%s</a>', $_REQUEST['page'], $item['id'], esc_html__('Reset', 'stats-for-update-manager')),
 		];
 		$name = '<span class="row-title">'.$item['name'].'</span>';
 		return sprintf('%1$s %2$s', $name, $this->row_actions($actions));
+	}
+
+	function process_bulk_action() {
+		if ($this->current_action() === 'delete') {
+			$id = isset($_REQUEST['id']) ? $_REQUEST['id'] : [];
+			$id = (int) $id;
+			$slug = get_post_meta($id, 'id', true);
+			$where = ['slug' => $slug];
+			global $wpdb;
+			#$deleted = $wpdb->delete($wpdb->prefix.DB_TABLE_NAME, $where);
+			foreach ($this->data as $index => $val) {
+				if ($val['identifier'] === $slug) {
+					unset($this->data[$index]);
+				}
+			}
+		}
 	}
 
 	// Display filter for plugins or themes.
@@ -144,6 +162,7 @@ class SFUM_List_Table extends \WP_List_Table {
 
 	// Prepare our columns and insert data.
 	function prepare_items() {
+		$this->process_bulk_action();
 		$this->filtertype = $this->get_filtertype();
 		$columns  = $this->get_columns();
 		$hidden   = $this->get_hidden_columns();
@@ -152,6 +171,11 @@ class SFUM_List_Table extends \WP_List_Table {
 		$data = $this->filter_data($this->data);
 		usort($data, [&$this, 'reorder']);
 		$this->items = $data;
+		
+		    if ('delete' === $this->current_action()) {
+        $message = '<div class="updated below-h2" id="message"><p>' . sprintf(__('Items deleted: %d', 'custom_table_example'), 555) . '</p></div>';
+        echo $message;
+    }
 	}
 
 }
