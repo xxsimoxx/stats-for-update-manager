@@ -128,7 +128,7 @@ class SFUM_List_Table extends \WP_List_Table {
 
 		// Give feedback to the user.
 		// Translators: %1$s is plugin or theme name.
-		echo '<div class="notice notice-success is-dismissible"><p>'.sprintf(__('Successfully deleted %1$s.', 'stats-for-update-manager'), $name).'</p></div>';
+		echo '<div class="notice notice-success is-dismissible"><p>'.sprintf(__('Statistics for %1$s has been successfully reset.', 'stats-for-update-manager'), $name).'</p></div>';
 
 	}
 

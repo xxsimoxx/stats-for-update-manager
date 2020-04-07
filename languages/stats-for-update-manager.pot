@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-04-07T12:16:49+00:00\n"
+"POT-Creation-Date: 2020-04-07T15:09:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: stats-for-update-manager\n"
@@ -56,7 +56,7 @@ msgstr ""
 
 #. Translators: %1$s is plugin or theme name.
 #: classes/ListTable.class.php:131
-msgid "Successfully deleted %1$s."
+msgid "Statistics for %1$s has been successfully reset."
 msgstr ""
 
 #: classes/ListTable.class.php:141

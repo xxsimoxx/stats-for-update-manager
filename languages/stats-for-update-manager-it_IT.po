@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Stats for Update Manager 1.0.0-rc1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/stats-for-update-"
 "manager\n"
-"POT-Creation-Date: 2020-04-07T12:16:49+00:00\n"
+"POT-Creation-Date: 2020-04-07T15:09:00+00:00\n"
 "PO-Revision-Date: 2019-12-26 16:51+0100\n"
 "Last-Translator: root <simone@gieffeedizioni.it>\n"
 "Language-Team: Italian\n"
@@ -138,6 +138,11 @@ msgctxt "Menu Title"
 msgid "Statistics"
 msgstr "Statistiche"
 
+#. Translators: %1$s is plugin or theme name.
+#: classes/ListTable.class.php:131
+msgid "Statistics for %1$s has been successfully reset."
+msgstr "Le statistiche di %1$s sono state azzerate con successo."
+
 #: stats-for-update-manager.php:376
 msgctxt "Page Title"
 msgid "Statistics for Update Manager"
@@ -150,11 +155,6 @@ msgstr "Statistiche per Update Manager di Code Potent."
 #. Plugin Name of the plugin
 msgid "Stats for Update Manager"
 msgstr "Stats for Update Manager"
-
-#. Translators: %1$s is plugin or theme name.
-#: classes/ListTable.class.php:131
-msgid "Successfully deleted %1$s."
-msgstr "%1$s azzerato con successo."
 
 #: stats-for-update-manager.php:441
 msgid "Theme"
