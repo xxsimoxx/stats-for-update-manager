@@ -182,6 +182,7 @@ define( 'SFUM_ENABLE_REST', true );
 
 == Changelog ==
 = 1.1.3 =
+* Added the action to reset a counter
 * Http and https on the same site now are counted as one
 * Fix a bug with a filter not working properly if database empty
 
