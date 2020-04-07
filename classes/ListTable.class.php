@@ -85,27 +85,51 @@ class SFUM_List_Table extends \WP_List_Table {
 	function column_name($item) {
 		$actions = [
 			'edit'  => '<a href="'.admin_url('post.php?post='.$item['id'].'&action=edit">'.esc_html__('Edit', 'stats-for-update-manager').'</a>'),
-			'delete' => '<a href="'.home_url(add_query_arg(['action' => 'delete', 'id' => $item['id']])).'">'.esc_html__('Reset', 'stats-for-update-manager').'</a>',
-			#'delete' => sprintf('<a href="?page=%s&action=delete&id=%s">%s</a>', $_REQUEST['page'], $item['id'], esc_html__('Reset', 'stats-for-update-manager')),
+			'delete' => '<a href="'.wp_nonce_url(home_url(add_query_arg(['action' => 'delete', 'id' => $item['id']])), 'delete', '_sfum').'">'.esc_html__('Reset', 'stats-for-update-manager').'</a>',
 		];
 		$name = '<span class="row-title">'.$item['name'].'</span>';
 		return sprintf('%1$s %2$s', $name, $this->row_actions($actions));
 	}
 
+	// Deal with "reset" action.
 	function process_bulk_action() {
-		if ($this->current_action() === 'delete') {
-			$id = isset($_REQUEST['id']) ? $_REQUEST['id'] : [];
-			$id = (int) $id;
-			$slug = get_post_meta($id, 'id', true);
-			$where = ['slug' => $slug];
-			global $wpdb;
-			#$deleted = $wpdb->delete($wpdb->prefix.DB_TABLE_NAME, $where);
-			foreach ($this->data as $index => $val) {
-				if ($val['identifier'] === $slug) {
-					unset($this->data[$index]);
-				}
+
+		// Security checks.
+		if ($this->current_action() !== 'delete') {
+			return;
+		}
+		if (!check_admin_referer('delete', '_sfum')) {
+			return;
+		}
+		if (!current_user_can('manage_options')) {
+			return;
+		}
+
+		// Find the slug and title.
+		$id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
+		$id = (int) $id;
+		$slug = get_post_meta($id, 'id', true);
+		$name = get_the_title($id);
+		if ($slug === '') {
+			return;
+		}
+
+		// Delete from DB.
+		$where = ['slug' => $slug];
+		global $wpdb;
+		$wpdb->delete($wpdb->prefix.DB_TABLE_NAME, $where);
+
+		// Delete from the already build array.
+		foreach ($this->data as $index => $val) {
+			if ($val['identifier'] === $slug) {
+				unset($this->data[$index]);
 			}
 		}
+
+		// Give feedback to the user.
+		// Translators: %1$s is plugin or theme name.
+		echo '<div class="notice notice-success is-dismissible"><p>'.sprintf(__('Successfully deleted %1$s.', 'stats-for-update-manager'), $name).'</p></div>';
+
 	}
 
 	// Display filter for plugins or themes.
@@ -162,20 +186,15 @@ class SFUM_List_Table extends \WP_List_Table {
 
 	// Prepare our columns and insert data.
 	function prepare_items() {
-		$this->process_bulk_action();
 		$this->filtertype = $this->get_filtertype();
 		$columns  = $this->get_columns();
 		$hidden   = $this->get_hidden_columns();
 		$sortable = $this->get_sortable_columns();
 		$this->_column_headers = [$columns, $hidden, $sortable];
+		$this->process_bulk_action();
 		$data = $this->filter_data($this->data);
 		usort($data, [&$this, 'reorder']);
 		$this->items = $data;
-		
-		    if ('delete' === $this->current_action()) {
-        $message = '<div class="updated below-h2" id="message"><p>' . sprintf(__('Items deleted: %d', 'custom_table_example'), 555) . '</p></div>';
-        echo $message;
-    }
 	}
 
 }
