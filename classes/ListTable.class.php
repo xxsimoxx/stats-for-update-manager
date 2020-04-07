@@ -130,6 +130,11 @@ class SFUM_List_Table extends \WP_List_Table {
 		// Translators: %1$s is plugin or theme name.
 		echo '<div class="notice notice-success is-dismissible"><p>'.sprintf(__('Statistics for %1$s has been successfully reset.', 'stats-for-update-manager'), $name).'</p></div>';
 
+		// Remove action from query args.
+		echo '<script>';
+		echo 'window.history.pushState({}, document.title, "'.remove_query_arg(['action', 'id', '_sfum']).'");';
+		echo '</script>';
+
 	}
 
 	// Display filter for plugins or themes.
