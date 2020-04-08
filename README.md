@@ -26,6 +26,8 @@ Plugins and themes that queried Update Manager at least once in the last week ar
 
 It also add the number of active installations in the plugin details. See [filters](#filters) section to tweak.
 
+You can reset the count using the *Reset* row action.
+
 ## Disclaimers
 This plugin is intended to be used by *developers*.
 

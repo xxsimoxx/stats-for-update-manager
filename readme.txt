@@ -1,7 +1,7 @@
 === Stats for Update Manager ===
 Plugin Name:        Stats for Update Manager
 Description:        With Stats for Update Manager you can count active installations of your plugins and themes.
-Version:            1.1.3
+Version:            1.2.0
 Text Domain:        stats-for-update-manager
 Domain Path:        /languages
 Requires PHP:       5.6
@@ -10,7 +10,7 @@ Tested:             4.9.99
 Author:             Gieffe edizioni
 Author URI:         https://www.gieffeedizioni.it
 Plugin URI:         https://software.gieffeedizioni.it
-Download link:      https://github.com/xxsimoxx/stats-for-update-manager/releases/download/v1.1.3/stats-for-update-manager-1.1.3.zip
+Download link:      https://github.com/xxsimoxx/stats-for-update-manager/releases/download/v1.2.0/stats-for-update-manager-1.2.0.zip
 License:            GPLv2
 License URI:        https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,8 @@ You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 It's compatible with Update Manager versions 1.x and 2.x.
 
 Plugins and themes that queried Update Manager at least once in the last week are considered active. When a plugin/theme have not queried Update Manager in the last 4 week it's removed from the database table. See FAQ section to tweak.
+
+You can reset the count using the *Reset* row action.
 
 It also add the number of active installations in the plugin details. See FAQ section to tweak.
 
@@ -181,10 +183,11 @@ define( 'SFUM_ENABLE_REST', true );
 *Note that the value of active installation is affected by the [filter](#filters) `sfum_active_installations`.*
 
 == Changelog ==
-= 1.1.3 =
+= 1.2.0 =
 * Added the action to reset a counter
 * Http and https on the same site now are counted as one
 * Fix a bug with a filter not working properly if database empty
+* Deprecated compatibility with Update Manager < 2.0.0
 
 = 1.1.2 =
 * Prevent duplicate database query

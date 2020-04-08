@@ -3,7 +3,7 @@
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: Statistics for Update Manager by Code Potent.
- * Version: 1.1.3
+ * Version: 1.2.0
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -82,7 +82,7 @@ class StatsForUpdateManager{
 		// Hook to Update Manager filter request.
 		add_filter(UM_HOOK_PLUGINS, [$this, 'log_request'], 1000);
 		add_filter(UM_HOOK_THEMES, [$this, 'log_request'], 1000);
-		// Keep compatible with Update Manager 1.X
+		// Keep compatible with Update Manager 1.X DEPRECATED
 		add_filter(UM_HOOK_DEPRECATED, [$this, 'log_request'], 1000);
 
 		// On init apply filters to set the number of days for an entry
@@ -366,7 +366,7 @@ class StatsForUpdateManager{
 			// Correct menu for Update Manager 2.0.0-rcX+.
 			$parent_slug = UM_PAGE;
 		} else {
-			// Keep compatibility with UM <2.0.0.
+			// Keep compatibility with UM <2.0.0. DEPRECATED
 			$parent_slug = 'edit.php?post_type='.UM_CPT_PLUGINS;
 		}
 
@@ -479,7 +479,7 @@ class StatsForUpdateManager{
 		if (version_compare($this->um_version, '1.9999.0', '>')) {
 			$destination = admin_url('admin.php?page='.MENU_SLUG);
 		} else {
-			// Keep compatibility with UM <2.0.0
+			// Keep compatibility with UM <2.0.0 DEPRECATED
 			$destination = admin_url('edit.php?post_type='.UM_CPT_PLUGINS.'&page='.MENU_SLUG);
 		}
 
