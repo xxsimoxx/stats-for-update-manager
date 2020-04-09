@@ -73,52 +73,6 @@ class SFUM_List_Table extends \WP_List_Table {
 		return $sortable_columns;
 	}
 
-	// Deal with "reset" action.
-	function process_bulk_action() {
-
-		// Security checks.
-		if ($this->current_action() !== 'delete') {
-			return;
-		}
-		if (!check_admin_referer('delete', '_sfum')) {
-			return;
-		}
-		if (!current_user_can('manage_options')) {
-			return;
-		}
-
-		// Find the slug and title.
-		$id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
-		$id = (int) $id;
-		$slug = get_post_meta($id, 'id', true);
-		$name = get_the_title($id);
-		if ($slug === '') {
-			return;
-		}
-
-		// Delete from DB.
-		$where = ['slug' => $slug];
-		global $wpdb;
-		$wpdb->delete($wpdb->prefix.DB_TABLE_NAME, $where);
-
-		// Delete from the already build array.
-		foreach ($this->data as $index => $val) {
-			if ($val['identifier'] === $slug) {
-				unset($this->data[$index]);
-			}
-		}
-
-		// Give feedback to the user.
-		// Translators: %1$s is plugin or theme name.
-		echo '<div class="notice notice-success is-dismissible"><p>'.sprintf(__('Statistics for %1$s has been successfully reset.', 'stats-for-update-manager'), $name).'</p></div>';
-
-		// Remove delete action from query args.
-		echo '<script>';
-		echo 'window.history.pushState({}, document.title, "'.remove_query_arg(['action', 'id', '_sfum']).'");';
-		echo '</script>';
-
-	}
-
 	// Filter plugin or themes for display.
 	function filter_data($data) {
 		$list = [];
@@ -196,7 +150,6 @@ class SFUM_List_Table extends \WP_List_Table {
 		$hidden   = $this->get_hidden_columns();
 		$sortable = $this->get_sortable_columns();
 		$this->_column_headers = [$columns, $hidden, $sortable];
-		$this->process_bulk_action();
 		$data = $this->filter_data($this->data);
 		usort($data, [&$this, 'reorder']);
 		$this->items = $data;

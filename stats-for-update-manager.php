@@ -380,6 +380,51 @@ class StatsForUpdateManager{
 			[$this, 'render_page']
 		);
 
+		// Remove action from url.
+		add_action('load-'.$this->screen, [$this, 'delete_action']);
+
+	}
+
+	// Deal with Reset row action.
+	public function delete_action() {
+
+		// Sanity check.
+		if (!isset($_GET['action'])) {
+			return;
+		}
+		if ($_GET['action'] !== 'delete') {
+			return;
+		}
+		if (!check_admin_referer('delete', '_sfum')) {
+			return;
+		}
+		if (!current_user_can('manage_options')) {
+			return;
+		}
+		if (!isset($_REQUEST['id'])) {
+			return;
+		}
+		$id = (int) $_REQUEST['id'];
+
+		// Find the slug and title.
+		$slug = get_post_meta($id, 'id', true);
+		$name = get_the_title($id);
+		if ($slug === '') {
+			return;
+		}
+
+		// Delete from DB.
+		global $wpdb;
+		$where = ['slug' => $slug];
+		$deleted = $wpdb->delete($wpdb->prefix.DB_TABLE_NAME, $where);
+
+		// Redirect to right url.
+		$sendback = remove_query_arg(['action', 'id', '_sfum'], wp_get_referer());
+		if ($deleted > 0) {
+			$sendback = add_query_arg('deleted', urlencode($name), $sendback);
+		}
+		wp_redirect($sendback);
+
 	}
 
 	// Enqueue CSS for debug section only in the page and only if WP_DEBUG is true.
@@ -395,6 +440,12 @@ class StatsForUpdateManager{
 		// Title.
 		echo '<div class="wrap">';
 		echo '<h1 class="wp-heading-inline" style="margin-bottom:10px;">'.esc_html_x('Update Manager &#8211; Statistics', 'Page Title', 'stats-for-update-manager').'</h1>';
+
+		// Give feedback to the user about deleted item from row actions.
+		if (isset($_GET['deleted'])) {
+			// Translators: %1$s is plugin or theme name.
+			echo '<div class="notice notice-success is-dismissible"><p>'.sprintf(__('Statistics for %1$s has been successfully reset.', 'stats-for-update-manager'), $_GET['deleted']).'</p></div>';
+		}
 
 		// Render list table.
 		$statistics = $this->get_statistics();
