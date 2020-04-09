@@ -110,7 +110,7 @@ class SFUM_List_Table extends \WP_List_Table {
 		return $item[$column_name];
 	}
 
-	// For "Name" column add row action and reformat it.
+	// For "Name" column add row actions and reformat it.
 	function column_name($item) {
 		$actions = [
 			'edit'  => '<a href="'.admin_url('post.php?post='.$item['id'].'&action=edit">'.esc_html__('Edit', 'stats-for-update-manager').'</a>'),

@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Stats for Update Manager 1.0.0-rc1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/stats-for-update-"
 "manager\n"
-"POT-Creation-Date: 2020-04-07T15:09:00+00:00\n"
+"POT-Creation-Date: 2020-04-10T11:50:25+00:00\n"
 "PO-Revision-Date: 2019-12-26 16:51+0100\n"
 "Last-Translator: root <simone@gieffeedizioni.it>\n"
 "Language-Team: Italian\n"
@@ -17,7 +17,8 @@ msgstr ""
 "X-Domain: stats-for-update-manager\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: stats-for-update-manager.php:566
+#. Translators: placeholders are just for styling.
+#: stats-for-update-manager.php:618
 msgid ""
 "\n"
 "\t\t\t\tThis plugin stores data about plugins/themes update requests in a "
@@ -51,27 +52,27 @@ msgid ""
 "\">Update Manager</a>."
 msgstr ""
 
-#: classes/ListTable.class.php:37
+#: classes/ListTable.class.php:51
 msgid "Active Installations"
 msgstr ""
 
-#: classes/ListTable.class.php:141
+#: classes/ListTable.class.php:129
 msgid "All"
 msgstr ""
 
-#: stats-for-update-manager.php:465
+#: stats-for-update-manager.php:516
 msgid "DATE"
 msgstr ""
 
-#: stats-for-update-manager.php:461
+#: stats-for-update-manager.php:512
 msgid "Debug information"
 msgstr ""
 
-#: classes/ListTable.class.php:87
+#: classes/ListTable.class.php:116
 msgid "Edit"
 msgstr ""
 
-#: stats-for-update-manager.php:465
+#: stats-for-update-manager.php:516
 msgid "FIRST 30 CHAR OF THE HASH"
 msgstr ""
 
@@ -79,31 +80,31 @@ msgstr ""
 msgid "Gieffe edizioni srl"
 msgstr ""
 
-#: stats-for-update-manager.php:463
+#: stats-for-update-manager.php:514
 msgid "Latest updates"
 msgstr ""
 
-#: classes/ListTable.class.php:34
+#: classes/ListTable.class.php:48
 msgid "Name"
 msgstr ""
 
-#: stats-for-update-manager.php:456
+#: stats-for-update-manager.php:507
 msgid "No database entries."
 msgstr ""
 
-#: stats-for-update-manager.php:465
+#: stats-for-update-manager.php:516
 msgid "PLUGIN/THEME"
 msgstr ""
 
-#: stats-for-update-manager.php:441
+#: stats-for-update-manager.php:492
 msgid "Plugin"
 msgstr ""
 
-#: classes/ListTable.class.php:142
+#: classes/ListTable.class.php:130
 msgid "Plugins"
 msgstr ""
 
-#: classes/ListTable.class.php:88
+#: classes/ListTable.class.php:117
 msgid "Reset"
 msgstr ""
 
@@ -113,7 +114,7 @@ msgid "Statistics"
 msgstr ""
 
 #. Translators: %1$s is plugin or theme name.
-#: classes/ListTable.class.php:131
+#: stats-for-update-manager.php:447
 msgid "Statistics for %1$s has been successfully reset."
 msgstr ""
 
@@ -130,24 +131,24 @@ msgstr ""
 msgid "Stats for Update Manager"
 msgstr ""
 
-#: stats-for-update-manager.php:441
+#: stats-for-update-manager.php:492
 msgid "Theme"
 msgstr ""
 
-#: classes/ListTable.class.php:143
+#: classes/ListTable.class.php:131
 msgid "Themes"
 msgstr ""
 
-#: classes/ListTable.class.php:38
+#: classes/ListTable.class.php:52
 msgid "Type"
 msgstr ""
 
-#: stats-for-update-manager.php:397
+#: stats-for-update-manager.php:442
 msgctxt "Page Title"
 msgid "Update Manager &#8211; Statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:486
+#: stats-for-update-manager.php:537
 msgid "Update Manager statistics"
 msgstr ""
 

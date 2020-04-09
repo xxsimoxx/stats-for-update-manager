@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Stats for Update Manager plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Stats for Update Manager 1.1.3\n"
+"Project-Id-Version: Stats for Update Manager 1.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/stats-for-update-manager\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-04-07T15:09:00+00:00\n"
+"POT-Creation-Date: 2020-04-10T11:50:25+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: stats-for-update-manager\n"
@@ -34,40 +34,35 @@ msgstr ""
 msgid "https://www.gieffeedizioni.it"
 msgstr ""
 
-#: classes/ListTable.class.php:34
+#: classes/ListTable.class.php:48
 msgid "Name"
 msgstr ""
 
-#: classes/ListTable.class.php:37
+#: classes/ListTable.class.php:51
 msgid "Active Installations"
 msgstr ""
 
-#: classes/ListTable.class.php:38
+#: classes/ListTable.class.php:52
 msgid "Type"
 msgstr ""
 
-#: classes/ListTable.class.php:87
+#: classes/ListTable.class.php:116
 msgid "Edit"
 msgstr ""
 
-#: classes/ListTable.class.php:88
+#: classes/ListTable.class.php:117
 msgid "Reset"
 msgstr ""
 
-#. Translators: %1$s is plugin or theme name.
-#: classes/ListTable.class.php:131
-msgid "Statistics for %1$s has been successfully reset."
-msgstr ""
-
-#: classes/ListTable.class.php:141
+#: classes/ListTable.class.php:129
 msgid "All"
 msgstr ""
 
-#: classes/ListTable.class.php:142
+#: classes/ListTable.class.php:130
 msgid "Plugins"
 msgstr ""
 
-#: classes/ListTable.class.php:143
+#: classes/ListTable.class.php:131
 msgid "Themes"
 msgstr ""
 
@@ -90,48 +85,54 @@ msgctxt "Menu Title"
 msgid "Statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:397
+#: stats-for-update-manager.php:442
 msgctxt "Page Title"
 msgid "Update Manager &#8211; Statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:441
+#. Translators: %1$s is plugin or theme name.
+#: stats-for-update-manager.php:447
+msgid "Statistics for %1$s has been successfully reset."
+msgstr ""
+
+#: stats-for-update-manager.php:492
 msgid "Theme"
 msgstr ""
 
-#: stats-for-update-manager.php:441
+#: stats-for-update-manager.php:492
 msgid "Plugin"
 msgstr ""
 
-#: stats-for-update-manager.php:456
+#: stats-for-update-manager.php:507
 msgid "No database entries."
 msgstr ""
 
-#: stats-for-update-manager.php:461
+#: stats-for-update-manager.php:512
 msgid "Debug information"
 msgstr ""
 
-#: stats-for-update-manager.php:463
+#: stats-for-update-manager.php:514
 msgid "Latest updates"
 msgstr ""
 
-#: stats-for-update-manager.php:465
+#: stats-for-update-manager.php:516
 msgid "FIRST 30 CHAR OF THE HASH"
 msgstr ""
 
-#: stats-for-update-manager.php:465
+#: stats-for-update-manager.php:516
 msgid "DATE"
 msgstr ""
 
-#: stats-for-update-manager.php:465
+#: stats-for-update-manager.php:516
 msgid "PLUGIN/THEME"
 msgstr ""
 
-#: stats-for-update-manager.php:486
+#: stats-for-update-manager.php:537
 msgid "Update Manager statistics"
 msgstr ""
 
-#: stats-for-update-manager.php:566
+#. Translators: placeholders are just for styling.
+#: stats-for-update-manager.php:618
 msgid ""
 "\n"
 "\t\t\t\tThis plugin stores data about plugins/themes update requests in a table.\n"

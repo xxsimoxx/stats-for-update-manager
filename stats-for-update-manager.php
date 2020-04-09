@@ -613,6 +613,7 @@ class StatsForUpdateManager{
 
 	// Register privacy policy.
 	public function privacy() {
+		// Translators: placeholders are just for styling.
 		$content = sprintf(
 			esc_html__(
 			'
