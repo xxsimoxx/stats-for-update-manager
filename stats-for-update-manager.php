@@ -419,12 +419,10 @@ class StatsForUpdateManager{
 		$deleted = $wpdb->delete($wpdb->prefix.DB_TABLE_NAME, $where);
 
 		// Redirect to right url.
+		set_transient('sfum_deleted_item', $name);
 		$sendback = remove_query_arg(['action', 'id', '_sfum'], wp_get_referer());
-		if ($deleted > 0) {
-			$sendback = add_query_arg('deleted', urlencode($name), $sendback);
-		}
 		wp_redirect($sendback);
-
+		exit;
 	}
 
 	// Enqueue CSS for debug section only in the page and only if WP_DEBUG is true.
@@ -442,9 +440,11 @@ class StatsForUpdateManager{
 		echo '<h1 class="wp-heading-inline" style="margin-bottom:10px;">'.esc_html_x('Update Manager &#8211; Statistics', 'Page Title', 'stats-for-update-manager').'</h1>';
 
 		// Give feedback to the user about deleted item from row actions.
-		if (isset($_GET['deleted'])) {
+		$deleted_name = get_transient('sfum_deleted_item');
+		if ($deleted_name !== false) {
 			// Translators: %1$s is plugin or theme name.
-			echo '<div class="notice notice-success is-dismissible"><p>'.sprintf(__('Statistics for %1$s has been successfully reset.', 'stats-for-update-manager'), $_GET['deleted']).'</p></div>';
+			echo '<div class="notice notice-success is-dismissible"><p>'.sprintf(__('Statistics for %1$s has been successfully reset.', 'stats-for-update-manager'), $deleted_name).'</p></div>';
+			delete_transient('sfum_deleted_item');
 		}
 
 		// Render list table.
