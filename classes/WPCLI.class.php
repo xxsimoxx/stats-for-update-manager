@@ -12,7 +12,7 @@ namespace XXSimoXX\StatsForUpdateManager;
 
 if (!defined('ABSPATH')) {
 	die('-1');
-};
+}
 
 global $sfum_instance;
 
@@ -105,9 +105,10 @@ class Statistics{
 			$result['title'] = get_the_title($cpt[$result['identifier']]);
 			$result['status'] = get_post_status($cpt[$result['identifier']]);
 			$result['endpoint'] = get_post_type($cpt[$result['identifier']]);
-			if ($date_format !== null) {
-				$result['date'] = date($date_format);
+			if ($date_format === null) {
+				continue;
 			}
+			$result['date'] = date($date_format);
 		}
 
 		// Sort results.

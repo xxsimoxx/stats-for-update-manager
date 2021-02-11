@@ -4,7 +4,7 @@ namespace XXSimoXX\StatsForUpdateManager;
 
 if (!defined('ABSPATH')) {
 	die('-1');
-};
+}
 
 // Define constants.
 

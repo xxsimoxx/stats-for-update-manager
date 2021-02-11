@@ -12,7 +12,7 @@ namespace XXSimoXX\StatsForUpdateManager;
 
 if (!defined('ABSPATH')) {
 	die('-1');
-};
+}
 
 
 if (!class_exists('WP_List_Table')) {
@@ -44,33 +44,30 @@ class SFUM_List_Table extends \WP_List_Table {
 
 	// Output columns definition.
 	function get_columns() {
-		$columns = [
+		return [
 			'name'       => esc_html__('Name', 'stats-for-update-manager'),
 			'identifier' => 'Identifier',
 			'id'         => 'Id',
 			'count'      => esc_html__('Active Installations', 'stats-for-update-manager'),
 			'type'       => esc_html__('Type', 'stats-for-update-manager'),
 		];
-		return $columns;
 	}
 
 	// Output hidden columns.
 	function get_hidden_columns() {
-		$hidden_columns = [
+		return [
 			'identifier',
 			'id',
 		];
-		return $hidden_columns;
 	}
 
 	// Output sortable columns.
 	function get_sortable_columns() {
-		$sortable_columns = [
-			'name'    => ['name', false],
+		return [
+			'name'    => ['name',  false],
 			'count'   => ['count', false],
-			'type'    => ['type', false],
+			'type'    => ['type',  false],
 		];
-		return $sortable_columns;
 	}
 
 	// Filter plugin or themes for display.
@@ -136,9 +133,10 @@ class SFUM_List_Table extends \WP_List_Table {
 	function get_theme_count() {
 		$count = 0;
 		foreach ($this->data as $val) {
-			if (strpos($val['identifier'], '/') === false) {
-				$count++;
+			if (strpos($val['identifier'], '/') !== false) {
+				continue;
 			}
+			$count++;
 		}
 		return $count;
 	}

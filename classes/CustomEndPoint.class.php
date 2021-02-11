@@ -12,7 +12,7 @@ namespace XXSimoXX\StatsForUpdateManager;
 
 if (!defined('ABSPATH')) {
 	die('-1');
-};
+}
 
 
 class CustomEndPoint{

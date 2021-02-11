@@ -16,7 +16,7 @@ namespace XXSimoXX\StatsForUpdateManager;
 
 if (!defined('ABSPATH')) {
 	die('-1');
-};
+}
 
 // Load constants.
 require_once('includes/constants.php');
@@ -117,7 +117,7 @@ class StatsForUpdateManager{
 		}
 
 		// Fire REST API class. It have to be enabled defining SFUM_ENABLE_REST = true.
-		if (defined('\SFUM_ENABLE_REST') && \SFUM_ENABLE_REST === true) {
+		if (defined('\SFUM_ENABLE_REST') && \SFUM_ENABLE_REST === true) { // phpcs:ignore
 			require_once('classes/CustomEndPoint.class.php');
 			new CustomEndPoint;
 		}
@@ -175,9 +175,8 @@ class StatsForUpdateManager{
 		$retval = apply_filters('sfum_active_installations', $this->stat_array);
 		if (isset($retval[$identifier])) {
 			return $retval[$identifier];
-		} else {
-			return 0;
 		}
+		return 0;
 	}
 
 	// Error for Update Manager missing.
@@ -427,9 +426,13 @@ class StatsForUpdateManager{
 
 	// Enqueue CSS for debug section only in the page and only if WP_DEBUG is true.
 	public function backend_css($hook) {
-		if ($hook === $this->screen && defined('WP_DEBUG') && WP_DEBUG === true) {
-			wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'css/sfum-backend.css', [], '1.1.0');
+		if ($hook !== $this->screen) {
+			return;
 		}
+		if (!defined('WP_DEBUG') || WP_DEBUG !== true) {
+			return;
+		}
+		wp_enqueue_style('sfum_statistics', plugin_dir_url(__FILE__).'css/sfum-backend.css', [], '1.1.0');
 	}
 
 	// Render statistics page.
@@ -606,9 +609,10 @@ class StatsForUpdateManager{
 
 	public function auto_deactivate() {
 		deactivate_plugins(plugin_basename(__FILE__));
-		if (isset($_GET['activate'])) {
-			unset($_GET['activate']);
+		if (!isset($_GET['activate'])) {
+			return;
 		}
+		unset($_GET['activate']);
 	}
 
 	// Register privacy policy.
