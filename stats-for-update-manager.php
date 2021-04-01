@@ -24,9 +24,6 @@ require_once('includes/constants.php');
 // Add auto updater https://codepotent.com/classicpress/plugins/update-manager/
 require_once('classes/UpdateClient.class.php');
 
-// Shortcodes.
-require_once('classes/Shortcodes.class.php');
-
 // WP-CLI extensions.
 require_once('classes/WPCLI.class.php');
 
@@ -67,8 +64,7 @@ class StatsForUpdateManager{
 
 		// Check for Update Manager running.
 		if (!is_plugin_active(UM_SLUG)) {
-			add_action('admin_notices', [$this, 'um_missing']);
-			add_action('admin_init', [$this, 'auto_deactivate']);
+			$this->disable_cron();
 			return;
 		}
 
@@ -110,6 +106,9 @@ class StatsForUpdateManager{
 		if (!wp_next_scheduled('sfum_clean_table')) {
 			wp_schedule_event(time(), 'daily', 'sfum_clean_table');
 		}
+		
+		// Shortcodes.
+		require_once('classes/Shortcodes.class.php');
 
 		// Add "statistics" commands to WP-CLI
 		if (defined('WP_CLI') && WP_CLI) {
@@ -177,15 +176,6 @@ class StatsForUpdateManager{
 			return $retval[$identifier];
 		}
 		return 0;
-	}
-
-	// Error for Update Manager missing.
-	public static function um_missing() {
-		echo '<div class="notice notice-error is-dismissible"><p>';
-		/* translators: 1 is the link to Update Manager homepage */
-		printf(__('<b>Stats for Update Manager</b> requires <a href="%1$s" target="_blank">Update Manager</a>.', 'stats-for-update-manager'), UM_LINK);
-		_e(' Stats for Update Manager <b>is not active</b>.', 'stats-for-update-manager');
-		echo '</p></div>';
 	}
 
 	// Get associative array to resolve Endpoint Identifier/Post ID.
@@ -586,11 +576,16 @@ class StatsForUpdateManager{
 
 	}
 
+	// Disable cron.
+	private function disable_cron() {
+		$timestamp = wp_next_scheduled('sfum_clean_table');
+		wp_unschedule_event($timestamp, 'sfum_clean_table');
+	}
+
 	// Deactivation hook.
 	public function deactivate() {
 		// Unschedule cron.
-		$timestamp = wp_next_scheduled('sfum_clean_table');
-		wp_unschedule_event($timestamp, 'sfum_clean_table');
+		$this->disable_cron();
 	}
 
 	// Uninstall hook.
@@ -605,14 +600,6 @@ class StatsForUpdateManager{
 		// Delete options.
 		delete_option('sfum_db_ver');
 
-	}
-
-	public function auto_deactivate() {
-		deactivate_plugins(plugin_basename(__FILE__));
-		if (!isset($_GET['activate'])) {
-			return;
-		}
-		unset($_GET['activate']);
 	}
 
 	// Register privacy policy.
