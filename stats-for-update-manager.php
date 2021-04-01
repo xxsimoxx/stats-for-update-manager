@@ -106,7 +106,7 @@ class StatsForUpdateManager{
 		if (!wp_next_scheduled('sfum_clean_table')) {
 			wp_schedule_event(time(), 'daily', 'sfum_clean_table');
 		}
-		
+
 		// Shortcodes.
 		require_once('classes/Shortcodes.class.php');
 
