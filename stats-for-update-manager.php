@@ -3,7 +3,7 @@
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: Statistics for Update Manager by Code Potent.
- * Version: 1.3.0
+ * Version: 1.3.1
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -57,14 +57,18 @@ class StatsForUpdateManager{
 
 	public function __construct() {
 
-		// Activation, deactivation and uninstall.
+		// Activation and deactivation.
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
-		register_uninstall_hook(__FILE__, [__CLASS__, 'uninstall']);
+
+		// Add a cron to clean table.
+		add_action('sfum_clean_table', [$this, 'clean_table']);
+		if (!wp_next_scheduled('sfum_clean_table')) {
+			wp_schedule_event(time(), 'daily', 'sfum_clean_table');
+		}
 
 		// Check for Update Manager running.
 		if (!is_plugin_active(UM_SLUG)) {
-			$this->disable_cron();
 			return;
 		}
 
@@ -100,12 +104,6 @@ class StatsForUpdateManager{
 
 		// Add credits to footer.
 		add_filter(UM_HOOK_FOOTER.MENU_SLUG, [$this, 'filter_footer_text'], 100);
-
-		// Add a cron to clean table.
-		add_action('sfum_clean_table', [$this, 'clean_table']);
-		if (!wp_next_scheduled('sfum_clean_table')) {
-			wp_schedule_event(time(), 'daily', 'sfum_clean_table');
-		}
 
 		// Shortcodes.
 		require_once('classes/Shortcodes.class.php');
@@ -586,20 +584,6 @@ class StatsForUpdateManager{
 	public function deactivate() {
 		// Unschedule cron.
 		$this->disable_cron();
-	}
-
-	// Uninstall hook.
-	public static function uninstall() {
-
-		// Delete table.
-		global $wpdb;
-		$table_name = $wpdb->prefix.DB_TABLE_NAME;
-		$sql = 'DROP TABLE IF EXISTS '.$table_name.';';
-		$wpdb->query($sql);
-
-		// Delete options.
-		delete_option('sfum_db_ver');
-
 	}
 
 	// Register privacy policy.

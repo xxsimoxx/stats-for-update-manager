@@ -1,7 +1,7 @@
 === Stats for Update Manager ===
 Plugin Name:        Stats for Update Manager
 Description:        With Stats for Update Manager you can count active installations of your plugins and themes.
-Version:            1.3.0
+Version:            1.3.1
 Text Domain:        stats-for-update-manager
 Domain Path:        /languages
 Requires PHP:       5.6
@@ -10,7 +10,7 @@ Tested:             4.9.99
 Author:             Gieffe edizioni
 Author URI:         https://www.gieffeedizioni.it
 Plugin URI:         https://software.gieffeedizioni.it
-Download link:      https://github.com/xxsimoxx/stats-for-update-manager/releases/download/v1.3.0/stats-for-update-manager-1.3.0.zip
+Download link:      https://github.com/xxsimoxx/stats-for-update-manager/releases/download/v1.3.1/stats-for-update-manager-1.3.1.zip
 License:            GPLv2
 License URI:        https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -183,6 +183,9 @@ define( 'SFUM_ENABLE_REST', true );
 *Note that the value of active installation is affected by the [filter](#filters) `sfum_active_installations`.*
 
 == Changelog ==
+= 1.3.1 =
+* Leave cron in place even if UM is not running
+
 = 1.3.0 =
 * When Update Manager is deactivate, silently do nothing
 * New code styling
