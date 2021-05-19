@@ -65,7 +65,7 @@ class Statistics{
 	*
 	* @when after_wp_load
 	*/
-	public function show($args, $assoc_args) {
+	public function show($args, $assoc_args) { // phpcs:ignore
 
 		// Bring StatsForUpdateManager class into scope.
 		global $sfum_instance;
@@ -144,7 +144,7 @@ class Statistics{
 	*
 	* @when after_wp_load
 	*/
-	public function purge($args, $assoc_args) {
+	public function purge($args, $assoc_args) { // phpcs:ignore
 
 		// Ask for confirmation if --yes not given.
 		if (!\WP_CLI\Utils\get_flag_value($assoc_args, 'yes', false)) {
@@ -178,7 +178,7 @@ class Statistics{
 	*
 	* @when after_wp_load
 	*/
-	public function delete($args, $assoc_args) {
+	public function delete($args, $assoc_args) {  // phpcs:ignore
 
 		// Bring StatsForUpdateManager class into scope.
 		global $sfum_instance;

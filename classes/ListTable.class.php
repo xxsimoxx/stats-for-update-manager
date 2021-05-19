@@ -36,7 +36,7 @@ class SFUM_List_Table extends \WP_List_Table {
 	// Parse request to understand what to filter for.
 	function get_filtertype() {
 		// Sanitize filtertype and default to all
-		if (empty($_GET['filtertype']) || !in_array($_GET['filtertype'], ['all', 'plugins', 'themes'], true)) {
+		if (!isset($_GET['filtertype']) || !in_array($_GET['filtertype'], ['all', 'plugins', 'themes'], true)) {
 			return 'all';
 		}
 		return $_GET['filtertype'];
@@ -88,9 +88,9 @@ class SFUM_List_Table extends \WP_List_Table {
 	// Callable to be used with usort.
 	function reorder($a, $b) {
 		// If no orderby or wrong orderby, default to plugin or theme name.
-		$orderby = (!empty($_GET['orderby']) && in_array($_GET['orderby'], ['name', 'count', 'type'], true)) ? $_GET['orderby'] : 'name';
+		$orderby = (isset($_GET['orderby']) && in_array($_GET['orderby'], ['name', 'count', 'type'], true)) ? $_GET['orderby'] : 'name';
 		// If no order or wrong order, default to asc.
-		$order = (!empty($_GET['order']) && $_GET['order'] !== 'asc') ? 'desc' : 'asc';
+		$order = (isset($_GET['order']) && $_GET['order'] !== 'asc') ? 'desc' : 'asc';
 
 		// Properly order numeric values or reorder text case-insensitive.
 		if (is_int($a[$orderby])) {
@@ -118,7 +118,7 @@ class SFUM_List_Table extends \WP_List_Table {
 	}
 
 	// Display filter for plugins or themes.
-	function extra_tablenav($which) {
+	function extra_tablenav($which) { // phpcs:ignore
 		$theme_count = $this->get_theme_count();
 		$all_count = count($this->data);
 		$plugin_count = $all_count - $theme_count;

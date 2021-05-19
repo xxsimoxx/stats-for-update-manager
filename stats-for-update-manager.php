@@ -114,10 +114,11 @@ class StatsForUpdateManager{
 		}
 
 		// Fire REST API class. It have to be enabled defining SFUM_ENABLE_REST = true.
-		if (defined('\SFUM_ENABLE_REST') && \SFUM_ENABLE_REST === true) { // phpcs:ignore
-			require_once('classes/CustomEndPoint.class.php');
-			new CustomEndPoint;
+		if (!defined('\SFUM_ENABLE_REST') || \SFUM_ENABLE_REST === false) {
+			return;
 		}
+		require_once('classes/CustomEndPoint.class.php');
+		new CustomEndPoint;
 
 	}
 
@@ -136,7 +137,7 @@ class StatsForUpdateManager{
 	public function active_installations_filters() {
 		$this->stat_array = $this->active_installations_populate();
 		$filtered_stats = apply_filters('sfum_active_installations', $this->stat_array);
-		foreach ($filtered_stats as $slug => $count) {
+		foreach (array_keys($filtered_stats) as $slug) {
 			add_filter('codepotent_update_manager_'.$slug.'_active_installs', [$this, 'active_installations_filter'], 10, 2);
 		}
 	}
@@ -173,7 +174,7 @@ class StatsForUpdateManager{
 		if (isset($retval[$identifier])) {
 			return $retval[$identifier];
 		}
-		return 0;
+		return $val;
 	}
 
 	// Get associative array to resolve Endpoint Identifier/Post ID.
@@ -403,7 +404,7 @@ class StatsForUpdateManager{
 		// Delete from DB.
 		global $wpdb;
 		$where = ['slug' => $slug];
-		$deleted = $wpdb->delete($wpdb->prefix.DB_TABLE_NAME, $where);
+		$wpdb->delete($wpdb->prefix.DB_TABLE_NAME, $where);
 
 		// Redirect to right url.
 		set_transient('sfum_deleted_item', $name);
@@ -632,4 +633,4 @@ class StatsForUpdateManager{
 }
 
 // Fire up...
-$sfum_instance = new StatsForUpdateManager;
+$sfum_instance = new StatsForUpdateManager; // phpcs:ignore

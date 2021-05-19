@@ -37,7 +37,7 @@ class CustomEndPoint{
 	}
 
 	// Return statistics.
-	public function stats_route($data) {
+	public function stats_route() {
 
 		// Bring StatsForUpdateManager class into scope.
 		global $sfum_instance;
