@@ -3,7 +3,7 @@
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: Statistics for Update Manager by Code Potent.
- * Version: 1.3.1
+ * Version: 1.4.0
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
@@ -20,6 +20,9 @@ if (!defined('ABSPATH')) {
 
 // Load constants.
 require_once('includes/constants.php');
+
+// Load functions.
+require_once('includes/functions.php');
 
 // Add auto updater https://codepotent.com/classicpress/plugins/update-manager/
 require_once('classes/UpdateClient.class.php');
@@ -411,6 +414,7 @@ class StatsForUpdateManager{
 		$sendback = remove_query_arg(['action', 'id', '_sfum'], wp_get_referer());
 		wp_redirect($sendback);
 		exit;
+
 	}
 
 	// Enqueue CSS for debug section only in the page and only if WP_DEBUG is true.
@@ -487,6 +491,7 @@ class StatsForUpdateManager{
 		}
 
 		return $items;
+
 	}
 
 	// Render the debug section of the page.

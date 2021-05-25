@@ -109,12 +109,23 @@ class SFUM_List_Table extends \WP_List_Table {
 
 	// For "Name" column add row actions and reformat it.
 	function column_name($item) {
+
 		$actions = [
 			'edit'  => '<a href="'.admin_url('post.php?post='.$item['id'].'&action=edit">'.esc_html__('Edit', 'stats-for-update-manager').'</a>'),
 			'delete' => '<a href="'.wp_nonce_url(home_url(add_query_arg(['action' => 'delete', 'id' => $item['id']])), 'delete', '_sfum').'">'.esc_html__('Reset', 'stats-for-update-manager').'</a>',
 		];
-		$name = '<span class="row-title">'.$item['name'].'</span>';
+
+		$logo = get_logo($item['identifier']);
+		if ($logo === false) {
+			$logo = '<div style="width: 64px; height: 64px; background: lightblue; border-radius: 50%; text-align: center; vertical-align: middle; display: table-cell">'.initials($item['name']).'</div>';
+		} else {
+			$logo = '<div style="align: center; vertical-align: middle; display: table-cell"><img style="width: 64px; height: 64px; vertical-align: center;" src="'.$logo.'"></div>';
+		}
+
+		$name = '<span style="padding-left: 10px;" class="row-title"><span>'.$logo.'<span style="padding-left: 10px;">'.$item['name'].'</span></span>';
+
 		return sprintf('%1$s %2$s', $name, $this->row_actions($actions));
+
 	}
 
 	// Display filter for plugins or themes.
