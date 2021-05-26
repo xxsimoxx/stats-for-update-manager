@@ -109,7 +109,12 @@ class SFUM_List_Table extends \WP_List_Table {
 
 	// For "Count" column reformat it.
 	function column_count($item) {
-		return '<p style="font-size: 1.5em; padding:16px; ">'.$item['count'].'</p>';
+		return '<p style="font-size: 1.5em; padding-top:16px;">'.$item['count'].'</p>';
+	}
+
+	// For "Type" column reformat it.
+	function column_type($item) {
+		return '<p style="padding-top:16px;">'.$item['type'].'</p>';
 	}
 
 	// For "Name" column add row actions and reformat it.
