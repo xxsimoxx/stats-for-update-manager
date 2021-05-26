@@ -107,6 +107,11 @@ class SFUM_List_Table extends \WP_List_Table {
 		return $item[$column_name];
 	}
 
+	// For "Count" column reformat it.
+	function column_count($item) {
+		return '<p style="font-size: 1.5em; padding:16px; ">'.$item['count'].'</p>';
+	}
+
 	// For "Name" column add row actions and reformat it.
 	function column_name($item) {
 
@@ -119,10 +124,10 @@ class SFUM_List_Table extends \WP_List_Table {
 		if ($logo === false) {
 			$logo = '<div style="width: 64px; height: 64px; background: lightblue; border-radius: 50%; text-align: center; vertical-align: middle; display: table-cell">'.initials($item['name']).'</div>';
 		} else {
-			$logo = '<div style="align: center; vertical-align: middle; display: table-cell"><img style="width: 64px; height: 64px; vertical-align: center;" src="'.$logo.'"></div>';
+			$logo = '<div style="vertical-align: middle; display: inline;"><img style="width: 64px; height: 64px;" src="'.$logo.'"></div>';
 		}
 
-		$name = '<span style="padding-left: 10px;" class="row-title"><span>'.$logo.'<span style="padding-left: 10px;">'.$item['name'].'</span></span>';
+		$name = '<span class="row-title"><span>'.$logo.'<span style="padding-left: 15px;">'.$item['name'].'</span></span>';
 
 		return sprintf('%1$s %2$s', $name, $this->row_actions($actions));
 
