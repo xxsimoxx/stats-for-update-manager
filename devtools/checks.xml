@@ -16,12 +16,10 @@
 	<rule ref="SlevomatCodingStandard.ControlStructures.DisallowContinueWithoutIntegerOperandInSwitch"/>
 	<rule ref="SlevomatCodingStandard.ControlStructures.DisallowEmpty"/>
 	<rule ref="SlevomatCodingStandard.Operators.RequireCombinedAssignmentOperator"/>
-	<rule ref="SlevomatCodingStandard.Functions.UnusedParameter"/>
 	<rule ref="SlevomatCodingStandard.Variables.UnusedVariable"/>
 	<rule ref="SlevomatCodingStandard.Variables.UselessVariable"/>
 	<rule ref="SlevomatCodingStandard.Arrays.MultiLineArrayEndBracketPlacement"/>
 
-	
 	<rule ref="Generic.Files.LineEndings"/>
 	<rule ref="Generic.Formatting.DisallowMultipleStatements"/>
 	<rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
