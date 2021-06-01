@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
- * Description: Statistics for Update Manager by Code Potent.
+ * Description: Statistics for Update Manager.
  * Version: 1.4.0
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html

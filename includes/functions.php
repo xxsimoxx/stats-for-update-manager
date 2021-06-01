@@ -23,8 +23,11 @@ function get_logo($slug = '') {
 	$plugin_dir  = WP_PLUGIN_DIR.'/'.$plugin_base;
 	$image_path = $plugin_dir.'/images';
 	$image_path = apply_filters('codepotent_update_manager_image_path', $image_path);
+	$image_path = apply_filters('codepotent_update_manager_'.$slug.'_image_path', $image_path);
+
 	$image_url  = WP_PLUGIN_URL.'/'.$plugin_base.'/images';
 	$image_url  = apply_filters('codepotent_update_manager_image_url', $image_url);
+	$image_url  = apply_filters('codepotent_update_manager'.$slug.'__image_url', $image_url);
 
 	if (!file_exists($image_path.'/icon.svg')) {
 		return false;

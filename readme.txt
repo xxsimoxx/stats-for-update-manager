@@ -22,7 +22,7 @@ With Stats for Update Manager you can count active installations of your plugins
 
 With Stats for Update Manager you can count active installations of your plugins and themes.
 
-This is a companion plugin for [**Update Manager**](https://codepotent.com/classicpress/plugins/) from [Code Potent](https://codepotent.com/).
+This is a companion plugin for [**Update Manager**](https://software.gieffeedizioni.it/plugin/update-manager).
 
 You'll find a new submenu, *Statistics*, under the *Update Manager* menu.
 
@@ -56,6 +56,7 @@ The table structure contains:
 **To help us know the number of active installations of this (Stats for Update Manager) plugin, we collect and store anonymized data when the plugin check in for updates. The date and unique plugin identifier are stored as plain text and the requesting URL is stored as a non-reversible hashed value. This data is stored for up to 28 days.**
 
 To skip Stats for Update Manager from logging, the plugin/theme have to ask for updates defining, in the body of the request done by UpdateClient, `$body['sfum']='no-log'`.
+Since version 2.2.0 of Update Manager client this can be done using a filter.
 
 == Frequently asked questions ==
 
@@ -103,6 +104,23 @@ Or simply disable it all
 ```
 
 Note: the real number is cached for 6 hours.
+
+### Add opt-in or opt-out for your plugin users
+Supported by Update Manager Client since 2.2.0.
+**`codepotent_update_manager_filter_client_request_{your plugin slug}`** let's you change/hide the number displayed in the details of your plugins.
+
+Example:
+
+`add_filter('codepotent_update_manager_filter_client_request_my-slug/my-slug.php', 'example_filter');`
+
+```php
+	function example_filter($body){
+		if( 'no' === get_option( 'my-slug-usage-statistics' ) ) {
+			$body['sfum'] = 'no-log';
+		}
+	return $body;
+	}
+```
 
 ### Recognize your own sites in debug
 _Note that debug information is displayed only if `WP_DEBUG` is set to true_.
@@ -184,8 +202,10 @@ define( 'SFUM_ENABLE_REST', true );
 
 == Changelog ==
 = 1.4.0 =
+* Support for new filter in UM 2.2.0
 * Added icons
 * Deprecated REST support
+* Restyle
 
 = 1.3.1 =
 * Leave cron in place even if UM is not running
