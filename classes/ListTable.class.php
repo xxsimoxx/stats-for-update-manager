@@ -127,12 +127,12 @@ class SFUM_List_Table extends \WP_List_Table {
 
 		$logo = get_logo($item['identifier']);
 		if ($logo === false) {
-			$logo = '<div style="width: 64px; height: 64px; background: lightblue; border-radius: 50%; text-align: center; vertical-align: middle; display: table-cell">'.initials($item['name']).'</div>';
+			$logo = '<div style="min-width: 64px; min-height: 64px; background: #357EC0; color: white; border-radius: 50%; line-height: 64px; text-align: center; display: inline-block"><span style="font-size: 200%;">'.initials($item['name']).'</span></div>';
 		} else {
 			$logo = '<div style="vertical-align: middle; display: inline;"><img style="width: 64px; height: 64px;" src="'.$logo.'"></div>';
 		}
 
-		$name = '<span class="row-title"><span>'.$logo.'<span style="padding-left: 15px;">'.$item['name'].'</span></span>';
+		$name = $logo.'<span class="row-title" style="padding-left: 15px;">'.$item['name'].'</span>';
 
 		return sprintf('%1$s %2$s', $name, $this->row_actions($actions));
 

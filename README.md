@@ -3,8 +3,6 @@
 ![GitHub All Releases](https://img.shields.io/github/downloads/xxsimoxx/stats-for-update-manager/total)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/xxsimoxx/stats-for-update-manager?label=Download%20latest&sort=semver)](https://github.com/xxsimoxx/stats-for-update-manager/releases/latest)
 
-![Stats for Update Manager](images/logo-for-readme.png)
-
 ## Discover how many sites are using your plugins and themes!
 
 This is a companion plugin for [**Update Manager**](https://software.gieffeedizioni.it/plugin/update-manager).
