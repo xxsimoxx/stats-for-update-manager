@@ -106,8 +106,8 @@ Or simply disable it all
 Note: the real number is cached for 6 hours.
 
 ### Add opt-in or opt-out for your plugin users
-Supported by Update Manager Client since 2.2.0.
-**`codepotent_update_manager_filter_client_request_{your plugin slug}`** let's you change/hide the number displayed in the details of your plugins.
+Supported by Update Manager Client since 2.2.0. _Note: this filter is from Update Manager, not from Stats for Update Manager._
+**`codepotent_update_manager_filter_client_request_{your plugin slug}`** let's you inject data in the request made by UpdateClient.class.php.
 
 Example:
 
@@ -202,7 +202,7 @@ define( 'SFUM_ENABLE_REST', true );
 
 == Changelog ==
 = 1.4.0 =
-* Support for new filter in UM 2.2.0
+* Document support for new filter in UM 2.2.0
 * Added icons
 * Deprecated REST support
 * Restyle
