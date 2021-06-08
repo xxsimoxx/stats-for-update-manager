@@ -63,15 +63,15 @@ Supported by Update Manager Client since 2.3.0. _Note: this filter is from Updat
 
 Example:
 
-`add_filter('codepotent_update_manager_filter_client_request_my-slug/my-slug.php', 'example_filter');`
-
 ```php
-	function example_filter($body){
-		if( 'no' === get_option( 'my-slug-usage-statistics' ) ) {
-			$body['sfum'] = 'no-log';
-		}
-	return $body;
+add_filter('codepotent_update_manager_filter_client_request_my-slug/my-slug.php', 'example_filter');
+
+function example_filter($body){
+	if( 'no' === get_option( 'my-slug-usage-statistics' ) ) {
+		$body['sfum'] = 'no-log';
 	}
+return $body;
+}
 ```
 
 ### Recognize your own sites in debug
