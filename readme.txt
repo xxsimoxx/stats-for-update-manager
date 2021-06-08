@@ -106,7 +106,7 @@ Or simply disable it all
 Note: the real number is cached for 6 hours.
 
 ### Add opt-in or opt-out for your plugin users
-Supported by Update Manager Client since 2.2.0. _Note: this filter is from Update Manager, not from Stats for Update Manager._
+Supported by Update Manager Client since 2.3.0. _Note: this filter is from Update Manager, not from Stats for Update Manager._
 **`codepotent_update_manager_filter_client_request_{your plugin slug}`** let's you inject data in the request made by UpdateClient.class.php.
 
 Example:
