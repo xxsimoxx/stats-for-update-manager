@@ -59,12 +59,12 @@ Note: the real number is cached for 6 hours.
 
 ### Add opt-in or opt-out for your plugin users
 Supported by Update Manager Client since 2.3.0. _Note: this filter is from Update Manager, not from Stats for Update Manager._
-**`codepotent_update_manager_filter_client_request_{your plugin slug}`** let's you inject data in the request made by UpdateClient.class.php.
+**`codepotent_update_manager_filter_{$slug}_client_request`** let's you inject data in the request made by UpdateClient.class.php.
 
 Example:
 
 ```php
-add_filter('codepotent_update_manager_filter_client_request_my-slug/my-slug.php', 'example_filter');
+add_filter('codepotent_update_manager_filter_my-slug/my-slug.php_client_request', 'example_filter');
 
 function example_filter($body){
 	if( 'no' === get_option( 'my-slug-usage-statistics' ) ) {
