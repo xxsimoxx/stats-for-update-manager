@@ -3,22 +3,18 @@
 /**
  * -----------------------------------------------------------------------------
  * Purpose: Remote client to communicate with the Update Manager plugin.
- * Author: Code Potent
+ * Author: John Alarcon
  * Author URI: https://codepotent.com
+ * API Version: 2.0.0
+ * Last modified on Update Manager release: 2.3.0
  * -----------------------------------------------------------------------------
  * This is free software released under the terms of the General Public License,
  * version 2, or later. It is distributed WITHOUT ANY WARRANTY; without even the
  * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Full
  * text of the license is available at https://www.gnu.org/licenses/gpl-2.0.txt.
  * -----------------------------------------------------------------------------
- * Copyright 2020, Code Potent
- * -----------------------------------------------------------------------------
- *           ____          _      ____       _             _
- *          / ___|___   __| | ___|  _ \ ___ | |_ ___ _ __ | |_
- *         | |   / _ \ / _` |/ _ \ |_) / _ \| __/ _ \ '_ \| __|
- *         | |__| (_) | (_| |  __/  __/ (_) | ||  __/ | | | |_
- *          \____\___/ \__,_|\___|_|   \___/ \__\___|_| |_|\__|.com
- *
+ * Copyright 2021, John Alarcon (Code Potent)
+ *           2021, Simone Fioravanti
  * -----------------------------------------------------------------------------
  */
 
@@ -56,16 +52,7 @@ class UpdateClient {
 	private $config;
 
 	/**
-	 * Default CP version.
-	 *
-	 * This value is used for comparison in the updates list table by core. This
-	 * property can be set to 4.9.x (whatever x might be at the time,) if you're
-	 * wanting to be exact. The issue with doing that is that you'd have to bump
-	 * that number with every new release of 4.9.x to ensure that core indicates
-	 * 100% compatibility in the table. If your plugin or theme is compatible to
-	 * WordPress 4.9.x, it is compatible with ClassicPress 1.x.x, so, there will
-	 * not be a need for this. Setting it to 4.9.99 ensures don't have to update
-	 * it again.
+	 * Latest CP version.
 	 */
 	private $cp_latest_version = '4.9.99';
 
@@ -103,7 +90,7 @@ class UpdateClient {
 		];
 
 		// Find and store the latest CP version during update process.
-		$this->cp_latest_version = get_option('cp_latest_version', '');
+		$this->cp_latest_version = $this->get_latest_version_number();
 
 		// Hook the update client into the system.
 		$this->init();
@@ -234,9 +221,6 @@ class UpdateClient {
 		// Is there a response?
 		if (isset($value->response)) {
 
-			// Ensure the latest ClassicPress version number is available.
-			$this->get_latest_version_number();
-
 			// Get the installed components.
 			$components = $this->get_component_data('query_'.$this->config['type'].'s');
 
@@ -333,6 +317,11 @@ class UpdateClient {
 
 		// Get the component's information.
 		$info = $this->get_component_data($action, $list_components[$args->slug]);
+
+		// If the request failed, pass through an informative error message.
+		if (is_wp_error($info)) {
+			return $info;
+		}
 
 		// If the response has all the right properties, cast $info to object.
 		if (isset($info['name'], $info['slug'], $info['external'], $info['sections'])) {
@@ -573,8 +562,8 @@ class UpdateClient {
 		global $cp_version;
 
 		// Initialize the data to be posted.
-		$body = $this->config['post'];
-
+		$body = apply_filters('codepotent_update_manager_filter_'.$this->config['id'].'_client_request', $this->config['post']);
+		
 		if ($action === 'plugin_information') {
 
 			// If querying a single plugin, assign it to the post body.
@@ -658,12 +647,21 @@ class UpdateClient {
 		}
 
 		// Still an error? Hey, you tried. Bail.
-		if (is_wp_error($raw_response) || 200 != wp_remote_retrieve_response_code($raw_response)) {
-			return [];
+		if (is_wp_error($raw_response)) {
+			return new \WP_Error('update_manager_http_error', __('HTTP error.') . ' ' . $raw_response->get_error_message(), ['original_error' => $raw_response]);
+		}
+		$response_code = wp_remote_retrieve_response_code($raw_response);
+		if (200 != $response_code) {
+			return new \WP_Error('update_manager_http_error', __('HTTP error.') . ' ' . $response_code, compact('raw_response'));
 		}
 
 		// Get the response body; decode it as an array.
 		$data = json_decode(trim(wp_remote_retrieve_body($raw_response)), true);
+
+		// If decoding fails, bail.
+		if ($data === null) {
+			return new \WP_Error('update_manager_http_error', __('Invalid API response (invalid JSON)'), $raw_response);
+		}
 
 		// Set retrieved data to the object for reuse elsewhere.
 		$this->component_data = is_array($data) ? $data : [];
@@ -723,9 +721,13 @@ class UpdateClient {
 		$image_path = untrailingslashit(WP_PLUGIN_DIR).'/'.$plugin.'/images';
 		$image_url  = untrailingslashit(WP_PLUGIN_URL).'/'.$plugin.'/images';
 
-		// Allow directory location to be filtered.
+		// Allow directory location to be filtered. DEPRECATED FILTERS.
 		$image_path = apply_filters('codepotent_update_manager_image_path', $image_path);
 		$image_url  = apply_filters('codepotent_update_manager_image_url', $image_url);
+
+		// Allow directory location to be filtered. NEW FILTERS.
+		$image_path = apply_filters('codepotent_update_manager_'.$this->config['id'].'_image_path', $image_path);
+		$image_url  = apply_filters('codepotent_update_manager_'.$this->config['id'].'_image_url', $image_url);
 
 		// Banner and icon images are keyed differently; it's a core thing.
 		$image_qualities = [
@@ -821,7 +823,7 @@ class UpdateClient {
 		$version = get_transient('codepotent_update_manager_cp_version');
 
 		// Return version number, if now known.
-		if (!empty($version)) {
+		if (false !== $version) {
 			return $version;
 		}
 
@@ -855,8 +857,9 @@ class UpdateClient {
 			$version = str_replace('.json', '', $version);
 		}
 
-		// A transient ensures the query is not run more than every 10 minutes.
-		set_transient('codepotent_update_manager_cp_version', $version, MINUTE_IN_SECONDS * 10);
+		// A transient ensures the query is not run more than every 6 hours.
+		set_transient('codepotent_update_manager_cp_version', $version, HOUR_IN_SECONDS * 6);
+		update_option('cp_latest_version', $version);
 
 		// Return the version string.
 		return $version;
