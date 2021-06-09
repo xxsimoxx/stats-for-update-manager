@@ -371,7 +371,7 @@ class UpdateClient {
 			$anchors_string = implode('', $component_meta);
 			$anchor_text = esc_html__('View details');
 			if (!preg_match('|(\<a[ \s\S\d]*)('.$anchor_text.')(<\/a>)|', $anchors_string)) {
-				$component_meta[] = '<a class="thickbox" href="'.admin_url('/'.$this->config['type'].'-install.php?tab='.$this->config['type'].'-information&'.$this->config['type'].'='.$this->server_slug.'&TB_iframe=true&width=600&height=550').'">'.$anchor_text.'</a>';
+				$component_meta[] = '<a class="thickbox open-plugin-details-modal" href="'.admin_url('/'.$this->config['type'].'-install.php?tab='.$this->config['type'].'-information&'.$this->config['type'].'='.$this->server_slug.'&TB_iframe=true&width=600&height=550').'">'.$anchor_text.'</a>';
 			}
 		}
 
