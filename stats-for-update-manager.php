@@ -540,7 +540,7 @@ class StatsForUpdateManager{
 	// Add footer text.
 	public function filter_footer_text($text) {
 		$text = '<a href="'.GITHUB_PAGE.'/" title="Stats for Update Manager">Stats for Update Manager</a> '.VERSION;
-		$text .= ' &#8211; by <a href="'.SW_PAGE.'" title="Gieffe edizioni">Gieffe edizioni</a>';
+		$text .= ' &#8211; by <a href="'.SW_PAGE.'" title="Gieffe edizioni">Simone Fioravanti</a>';
 		return $text;
 	}
 
