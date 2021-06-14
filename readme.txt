@@ -202,7 +202,7 @@ define( 'SFUM_ENABLE_REST', true );
 
 == Changelog ==
 = 1.4.0 =
-* Document support for new filter in UM 2.2.0
+* Document support for new filter in UM 2.3.0
 * Added icons
 * Deprecated REST support
 * Restyle
