@@ -118,7 +118,7 @@ function example_filter($body){
 	if( 'no' === get_option( 'my-slug-usage-statistics' ) ) {
 		$body['sfum'] = 'no-log';
 	}
-return $body;
+	return $body;
 }
 ```
 
