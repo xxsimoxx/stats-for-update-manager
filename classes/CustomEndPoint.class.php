@@ -27,8 +27,9 @@ class CustomEndPoint{
 					'stats/v1',
 					'/stats',
 					[
-						'methods' => 'GET',
-						'callback' => [$this, 'stats_route'],
+						'methods'             => 'GET',
+						'callback'            => [$this, 'stats_route'],
+						'permission_callback' => '\__return_true',
 					]
 					);
 				}
