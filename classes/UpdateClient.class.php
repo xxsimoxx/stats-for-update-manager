@@ -6,7 +6,7 @@
  * Author: John Alarcon
  * Author URI: https://codepotent.com
  * API Version: 2.0.0
- * Last modified on Update Manager release: 2.3.0
+ * Last modified on Update Manager release: 2.4.0
  * -----------------------------------------------------------------------------
  * This is free software released under the terms of the General Public License,
  * version 2, or later. It is distributed WITHOUT ANY WARRANTY; without even the
@@ -23,6 +23,11 @@ namespace XXSimoXX\StatsForUpdateManager\UpdateClient;
 
 // EDIT: URL where Update Manager is installed; with trailing slash!
 const UPDATE_SERVER = 'https://software.gieffeedizioni.it/';
+
+// EDIT: Comment this out and fill with the first part of the url
+//       of your Download link to make sure that updates
+//       are served from your trusted source.
+const SECURE_SOURCE = 'https://github.com/xxsimoxx';
 
 // EDIT: plugin or theme?
 const UPDATE_TYPE = 'plugin';
@@ -226,6 +231,12 @@ class UpdateClient {
 
 			// Iterate over installed components.
 			foreach($components as $component=>$data) {
+
+				// If necessary check if the new package come from the right source.
+				if (defined(__NAMESPACE__.'\SECURE_SOURCE') && isset($data['package']) && strpos($data['package'], SECURE_SOURCE) !== 0) {
+					unset($value->response[$component]);
+					continue;
+				}
 
 				// Is there a new version?
 				if (isset($data['id'], $data['new_version'], $data['package'])) {
