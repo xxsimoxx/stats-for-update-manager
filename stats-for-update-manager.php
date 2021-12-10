@@ -3,7 +3,7 @@
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: Statistics for Update Manager.
- * Version: 1.4.0
+ * Version: 1.4.1
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
