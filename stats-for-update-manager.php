@@ -412,7 +412,7 @@ class StatsForUpdateManager{
 		// Redirect to right url.
 		set_transient('sfum_deleted_item', $name);
 		$sendback = remove_query_arg(['action', 'id', '_sfum'], wp_get_referer());
-		wp_redirect($sendback);
+		wp_safe_redirect($sendback);
 		exit;
 
 	}
@@ -439,7 +439,7 @@ class StatsForUpdateManager{
 		$deleted_name = get_transient('sfum_deleted_item');
 		if ($deleted_name !== false) {
 			// Translators: %1$s is plugin or theme name.
-			echo '<div class="notice notice-success is-dismissible"><p>'.sprintf(__('Statistics for %1$s has been successfully reset.', 'stats-for-update-manager'), $deleted_name).'</p></div>';
+			echo '<div class="notice notice-success is-dismissible"><p>'.sprintf(esc_html__('Statistics for %1$s has been successfully reset.', 'stats-for-update-manager'), esc_html($deleted_name)).'</p></div>';
 			delete_transient('sfum_deleted_item');
 		}
 
@@ -510,10 +510,10 @@ class StatsForUpdateManager{
 		echo '<div class="collapsible-content"><div class="content-inner">';
 		echo '<h2>'.esc_html__('Latest updates', 'stats-for-update-manager').'</h2>';
 		echo '<pre>';
-		printf('%-32s %-21s %s<br>', __('FIRST 30 CHAR OF THE HASH', 'stats-for-update-manager'), __('DATE', 'stats-for-update-manager'), __('PLUGIN/THEME', 'stats-for-update-manager'));
+		printf('%-32s %-21s %s<br>', esc_html__('FIRST 30 CHAR OF THE HASH', 'stats-for-update-manager'), esc_html__('DATE', 'stats-for-update-manager'), esc_html__('PLUGIN/THEME', 'stats-for-update-manager'));
 		foreach ($last as $value) {
 		/* translators: %1 is plugin slug, %2 is the number of active installations */
-			printf('%-32s %-21s %s', substr($value->site, 0, 30), date('Y/m/d H:i:s', strtotime($value->last)), $value->slug);
+			echo esc_html(sprintf('%-32s %-21s %s', substr($value->site, 0, 30), gmdate('Y/m/d H:i:s', strtotime($value->last)), $value->slug));
 			if (in_array($value->site, apply_filters('sfum_my_sites', []))) {
 				echo ' *';
 			}
