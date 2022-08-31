@@ -3,18 +3,18 @@
 /**
  * -----------------------------------------------------------------------------
  * Purpose: Remote client to communicate with the Update Manager plugin.
- * Author: John Alarcon
- * Author URI: https://codepotent.com
+ * Author: Simone Fioravanti
+ * Author URI: https://software.gieffeedizioni.it
  * API Version: 2.0.0
- * Last modified on Update Manager release: 2.4.0
+ * Last modified on Update Manager release: 2.4.3
  * -----------------------------------------------------------------------------
  * This is free software released under the terms of the General Public License,
  * version 2, or later. It is distributed WITHOUT ANY WARRANTY; without even the
  * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Full
  * text of the license is available at https://www.gnu.org/licenses/gpl-2.0.txt.
  * -----------------------------------------------------------------------------
- * Copyright 2021, John Alarcon (Code Potent)
- *           2021, Simone Fioravanti
+ * Copyright 2021,		John Alarcon (Code Potent)
+ *           2021-2022,	Simone Fioravanti
  * -----------------------------------------------------------------------------
  */
 
@@ -27,7 +27,7 @@ const UPDATE_SERVER = 'https://software.gieffeedizioni.it/';
 // EDIT: Comment this out and fill with the first part of the url
 //       of your Download link to make sure that updates
 //       are served from your trusted source.
-const SECURE_SOURCE = 'https://github.com/xxsimoxx';
+// const SECURE_SOURCE = 'https://github.com/xxsimoxx/codepotent-update-manager/';
 
 // EDIT: plugin or theme?
 const UPDATE_TYPE = 'plugin';
@@ -180,11 +180,9 @@ class UpdateClient {
 		// Only need this JS/CSS on the plugin admin page and updates page.
 		if ($screen->base === 'plugins' || $screen->base === 'plugin-install') {
 			// This will make the jQuery below work with various languages.
-			$text1 = esc_html__('Compatible up to:');
-			$text2 = esc_html__('Reviews');
-			$text3 = esc_html__('Read all reviews');
 			// Swap "Compatible up to: 4.9.99" with "Compatible up to: 1.1.1".
-			echo '<script>jQuery(document).ready(function($){$("ul li:contains(4.9.99)").html("<strong>'.$text1.'</strong> '.$this->cp_latest_version.'");$(".fyi h3:contains('.$text2.')").hide();$(".fyi p:contains('.$text3.')").hide();});</script>'."\n";
+			// Text domains are missing because the strings are already in CP.
+			echo '<script>jQuery(document).ready(function($){$("ul li:contains(4.9.99)").html("<strong>'.esc_html__('Compatible up to:').'</strong> '.esc_html($this->cp_latest_version).'");$(".fyi h3:contains('.esc_html__('Reviews').')").hide();$(".fyi p:contains('.esc_html__('Read all reviews').')").hide();});</script>'."\n"; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain
 			// Styles for the modal window.
 			echo '<style>'."\n";
 			// Hide the ratings text and links to WP.org reviews.
@@ -380,9 +378,16 @@ class UpdateClient {
 		// Add the link to the plugin's or theme's row, if not already existing.
 		if ($this->identifier === $component_file) {
 			$anchors_string = implode('', $component_meta);
-			$anchor_text = esc_html__('View details');
+			// Text domains are missing because the strings are already in CP.
+			$anchor_text = esc_html__('View details'); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain
 			if (!preg_match('|(\<a[ \s\S\d]*)('.$anchor_text.')(<\/a>)|', $anchors_string)) {
-				$component_meta[] = '<a class="thickbox open-plugin-details-modal" href="'.admin_url('/'.$this->config['type'].'-install.php?tab='.$this->config['type'].'-information&'.$this->config['type'].'='.$this->server_slug.'&TB_iframe=true&width=600&height=550').'">'.$anchor_text.'</a>';
+				if (is_multisite()) {
+					if(current_user_can('update_plugins')) {
+						$component_meta[] = '<a class="thickbox" href="'.network_admin_url('/'.$this->config['type'].'-install.php?tab='.$this->config['type'].'-information&'.$this->config['type'].'='.$this->server_slug.'&TB_iframe=true&width=600&height=550').'">'.$anchor_text.'</a>';
+					}
+				} else {
+					$component_meta[] = '<a class="thickbox" href="'.admin_url('/'.$this->config['type'].'-install.php?tab='.$this->config['type'].'-information&'.$this->config['type'].'='.$this->server_slug.'&TB_iframe=true&width=600&height=550').'">'.$anchor_text.'</a>';
+				}
 			}
 		}
 
@@ -447,11 +452,11 @@ class UpdateClient {
 		// Updating a plugin or theme?
 		if ($hook_suffix === 'update') {
 			// Got both of the needed arguments?
-			if (isset($_GET['action'], $_GET[$this->config['type']])) {
+			if (isset($_GET['action'], $_GET[$this->config['type']])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				// First argument is good?
-				if ($_GET['action'] === 'upgrade-'.$this->config['type']) {
+				if ($_GET['action'] === 'upgrade-'.$this->config['type']) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					// Next argument is good?
-					if ($_GET[$this->config['type']] === $hook_extra[$this->config['type']]) {
+					if ($_GET[$this->config['type']] === $hook_extra[$this->config['type']]) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 						// Activate the component.
 						$function = ($this->config['type'] === 'plugin') ? 'activate_plugin' : 'activate_theme';
 						$function($hook_extra[$this->config['type']]);
@@ -659,11 +664,11 @@ class UpdateClient {
 
 		// Still an error? Hey, you tried. Bail.
 		if (is_wp_error($raw_response)) {
-			return new \WP_Error('update_manager_http_error', __('HTTP error.') . ' ' . $raw_response->get_error_message(), ['original_error' => $raw_response]);
+			return new \WP_Error('update_manager_http_error', 'HTTP error. ' . $raw_response->get_error_message(), ['original_error' => $raw_response]);
 		}
 		$response_code = wp_remote_retrieve_response_code($raw_response);
 		if (200 != $response_code) {
-			return new \WP_Error('update_manager_http_error', __('HTTP error.') . ' ' . $response_code, compact('raw_response'));
+			return new \WP_Error('update_manager_http_error', 'HTTP error. ' . $response_code, compact('raw_response'));
 		}
 
 		// Get the response body; decode it as an array.
@@ -671,7 +676,7 @@ class UpdateClient {
 
 		// If decoding fails, bail.
 		if ($data === null) {
-			return new \WP_Error('update_manager_http_error', __('Invalid API response (invalid JSON)'), $raw_response);
+			return new \WP_Error('update_manager_http_error', 'Invalid API response (invalid JSON)', $raw_response);
 		}
 
 		// Set retrieved data to the object for reuse elsewhere.
