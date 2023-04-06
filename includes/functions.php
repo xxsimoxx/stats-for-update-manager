@@ -38,7 +38,7 @@ function get_logo($slug = '') {
 }
 
 function initials($name) {
-	$split = preg_split('/[-_ ]/', $name);
+	$split = preg_split('/[-_ ]/', $name.'- ');
 	$a = array_shift($split);
 	$b = array_shift($split);
 	return strtoupper(substr($a, 0, 1).substr($b, 0, 1));
