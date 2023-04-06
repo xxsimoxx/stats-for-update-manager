@@ -3,9 +3,10 @@
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: Statistics for Update Manager.
- * Version: 1.4.2
+ * Version: 1.4.3
  * Requires CP: 1.0
  * Requires PHP: 5.6
+ * Update URI: https://directory.classicpress.net/wp-json/wp/v2/plugins?byslug=stats-for-update-manager
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Gieffe edizioni srl
