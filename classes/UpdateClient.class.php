@@ -6,7 +6,7 @@
  * Author: Simone Fioravanti
  * Author URI: https://software.gieffeedizioni.it
  * API Version: 2.0.0
- * Last modified on Update Manager release: 2.4.3
+ * Last modified on Update Manager release: 2.5.0
  * -----------------------------------------------------------------------------
  * This is free software released under the terms of the General Public License,
  * version 2, or later. It is distributed WITHOUT ANY WARRANTY; without even the
@@ -14,7 +14,7 @@
  * text of the license is available at https://www.gnu.org/licenses/gpl-2.0.txt.
  * -----------------------------------------------------------------------------
  * Copyright 2021,		John Alarcon (Code Potent)
- *           2021-2022,	Simone Fioravanti
+ *           2021-2023,	Simone Fioravanti
  * -----------------------------------------------------------------------------
  */
 
@@ -23,6 +23,11 @@ namespace XXSimoXX\StatsForUpdateManager\UpdateClient;
 
 // EDIT: URL where Update Manager is installed; with trailing slash!
 const UPDATE_SERVER = 'https://software.gieffeedizioni.it/';
+
+// EDIT: Choose what to do in ClassicPress v.2 and above.
+//       Set to true to disable UpdateClient if updates are provided
+//       using the Classicpress Plugin Directory.
+const USE_DIRECTORY = true;
 
 // EDIT: Comment this out and fill with the first part of the url
 //       of your Download link to make sure that updates
@@ -35,6 +40,12 @@ const UPDATE_TYPE = 'plugin';
 // Prevent direct access.
 if (!defined('ABSPATH')) {
 	die();
+}
+
+// Should directory take over?
+$running_on = function_exists('classicpress_version') ? classicpress_version() : '0';
+if (USE_DIRECTORY && version_compare($running_on, '2', '>=')) {
+	return;
 }
 
 /**
@@ -68,6 +79,9 @@ class UpdateClient {
 	 * saving this value will cut an extra HTTP call to the update server.
 	 */
 	private $component_data = '';
+
+	private $identifier     = null;
+	private $server_slug    = null;
 
 	/**
 	 * Constructor.
@@ -579,7 +593,7 @@ class UpdateClient {
 
 		// Initialize the data to be posted.
 		$body = apply_filters('codepotent_update_manager_filter_'.$this->config['id'].'_client_request', $this->config['post']);
-		
+
 		if ($action === 'plugin_information') {
 
 			// If querying a single plugin, assign it to the post body.
