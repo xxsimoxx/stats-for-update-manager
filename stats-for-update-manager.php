@@ -3,7 +3,7 @@
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: Statistics for Update Manager.
- * Version: 1.4.3
+ * Version: 1.4.4
  * Requires CP: 1.0
  * Requires PHP: 5.6
  * Update URI: https://directory.classicpress.net/wp-json/wp/v2/plugins?byslug=stats-for-update-manager
@@ -74,7 +74,8 @@ class StatsForUpdateManager{
 		}
 
 		// Check for Update Manager running.
-		if (!is_plugin_active(UM_SLUG)) {
+		require_once(ABSPATH.'/wp-admin/includes/plugin.php');
+		if (!\is_plugin_active(UM_SLUG)) {
 			return;
 		}
 
