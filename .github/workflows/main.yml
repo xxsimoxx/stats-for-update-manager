@@ -18,7 +18,7 @@ jobs:
           git archive -o ${{ github.event.repository.name }}-${{ github.ref_name }}.zip --prefix ${{ github.event.repository.name }}/ HEAD
           ls
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
             name: ${{ github.event.repository.name }}-${{ github.ref_name }}
             path: ${{ github.event.repository.name }}-${{ github.ref_name }}.zip
