@@ -10,9 +10,7 @@ require_once('includes/constants.php');
 
 // Delete table.
 global $wpdb;
-$table_name = $wpdb->prefix.DB_TABLE_NAME;
-$sql = $wpdb->prepare('DROP TABLE IF EXISTS %s', $table_name);
-$wpdb->query($sql);
+$wpdb->query($wpdb->prepare('DROP TABLE IF EXISTS %s', $wpdb->prefix.DB_TABLE_NAME));
 
 // Delete options.
 delete_option('sfum_db_ver');

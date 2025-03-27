@@ -521,7 +521,7 @@ class StatsForUpdateManager{
 		global $wpdb;
 		$last = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT slug, site, last FROM `%1s` ORDER BY last DESC LIMIT 100',
+				'SELECT slug, site, last FROM `%1s` ORDER BY last DESC LIMIT 100', // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
 				$wpdb->prefix.DB_TABLE_NAME
 			)
 		);
