@@ -3,7 +3,7 @@
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: Statistics for Update Manager.
- * Version: 1.4.4
+ * Version: 1.4.5
  * Requires CP: 1.0
  * Requires PHP: 5.6
  * Update URI: https://directory.classicpress.net/wp-json/wp/v2/plugins?byslug=stats-for-update-manager
@@ -166,7 +166,6 @@ class StatsForUpdateManager{
 				),
 				'ARRAY_A'
 			);
-
 
 			// Build an array in the form 'slug'->count.
 			$all_stats = [];
@@ -485,11 +484,11 @@ class StatsForUpdateManager{
 		global $wpdb;
 		$active = $wpdb->get_results(
 			 $wpdb->prepare(
-			 	'SELECT slug, count(*) as total FROM `%1s` WHERE last > NOW() - %2s group by slug', // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
-			 	[
-			 		$wpdb->prefix.DB_TABLE_NAME,
-			 		$this->db_unactive_entry,
-			 	]
+				'SELECT slug, count(*) as total FROM `%1s` WHERE last > NOW() - %2s group by slug', // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
+				[
+					$wpdb->prefix.DB_TABLE_NAME,
+					$this->db_unactive_entry,
+				]
 			)
 		);
 
