@@ -21,6 +21,8 @@ if (!class_exists('WP_List_Table')) {
 
 // Class for display statistics page.
 class SFUM_List_Table extends \WP_List_Table {
+	// No need to check nonces to reorder or filter a column
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 	// Contains the requested filter type (all, plugins or themes).
 	private $filtertype = 'all';
@@ -39,7 +41,7 @@ class SFUM_List_Table extends \WP_List_Table {
 		if (!isset($_GET['filtertype']) || !in_array($_GET['filtertype'], ['all', 'plugins', 'themes'], true)) {
 			return 'all';
 		}
-		return $_GET['filtertype'];
+		return sanitize_key(wp_unslash($_GET['filtertype']));
 	}
 
 	// Output columns definition.
@@ -88,7 +90,7 @@ class SFUM_List_Table extends \WP_List_Table {
 	// Callable to be used with usort.
 	function reorder($a, $b) {
 		// If no orderby or wrong orderby, default to plugin or theme name.
-		$orderby = (isset($_GET['orderby']) && in_array($_GET['orderby'], ['name', 'count', 'type'], true)) ? $_GET['orderby'] : 'name';
+		$orderby = (isset($_GET['orderby']) && in_array($_GET['orderby'], ['name', 'count', 'type'], true)) ? sanitize_key(wp_unslash($_GET['orderby'])) : 'name';
 		// If no order or wrong order, default to asc.
 		$order = (isset($_GET['order']) && $_GET['order'] !== 'asc') ? 'desc' : 'asc';
 
@@ -144,9 +146,9 @@ class SFUM_List_Table extends \WP_List_Table {
 		$all_count = count($this->data);
 		$plugin_count = $all_count - $theme_count;
 		echo '<ul class="subsubsub">';
-		echo '<li><a '.($this->filtertype === 'all' ? 'class="current"' : '').' href="'.home_url(add_query_arg('filtertype', 'all')).'">'.esc_html__('All', 'stats-for-update-manager').'<span class="count"> ('.$all_count.')</span></a> |</li>';
-		echo '<li><a '.($this->filtertype === 'plugins' ? 'class="current"' : '').' href="'.home_url(add_query_arg('filtertype', 'plugins')).'">'.esc_html__('Plugins', 'stats-for-update-manager').'<span class="count"> ('.$plugin_count.')</span></a> |</li>';
-		echo '<li><a '.($this->filtertype === 'themes' ? 'class="current"' : '').' href="'.home_url(add_query_arg('filtertype', 'themes')).'">'.esc_html__('Themes', 'stats-for-update-manager').'<span class="count"> ('.$theme_count.')</span></a></li>';
+		echo '<li><a '.($this->filtertype === 'all' ? 'class="current"' : '').' href="'.esc_url(home_url(add_query_arg('filtertype', 'all'))).'">'.esc_html__('All', 'stats-for-update-manager').'<span class="count"> ('.esc_html($all_count).')</span></a> |</li>';
+		echo '<li><a '.($this->filtertype === 'plugins' ? 'class="current"' : '').' href="'.esc_url(home_url(add_query_arg('filtertype', 'plugins'))).'">'.esc_html__('Plugins', 'stats-for-update-manager').'<span class="count"> ('.esc_html($plugin_count).')</span></a> |</li>';
+		echo '<li><a '.($this->filtertype === 'themes' ? 'class="current"' : '').' href="'.esc_url(home_url(add_query_arg('filtertype', 'themes'))).'">'.esc_html__('Themes', 'stats-for-update-manager').'<span class="count"> ('.esc_html($theme_count).')</span></a></li>';
 		echo '</ul>';
 	}
 
