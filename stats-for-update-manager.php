@@ -131,7 +131,7 @@ class StatsForUpdateManager{
 
 	// Trigger a warning.
 	private function warn($x) {
-		 trigger_error(esc_html(print_r($x, true)), E_USER_WARNING); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+		 trigger_error(esc_html(print_r($x, true)), E_USER_WARNING); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error, WordPress.PHP.DevelopmentFunctions.error_log_print_r
 	}
 
 	// Apply filters to set the number of days for an entry to be considered inactive or have to be removed from db.
@@ -579,6 +579,7 @@ class StatsForUpdateManager{
 					$wpdb->prefix.DB_TABLE_NAME,
 					$this->db_old_entry,
 				]
+			)
 		);
 	}
 
