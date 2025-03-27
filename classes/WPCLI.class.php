@@ -82,7 +82,7 @@ class Statistics{
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT slug as "identifier", count(*) as "active" FROM `%1s` WHERE last > NOW() - %2s group by slug',
+				'SELECT slug as "identifier", count(*) as "active" FROM `%1s` WHERE last > NOW() - %2s group by slug', // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
 				[
 					$wpdb->prefix.DB_TABLE_NAME,
 					$timing,
