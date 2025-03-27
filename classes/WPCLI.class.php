@@ -79,7 +79,18 @@ class Statistics{
 
 		// Query database.
 		global $wpdb;
-		$results = $wpdb->get_results('SELECT slug as "identifier", count(*) as "active" FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$timing.' group by slug', 'ARRAY_A');
+
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT slug as "identifier", count(*) as "active" FROM `%1s` WHERE last > NOW() - %2s group by slug', // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
+				[
+					$wpdb->prefix.DB_TABLE_NAME,
+					$timing,
+				]
+			),
+			'ARRAY_A'
+		);
+
 		if (count($results) === 0) {
 			return \WP_CLI::error('No active plugins found.');
 		}
@@ -108,7 +119,7 @@ class Statistics{
 			if ($date_format === null) {
 				continue;
 			}
-			$result['date'] = date($date_format);
+			$result['date'] = gmdate($date_format);
 		}
 
 		// Sort results.
@@ -155,7 +166,7 @@ class Statistics{
 		// Truncate the table.
 		global $wpdb;
 		$wpdb->suppress_errors();
-		if (!$wpdb->query('TRUNCATE TABLE '.$wpdb->prefix.DB_TABLE_NAME)) {
+		if (!$wpdb->query($wpdb->prepare('TRUNCATE TABLE %s', $wpdb->prefix.DB_TABLE_NAME))) {
 			// Failed, bail and exit.
 			\WP_CLI::error('Can\'t delete logs.', true);
 		}

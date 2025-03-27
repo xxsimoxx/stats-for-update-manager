@@ -3,7 +3,7 @@
  * Plugin Name: Stats for Update Manager
  * Plugin URI: https://software.gieffeedizioni.it
  * Description: Statistics for Update Manager.
- * Version: 1.4.4
+ * Version: 1.4.5
  * Requires CP: 1.0
  * Requires PHP: 5.6
  * Update URI: https://directory.classicpress.net/wp-json/wp/v2/plugins?byslug=stats-for-update-manager
@@ -129,9 +129,9 @@ class StatsForUpdateManager{
 
 	}
 
-	// Trigger a warning. Helpful in developement.
+	// Trigger a warning.
 	private function warn($x) {
-		 trigger_error(print_r($x, true), E_USER_WARNING);
+		 trigger_error(esc_html(print_r($x, true)), E_USER_WARNING); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error, WordPress.PHP.DevelopmentFunctions.error_log_print_r
 	}
 
 	// Apply filters to set the number of days for an entry to be considered inactive or have to be removed from db.
@@ -156,7 +156,16 @@ class StatsForUpdateManager{
 		if (!($all_stats = get_transient('sfum_all_stats'))) {
 
 			global $wpdb;
-			$results = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug', 'ARRAY_A');
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					'SELECT slug, count(*) as total FROM `%1s` WHERE last > NOW() - %2s group by slug', // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
+					[
+						$wpdb->prefix.DB_TABLE_NAME,
+						$this->db_unactive_entry,
+					]
+				),
+				'ARRAY_A'
+			);
 
 			// Build an array in the form 'slug'->count.
 			$all_stats = [];
@@ -473,7 +482,15 @@ class StatsForUpdateManager{
 
 		// Query database for statistics.
 		global $wpdb;
-		$active = $wpdb->get_results('SELECT slug, count(*) as total FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last > NOW() - '.$this->db_unactive_entry.' group by slug');
+		$active = $wpdb->get_results(
+			 $wpdb->prepare(
+				'SELECT slug, count(*) as total FROM `%1s` WHERE last > NOW() - %2s group by slug', // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
+				[
+					$wpdb->prefix.DB_TABLE_NAME,
+					$this->db_unactive_entry,
+				]
+			)
+		);
 
 		// Loop through results and build an array.
 		foreach ($active as $value) {
@@ -502,7 +519,10 @@ class StatsForUpdateManager{
 	private function render_page_debug() {
 		global $wpdb;
 		$last = $wpdb->get_results(
-			'SELECT slug, site, last FROM '.$wpdb->prefix.DB_TABLE_NAME.' ORDER BY last DESC LIMIT 100'
+			$wpdb->prepare(
+				'SELECT slug, site, last FROM `%1s` ORDER BY last DESC LIMIT 100', // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
+				$wpdb->prefix.DB_TABLE_NAME
+			)
 		);
 		if (count($last) === 0) {
 			echo '<p>'.esc_html__('No database entries.', 'stats-for-update-manager').'<p>';
@@ -551,7 +571,15 @@ class StatsForUpdateManager{
 	// Delete old entries.
 	public function clean_table() {
 		global $wpdb;
-		$wpdb->query('DELETE FROM '.$wpdb->prefix.DB_TABLE_NAME.' WHERE last < NOW() - '.$this->db_old_entry);
+		$wpdb->query(
+			$wpdb->prepare(
+				'DELETE FROM `%1s` WHERE last < NOW() - %2s', // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
+				[
+					$wpdb->prefix.DB_TABLE_NAME,
+					$this->db_old_entry,
+				]
+			)
+		);
 	}
 
 	// Load text domain.
