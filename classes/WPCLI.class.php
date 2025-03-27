@@ -165,8 +165,9 @@ class Statistics{
 
 		// Truncate the table.
 		global $wpdb;
+
 		$wpdb->suppress_errors();
-		if (!$wpdb->query($wpdb->prepare('TRUNCATE TABLE %s', $wpdb->prefix.DB_TABLE_NAME))) {
+		if (!$wpdb->query('TRUNCATE TABLE '.$wpdb->prefix.DB_TABLE_NAME)) {  // phpcs:ignore  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			// Failed, bail and exit.
 			\WP_CLI::error('Can\'t delete logs.', true);
 		}
