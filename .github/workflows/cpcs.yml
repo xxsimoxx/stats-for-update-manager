@@ -11,7 +11,7 @@ jobs:
       name: CPCS
       runs-on: ubuntu-latest
       steps:
-        - uses: actions/checkout@v4
+        - uses: actions/checkout@v6
         - name: CPCS get rules
           run: |
             wget -O phpcs.xml https://raw.githubusercontent.com/ClassicPress/ClassicPress-Coding-Standards/main/phpcs.xml
@@ -21,7 +21,7 @@ jobs:
             sed -i '/MY_DOMAIN/ s//stats-for-update-manager/' phpcs.xml
             mv phpcs.xml phpcs.xml.dist
         - name: CPCS checks
-          uses: 10up/wpcs-action@stable
+          uses: 10up/wpcs-action@v1.7.0
           with:
             use_local_config: 'true'
             enable_warnings: 'true'
